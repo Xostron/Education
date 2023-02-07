@@ -1,5 +1,9 @@
+// родитель ячеек
+const gameField = document.querySelector(".field");
 // все ячейки
 const cells = document.querySelectorAll(".cell");
+// статус хода
+const statusPlayer = document.querySelector(".status");
 // комбинации
 const combination = [
   [0, 1, 2],
@@ -15,40 +19,38 @@ const combination = [
 let winner = "";
 // счетчик ходов
 let count = 0;
-
-// объект для подписки и отписки события click ячейки
-const objectsEvents = [];
-cells.forEach((cell, idx) => {
-  objectsEvents.push({
-    handleEvent: handlerCell,
-    cell,
-    idx,
-  });
-});
-
-// подписка на click для всех ячеек
-cells.forEach((cell, idx) => {
-  cell.addEventListener("click", objectsEvents[idx]);
-});
+// статус хода
+let goesPlayer = "Ходит 1-ый игрок X";
+statusPlayer.innerHTML = goesPlayer;
+// обработчие ячееек - делегирование событий
+gameField.addEventListener("click", handlerCell);
 
 // обработка события click ячейки
-function handlerCell() {
+function handlerCell(event) {
+  const target = event.target;
+  console.log(target.classList);
   // занята ли ячейка
-  if (this.cell.classList.length > 2) {
+  if (target.classList.length > 2) {
+    console.log(target.classList.length > 2);
     return;
   }
   // Очередность хода - крестик:четные или нолик:нечетные
   // крестик
   if (count % 2 === 0) {
-    this.cell.classList.remove("cell__0");
-    this.cell.classList.add("cell__x");
+    target.classList.remove("cell__0");
+    target.classList.add("cell__x");
+    goesPlayer = "Ходит 2-ый игрок: 0";
+    target.innerHTML = "X";
   }
   // нолик
   else {
-    this.cell.classList.remove("cell__x");
-    this.cell.classList.add("cell__0");
+    target.classList.remove("cell__x");
+    target.classList.add("cell__0");
+    target.innerHTML = "0";
+    goesPlayer = "Ходит 1-ый игрок: X";
   }
   count++;
+  statusPlayer.innerHTML = goesPlayer;
   console.log("handlerCell", count, this);
   // проверка выйгрыша хода
   win();
@@ -67,40 +69,72 @@ function win() {
       cells[combi[0]].className === cells[combi[2]].className
     ) {
       if (cells[combi[0]].className === "cell cell__empty cell__0") {
-        winner = "нолики";
-        console.log("Нолики is WIN");
+        winner = "Нолики - выйграли!";
       } else if (cells[combi[0]].className === "cell cell__empty cell__x") {
-        console.log("Крестики is WIN");
-        winner = "крестики";
+        winner = "Крестики - выйграли!";
+      } else {
+        return;
       }
-      // не отписывается событие от кнопки? не отписывалась потому что
-      // каждый раз указывался объект не имеющий ссылки
-      console.log("delete callback");
-      cells.forEach((cell, idx) => {
-        cell.removeEventListener("click", objectsEvents[idx]);
-      });
+
+      // отписка от события
+      gameField.removeEventListener("click", handlerCell);
+      setTimeout(() => callPopup(winner), 100);
+      break;
     }
   }
 }
 
 // конец игры
-function end(type = "") {
+function end() {
   if (count === 9) {
-    console.log("конец игры - ничья");
+    callPopup("Ничья");
   }
 }
 
 // кнопка перезагрузить игру
 function handlerReload() {
-  console.log("reload");
+  // закрыть всплывающее окно
+  callPopup(winner);
+
+  count = 0;
+  statusPlayer.innerHTML = "Ходит 1-ый игрок: Х";
+  gameField.removeEventListener("click", handlerCell);
+  // подписка на click для всех ячеек
+  gameField.addEventListener("click", handlerCell);
   cells.forEach((cell) => {
     cell.classList.remove("cell__x");
     cell.classList.remove("cell__0");
-    count = 0;
-    winner = "";
-    // подписка на click для всех ячеек
-    cells.forEach((cell, idx) => {
-      cell.addEventListener("click", objectsEvents[idx]);
-    });
+    cell.innerHTML = "";
   });
 }
+
+// вызов всплывающего окна
+function callPopup(msg) {
+  let popup = document.querySelector(".wrapper_popup");
+  popup.classList.length === 1
+    ? popup.classList.add("popup_active")
+    : popup.classList.remove("popup_active");
+  let text = document.querySelector(".popup__text");
+  text.innerHTML = msg;
+}
+
+// ================заметка подписка callback c аргументами на события===================
+// // объект для подписки и отписки события click ячейки
+// const objectsEvents = [];
+// cells.forEach((cell, idx) => {
+//   objectsEvents.push({
+//     handleEvent: handlerCell,
+//     cell,
+//     idx,
+//   });
+// });
+// // подписка
+// cells.forEach((cell, idx) => {
+//   cell.addEventListener("click", objectsEvents[idx]);
+// });
+// // не отписывается событие от кнопки? не отписывалась потому что
+//       // каждый раз указывался объект не имеющий ссылки
+//       console.log("delete callback");
+//       cells.forEach((cell, idx) => {
+//         cell.removeEventListener("click", objectsEvents[idx]);
+//       });
