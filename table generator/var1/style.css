@@ -1,0 +1,13 @@
+.table {
+}
+.td {
+  width: 20px;
+  height: 20px;
+  border: 1px solid black;
+}
+.yellow {
+  background-color: #fbef4e;
+}
+.blue {
+  background-color: #0aa9ff;
+}
