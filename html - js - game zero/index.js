@@ -1,15 +1,29 @@
-// родитель ячеек
-const field = document.querySelector(".field");
-// все ячейки
-const cells = document.querySelectorAll(".cell");
-// input
+// игровое поле и ячейки
+const wrapper = document.querySelector(".wrapper");
+const game = wrapper.querySelector(".game");
+const cells = game.querySelectorAll(".cell");
+const iBtnRestart = game.querySelector("#restart");
+const iBtnClose = game.querySelector("#close");
+// рейтинг
+const rate1 = wrapper.querySelector("#rate1");
+const rate2 = wrapper.querySelector("#rate2");
+// popup
+const popup = document.querySelector(".wrapper_popup");
+const tBtnPopup = popup.querySelector(".popup_btn");
+
+// intro - ввод имен
+const intro = document.querySelector(".intro");
+const startBtn = intro.querySelector(".button_intro");
+const inPl1 = intro.querySelector("#player1");
+const inPl2 = intro.querySelector("#player2");
+// имена игроков
 let player1 = "Игрок 1";
 let player2 = "Игрок 2";
 // счетчик ходов
 let count = 0;
 // статус хода
 const statusPlayer = document.querySelector(".status");
-let goesPlayer = `Ходит ${player1}: ${count % 2 === 0 ? "X" : "0"}`;
+let goesPlayer = "";
 statusPlayer.innerHTML = goesPlayer;
 // комбинации
 const combination = [
@@ -24,26 +38,59 @@ const combination = [
 ];
 // флаг winner
 let winner = "";
-
-// статус хода
-
-// обработчие ячееек - делегирование событий
-field.addEventListener("click", handlerCell);
-
+let countWin1 = 0;
+let countWin2 = 0;
+// ===============Подписки на события===============
+// обработчик ячеек - делегирование событий
+game.addEventListener("click", hndlCell);
+// intro - кнопка начать игру
+startBtn.addEventListener("click", hndlStart);
+// кнопка рестарт на поле
+iBtnRestart.addEventListener("click", init);
+iBtnClose.addEventListener("click", hndlClose);
+// кнопка рестарт на всплывающем окне
+tBtnPopup.addEventListener("click", hndlReload);
+// ===============Handlers===============
+// обработка inputs
+function hndlStart(e) {
+  player1 = inPl1.value ? inPl1.value : "Игрок 1";
+  player2 = inPl2.value ? inPl2.value : "Игрок 2";
+  intro.classList.add("hidden");
+  wrapper.classList.remove("hidden");
+  init();
+  let strRate = `<div>${player1}<br>Победы:${countWin1} </div>`;
+  rate1.innerHTML = strRate;
+  console.log("intro = ", player1, player2);
+  console.log("intro2 = ", inPl1.value, inPl2.value);
+}
 // обработка события click ячейки
-function handlerCell(event) {
+function hndlCell(event) {
   const target = event.target;
 
   // занята ли ячейка
-  if (target.classList.length > 1) {
+  if (target.classList.length > 1 || target.classList[0] !== "cell") {
     return;
   }
   count % 2 === 0 ? changeCell(target, "x") : changeCell(target, "0");
   count++;
-  statusPlayer.innerHTML = goesPlayer;
   // проверка выйгрыша хода
   win();
 }
+// кнопка перезагрузить игру
+function hndlReload() {
+  // закрыть всплывающее окно
+  callPopup(winner);
+  init();
+}
+function hndlClose() {
+  intro.classList.remove("hidden");
+  wrapper.classList.add("hidden");
+  inPl1.value=''
+  inPl2.value=''
+  countWin1=0
+  countWin2=0
+}
+// ============
 // проверка выйгрыша хода
 function win() {
   if (count < 5) {
@@ -55,14 +102,17 @@ function win() {
       cells[combi[0]].className === cells[combi[2]].className
     ) {
       if (cells[combi[0]].className === "cell cell_0") {
-        winner = "Нолики - выйграли!";
+        winner = `${player2} - выйграл(а)!`;
       } else if (cells[combi[0]].className === "cell cell_x") {
-        winner = "Крестики - выйграли!";
+        winner = `${player1} - выйграл(а)!`;
+        countWin1++;
+        let strRate = `<div>${player1}<br>Победы:${countWin1} </div>`;
+        rate1.innerHTML = strRate;
       } else {
         return;
       }
       // отписка от события
-      field.removeEventListener("click", handlerCell);
+      game.removeEventListener("click", hndlCell);
       setTimeout(() => callPopup(winner), 100);
     }
   }
@@ -78,19 +128,14 @@ function end() {
     callPopup("Ничья");
   }
 }
-// кнопка перезагрузить игру
-function handlerReload() {
-  // закрыть всплывающее окно
-  callPopup(winner);
-  init();
-}
 // Init
 function init() {
   count = 0;
-  statusPlayer.innerHTML = "Ходит 1-ый игрок: Х";
-  field.removeEventListener("click", handlerCell);
+  goesPlayer = `Ходит ${player1}: X`;
+  statusPlayer.innerHTML = goesPlayer;
+  game.removeEventListener("click", hndlCell);
   // подписка на click для всех ячеек
-  field.addEventListener("click", handlerCell);
+  game.addEventListener("click", hndlCell);
   cells.forEach((cell) => {
     cell.classList.remove("cell_x");
     cell.classList.remove("cell_0");
@@ -102,20 +147,30 @@ function init() {
 }
 // вызов всплывающего окна
 function callPopup(msg) {
-  let popup = document.querySelector(".wrapper_popup");
   popup.classList.length === 1
     ? popup.classList["add"]("popup_active")
     : popup.classList["remove"]("popup_active");
   let text = document.querySelector(".popup__text");
   text.innerHTML = msg;
 }
-
+// изменение состояния ячейки
 function changeCell(element, type) {
   element.classList.remove(`cell_${type.toLowerCase()}`);
   element.classList.add(`cell_${type.toLowerCase()}`);
-  goesPlayer = `Ходит ${player1}: ${type.toUpperCase()}`;
+  goesPlayer = `Ходит ${type === "x" ? player2 : player1}: ${
+    type === "x" ? "0" : "X"
+  }`;
+  statusPlayer.innerHTML = goesPlayer;
   element.innerHTML = `${type.toUpperCase()}`;
 }
+function RateWin() {}
+// inputs
+// const inPlayer1 = document.querySelector("#player1");
+// const inPlayer2 = document.querySelector("#player2");
+
+// console.log(inPlayer1, inPlayer2);
+// inPlayer1.addEventListener("change",hndlInput);
+// inPlayer2.addEventListener("change",hndlInput);
 
 // function testLoad(){
 //   console.log('test = документ загружен')
@@ -134,7 +189,7 @@ function changeCell(element, type) {
 // const objectsEvents = [];
 // cells.forEach((cell, idx) => {
 //   objectsEvents.push({
-//     handleEvent: handlerCell,
+//     handleEvent: hndlCell,
 //     cell,
 //     idx,
 //   });
