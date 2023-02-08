@@ -1,9 +1,16 @@
 // родитель ячеек
-const gameField = document.querySelector(".field");
+const field = document.querySelector(".field");
 // все ячейки
 const cells = document.querySelectorAll(".cell");
+// input
+let player1 = "Игрок 1";
+let player2 = "Игрок 2";
+// счетчик ходов
+let count = 0;
 // статус хода
 const statusPlayer = document.querySelector(".status");
+let goesPlayer = `Ходит ${player1}: ${count % 2 === 0 ? "X" : "0"}`;
+statusPlayer.innerHTML = goesPlayer;
 // комбинации
 const combination = [
   [0, 1, 2],
@@ -17,47 +24,26 @@ const combination = [
 ];
 // флаг winner
 let winner = "";
-// счетчик ходов
-let count = 0;
+
 // статус хода
-let goesPlayer = "Ходит 1-ый игрок X";
-statusPlayer.innerHTML = goesPlayer;
+
 // обработчие ячееек - делегирование событий
-gameField.addEventListener("click", handlerCell);
+field.addEventListener("click", handlerCell);
 
 // обработка события click ячейки
 function handlerCell(event) {
   const target = event.target;
-  console.log(target.classList);
+
   // занята ли ячейка
-  if (target.classList.length > 2) {
-    console.log(target.classList.length > 2);
+  if (target.classList.length > 1) {
     return;
   }
-  // Очередность хода - крестик:четные или нолик:нечетные
-  // крестик
-  if (count % 2 === 0) {
-    target.classList.remove("cell__0");
-    target.classList.add("cell__x");
-    goesPlayer = "Ходит 2-ый игрок: 0";
-    target.innerHTML = "X";
-  }
-  // нолик
-  else {
-    target.classList.remove("cell__x");
-    target.classList.add("cell__0");
-    target.innerHTML = "0";
-    goesPlayer = "Ходит 1-ый игрок: X";
-  }
+  count % 2 === 0 ? changeCell(target, "x") : changeCell(target, "0");
   count++;
   statusPlayer.innerHTML = goesPlayer;
-  console.log("handlerCell", count, this);
   // проверка выйгрыша хода
   win();
-  // проверка endgame
-  end();
 }
-
 // проверка выйгрыша хода
 function win() {
   if (count < 5) {
@@ -68,56 +54,81 @@ function win() {
       cells[combi[0]].className === cells[combi[1]].className &&
       cells[combi[0]].className === cells[combi[2]].className
     ) {
-      if (cells[combi[0]].className === "cell cell__empty cell__0") {
+      if (cells[combi[0]].className === "cell cell_0") {
         winner = "Нолики - выйграли!";
-      } else if (cells[combi[0]].className === "cell cell__empty cell__x") {
+      } else if (cells[combi[0]].className === "cell cell_x") {
         winner = "Крестики - выйграли!";
       } else {
         return;
       }
-
       // отписка от события
-      gameField.removeEventListener("click", handlerCell);
+      field.removeEventListener("click", handlerCell);
       setTimeout(() => callPopup(winner), 100);
-      break;
     }
   }
+  // проверка концовки игры
+  if (winner === "") {
+    end();
+  }
 }
-
 // конец игры
 function end() {
+  console.log(count);
   if (count === 9) {
     callPopup("Ничья");
   }
 }
-
 // кнопка перезагрузить игру
 function handlerReload() {
   // закрыть всплывающее окно
   callPopup(winner);
-
+  init();
+}
+// Init
+function init() {
   count = 0;
   statusPlayer.innerHTML = "Ходит 1-ый игрок: Х";
-  gameField.removeEventListener("click", handlerCell);
+  field.removeEventListener("click", handlerCell);
   // подписка на click для всех ячеек
-  gameField.addEventListener("click", handlerCell);
+  field.addEventListener("click", handlerCell);
   cells.forEach((cell) => {
-    cell.classList.remove("cell__x");
-    cell.classList.remove("cell__0");
+    cell.classList.remove("cell_x");
+    cell.classList.remove("cell_0");
     cell.innerHTML = "";
   });
+  let popup = document.querySelector(".wrapper_popup");
+  popup.classList.remove("popup_active");
+  winner = "";
 }
-
 // вызов всплывающего окна
 function callPopup(msg) {
   let popup = document.querySelector(".wrapper_popup");
   popup.classList.length === 1
-    ? popup.classList.add("popup_active")
-    : popup.classList.remove("popup_active");
+    ? popup.classList["add"]("popup_active")
+    : popup.classList["remove"]("popup_active");
   let text = document.querySelector(".popup__text");
   text.innerHTML = msg;
 }
 
+function changeCell(element, type) {
+  element.classList.remove(`cell_${type.toLowerCase()}`);
+  element.classList.add(`cell_${type.toLowerCase()}`);
+  goesPlayer = `Ходит ${player1}: ${type.toUpperCase()}`;
+  element.innerHTML = `${type.toUpperCase()}`;
+}
+
+// function testLoad(){
+//   console.log('test = документ загружен')
+// }
+// function testUnload(){
+//   console.log('test = exit')
+// }
+
+// событие load возбуждается сразу после того, как будут загружены и отображены
+// документ и все внешние ресурсы (изображения)
+// window.addEventListener('load', testLoad)
+// событие unload генерируется, когда пользователь покидает страницу
+// window.addEventListener('unload', testUnload)
 // ================заметка подписка callback c аргументами на события===================
 // // объект для подписки и отписки события click ячейки
 // const objectsEvents = [];

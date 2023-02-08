@@ -20,9 +20,8 @@ h4 {
 .container {
   display: flex;
   flex-direction: column;
-  gap: 5%;
+  gap: 25px;
   width: 80%;
-  height: 100vh;
   margin: auto;
   align-items: center;
   justify-content: center; }
@@ -98,15 +97,13 @@ h4 {
   cursor: pointer;
   font-size: 25px;
   font-weight: 700;
-  color: #ffffff; }
-
-.cell__empty {
+  color: #ffffff;
   background-color: transparent; }
 
-.cell__x {
+.cell_x {
   background-color: #d8a929; }
 
-.cell__0 {
+.cell_0 {
   background-color: #5b6bfa; }
 
 .wrapper_popup {

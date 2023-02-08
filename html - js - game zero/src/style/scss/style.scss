@@ -33,9 +33,9 @@ h4 {
 .container {
   display: flex;
   flex-direction: column;
-  gap: 5%;
+  gap: 25px;
   width: 80%;
-  height: 100vh;
+  // height: 100vh;
   margin: auto;
   align-items: center;
   justify-content: center;
@@ -119,14 +119,13 @@ h4 {
   font-size: 25px;
   font-weight: 700;
   color: #ffffff;
-}
-.cell__empty {
   background-color: transparent;
 }
-.cell__x {
+
+.cell_x {
   background-color: rgb(216, 169, 41);
 }
-.cell__0 {
+.cell_0 {
   background-color: rgb(91, 107, 250);
 }
 
