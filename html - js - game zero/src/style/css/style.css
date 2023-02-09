@@ -22,33 +22,30 @@ h4 {
   margin: 0; }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
   width: 80%;
-  margin: auto;
-  align-items: center;
-  justify-content: center;
-  margin: 10% auto; }
+  margin: 0 auto;
+  position: relative;
+  height: 100%; }
 
 .intro {
-  margin-top: auto;
   display: flex;
-  width: 50%;
+  width: 100%;
+  max-width: 400px;
+  min-width: 315px;
   flex-direction: column;
   gap: 14px;
   align-items: center;
   border-radius: 10px;
   border: 1px solid gray;
   padding: 8px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   font-family: Montserrat;
   font-weight: 700;
   font-size: 18px;
-  color: #696969; }
+  color: #696969;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); }
 
 .secondary {
   color: #a6bccc; }
@@ -66,9 +63,6 @@ h4 {
   font-family: "Roboto";
   font-style: normal;
   font-weight: 500; }
-
-.text18 {
-  font-size: 18px; }
 
 .text24 {
   font-size: 24px; }
@@ -110,6 +104,7 @@ h4 {
 
 .hidden {
   opacity: 0;
+  visibility: hidden;
   pointer-events: none; }
 
 .intro__input {
@@ -127,7 +122,12 @@ h4 {
 .wrapper {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  justify-items: center; }
+  min-width: 500px;
+  justify-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); }
 
 .game {
   display: flex;
