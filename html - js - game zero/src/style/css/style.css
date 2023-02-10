@@ -2,10 +2,10 @@ html,
 body {
   padding: 0;
   margin: 0;
-  color: black;
-  background-color: #f7f9fb;
+  color: white;
+  background-color: black;
   min-width: 350px;
-  font-family: "Roboto";
+  font-family: "noto sans";
   font-style: normal;
   font-weight: 500;
   font-size: 18px; }
@@ -29,23 +29,56 @@ h4 {
 
 .intro {
   display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: 400px;
   min-width: 315px;
-  flex-direction: column;
-  gap: 14px;
   align-items: center;
   border-radius: 10px;
-  border: 1px solid gray;
   padding: 8px;
-  font-family: Montserrat;
-  font-weight: 700;
-  font-size: 18px;
-  color: #696969;
+  gap: 14px;
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); }
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  overflow: hidden;
+  font-family: Montserrat;
+  font-weight: 700;
+  font-size: 18px;
+  color: white;
+  box-shadow: 0px 0px 20px 10px rgba(255, 255, 255, 0.2); }
+
+.blur {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background: #000000;
+  opacity: 0.5;
+  filter: blur(50.009px); }
+
+.intro__img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+  z-index: 10;
+  width: 100%;
+  height: auto;
+  pointer-events: none; }
+
+.bg_game {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0.5; }
 
 .secondary {
   color: #a6bccc; }
@@ -96,7 +129,8 @@ h4 {
     fill: #f34a4a; }
 
 .button_intro {
-  width: 100%; }
+  width: 100%;
+  z-index: 100; }
 
 .svg {
   width: 48px;
@@ -110,14 +144,15 @@ h4 {
 .intro__input {
   display: flex;
   align-items: center;
-  gap: 8px; }
+  gap: 8px;
+  z-index: 100; }
 
 .input {
   outline: none;
   border-radius: 10px;
   padding: 8px 5px;
   font-size: 16px;
-  border: 1px solid #0aa9ff; }
+  border: none; }
 
 .wrapper {
   display: grid;
@@ -127,7 +162,8 @@ h4 {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); }
+  transform: translate(-50%, -50%);
+  z-index: 10; }
 
 .game {
   display: flex;
@@ -139,7 +175,8 @@ h4 {
 
 .field {
   display: grid;
-  grid-template-rows: repeat(3, 1fr); }
+  grid-template-rows: repeat(3, 1fr);
+  background-color: #0aa9ff45; }
 
 .row {
   display: flex; }
@@ -169,6 +206,30 @@ h4 {
   width: 100%;
   justify-content: center; }
 
+.rate {
+  display: flex;
+  flex-direction: column;
+  font-family: Montserrat;
+  font-size: 24px;
+  align-items: center;
+  gap: 14px;
+  color: white; }
+
+.rate__player[number] {
+  font-weight: bolder; }
+  .rate__player[number][number="1"] {
+    color: #d8a929; }
+  .rate__player[number][number="2"] {
+    color: #5b6bfa; }
+
+.rate__count {
+  font-size: 39px;
+  font-weight: bold; }
+  .rate__count[number="1"] {
+    color: #d8a929; }
+  .rate__count[number="2"] {
+    color: #5b6bfa; }
+
 .wrapper_popup {
   display: flex;
   position: absolute;
@@ -184,7 +245,9 @@ h4 {
   transition-duration: 0.5s;
   transition-timing-function: ease-in-out;
   transform-origin: -50% -50%;
-  transform: scale(0.5); }
+  transform: scale(0.5);
+  z-index: 100;
+  color: #343434; }
 
 .popup_active {
   opacity: 1;
@@ -209,5 +272,60 @@ h4 {
 
 .popup_btn {
   margin-bottom: 8px; }
+
+.content_top {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding-top: 1rem; }
+
+.date_time {
+  display: flex;
+  justify-content: flex-end;
+  font-family: Montserrat;
+  font-weight: bold;
+  color: #f7f9fb; }
+
+.currentTime {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: fit-content; }
+
+.ct_time {
+  font-size: 32px; }
+
+.ct_date {
+  font-size: 22px; }
+
+.top {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  min-width: 300px;
+  z-index: 10;
+  border-radius: 10px;
+  background-color: #0000003d; }
+
+.top__title {
+  margin: auto;
+  padding: 12px;
+  font-size: 24px;
+  font-weight: bold; }
+
+.top__table {
+  display: grid; }
+
+.top__row {
+  display: grid;
+  width: 100%;
+  grid-template-columns: auto 40% 40%; }
+
+.top__cell {
+  display: grid;
+  width: 100%;
+  padding: 8px 0;
+  overflow: hidden;
+  word-break: break-all;
+  text-align: center; }
 
 /*# sourceMappingURL=style.css.map */

@@ -8,9 +8,33 @@
   </head>
   <body>
     <div class="container">
+
+      <div class="content_top">
+        <!-- Топ лист -->
+        <div class="top">
+          <div class="top__title">Топ игроков:</div>
+          <div class="top__table">
+            <div class="top__row">
+              <div id="lvl" class="top__cell"></div>
+              <div id="player" class="top__cell"></div>
+              <div id="score" class="top__cell"></div>
+            </div>
+           
+          </div>
+        </div>
+        <!-- Текущее время -->
+        <div class="date_time">
+          <div class="currentTime">
+            <span class="ct_time"></span>
+            <span class="ct_date"></span>
+          </div>
+        </div>
+        
+      </div>
+
       <!-- 1 page - form players -->
       <div id="screen" class="intro">
-        КРЕСТИКИ - НОЛИКИ
+        <span class="black">КРЕСТИКИ - НОЛИКИ</span>
         <div class="intro__input">
           <label for="player1">Игрок 1:</label>
           <input class="input" type="text" name="" id="player1" />
@@ -20,13 +44,17 @@
           <input class="input" type="text" name="" id="player2" />
         </div>
         <button class="button button__text button_intro">Начать игру!</button>
+        <img class="intro__img" src="./src/style/source/bg-logo.jpg" />
+        <div class="blur"></div>
       </div>
-      
+
       <!-- 2 page - game field -->
       <div id="screen" class="wrapper hidden">
         <!-- рейтинг 1го игрока -->
         <div id="rate1" class="rate">
+          <span number="1" class="rate__player"></span>
           <span>Победы:</span>
+          <span number="1" class="rate__count"></span>
         </div>
         <!-- игровое поле -->
         <div class="game">
@@ -83,7 +111,9 @@
         </div>
         <!-- рейтинг 2го игрока -->
         <div id="rate2" class="rate">
+          <span number="2" class="rate__player"></span>
           <span>Победы:</span>
+          <span number="2" class="rate__count"></span>
         </div>
       </div>
     </div>
@@ -94,6 +124,13 @@
         <button class="button button__text popup_btn">Реванш!</button>
       </div>
     </div>
+
+    <img
+      src="./src/style/source/bg-game.jpg"
+      class="bg_game"
+      alt=""
+      class="bg_game"
+    />
 
     <script src="./index.js"></script>
   </body>

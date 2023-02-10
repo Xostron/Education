@@ -9,6 +9,9 @@ const combination = [
   [1, 4, 7],
   [2, 5, 8],
 ];
+// текущее время
+let strCurrTime = "";
+
 // флаг winner
 let winner = "";
 // счетчик побед
@@ -21,6 +24,12 @@ let player2 = "Игрок 2";
 let count = 0;
 // статус ходов
 let goesPlayer = "";
+// время
+let nowTime = "";
+let thenTime = "";
+let elapsed = "";
+// сохранение в LocalStorage
+let dataPlayers = {};
 // экраны
 const screens = document.querySelectorAll("#screen");
 managerScreen(screens, "intro");
@@ -43,9 +52,15 @@ const inPl1 = intro.querySelector("#player1");
 const inPl2 = intro.querySelector("#player2");
 // статус хода
 const statusPlayer = document.querySelector(".status");
-
-
-// ===============Подписки на события===============
+// текущее время
+const ctTime = document.querySelector(".ct_time");
+const ctDate = document.querySelector(".ct_date");
+// топ игроков
+let players = [];
+// Формирование топ игроков
+const table = document.querySelector(".top__table");
+let component = new DocumentFragment();
+// ===============Подписки===============
 // обработчик ячеек - делегирование событий
 game.addEventListener("click", hndlCell);
 // intro - кнопка начать игру
@@ -55,7 +70,15 @@ iBtnRestart.addEventListener("click", hndlReload);
 iBtnClose.addEventListener("click", hndlClose);
 // кнопка рестарт на всплывающем окне
 tBtnPopup.addEventListener("click", hndlReload);
-
+window.addEventListener("DOMContentLoaded", () => {
+  const dataPlayers = getLS("top-list");
+  if (dataPlayers) {
+    players.push(...dataPlayers);
+    renderTopPlayers();
+  }
+});
+// Обновление времени
+const intervalCurrTime = setInterval(getCurrentTime, 1000);
 // ===============Handlers===============
 // Пуск игры - экран intro
 function hndlStart(e) {
@@ -63,11 +86,26 @@ function hndlStart(e) {
   player2 = inPl2.value ? inPl2.value : "Игрок 2";
   init();
   managerScreen(screens, "wrapper");
+  const objPlayer1 = {
+    lvl: 0,
+    name: player1,
+    score: 0,
+  };
+  const objPlayer2 = {
+    lvl: 0,
+    name: player2,
+    score: 0,
+  };
+  console.log("aaaa", players);
+  players.push(objPlayer1);
+  players.push(objPlayer2);
+  console.log("start", players);
+  setLS(players);
+  renderTopPlayers();
 }
 // кнопки - крестики-нолики - экран игровое поле
 function hndlCell(event) {
   const target = event.target;
-
   // занята ли ячейка
   if (target.classList.length > 1 || target.classList[0] !== "cell") {
     return;
@@ -77,7 +115,7 @@ function hndlCell(event) {
   // проверка выйгрыша хода
   win();
 }
-// перезагрузить игру 
+// перезагрузить игру
 function hndlReload() {
   callPopup(winner);
   init();
@@ -89,7 +127,7 @@ function hndlClose() {
   inPl2.value = "";
   countWin1 = 0;
   countWin2 = 0;
-  init()
+  init();
 }
 // ============
 // проверка выйгрыша хода
@@ -112,7 +150,8 @@ function win() {
         return;
       }
       RateWin(rate1, player1, countWin1);
-      RateWin(rate2, player2, countWin2);
+      RateWin(rate2, player2, countWin2, 2);
+      game.removeEventListener("click", hndlCell);
       setTimeout(() => callPopup(winner), 100);
     }
   }
@@ -132,7 +171,7 @@ function end() {
 function init() {
   count = 0;
   winner = "";
-  goesPlayer = `Ходит ${player1}: X`;
+  goesPlayer = `<span number="${1}" class="rate__player">Ходит ${player1}: X </span>`;
   statusPlayer.innerHTML = goesPlayer;
   popup.classList.remove("popup_active");
   // очистка ячеек
@@ -141,8 +180,10 @@ function init() {
     cell.classList.remove("cell_0");
     cell.innerHTML = "";
   });
-  RateWin(rate1, player1, countWin1)
-  RateWin(rate2, player2, countWin2)
+  RateWin(rate1, player1, countWin1);
+  RateWin(rate2, player2, countWin2, 2);
+  game.removeEventListener("click", hndlCell);
+  game.addEventListener("click", hndlCell);
 }
 // вызов всплывающего окна
 function callPopup(msg) {
@@ -156,14 +197,16 @@ function callPopup(msg) {
 function changeCell(element, type) {
   element.classList.remove(`cell_${type.toLowerCase()}`);
   element.classList.add(`cell_${type.toLowerCase()}`);
-  goesPlayer = `Ходит ${type === "x" ? player2 : player1}: ${
-    type === "x" ? "0" : "X"
-  }`;
+  goesPlayer = `<span number="${type === "x" ? "2" : "1"}" class="rate__player">
+  Ходит ${type === "x" ? player2 : player1}: ${type === "x" ? "0" : "X"}`;
   statusPlayer.innerHTML = goesPlayer;
   element.innerHTML = `${type.toUpperCase()}`;
 }
-function RateWin(element, player, countWin) {
-  let strRate = `<div>${player}<br>Победы:${countWin} </div>`;
+function RateWin(element, player, countWin, num = 1) {
+  let strRate = `<span number="${num}" class="rate__player">${player}</span>
+          <span>Победы:</span>
+          <span number="${num}" class="rate__count">${countWin}</span>`;
+
   element.innerHTML = strRate;
 }
 // менеджер экранов - переключение видимости
@@ -176,6 +219,73 @@ function managerScreen(screens, selector = "") {
     }
   }
 }
+// текущее время
+function getCurrentTime() {
+  const date = new Date().toLocaleDateString("ru", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+  const time = new Date().toLocaleTimeString("ru", {
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  });
+  ctTime.innerHTML = time;
+  ctDate.innerHTML = date;
+  // console.log("time = ", date, time);
+}
+// Формирование топ игроков
+function Component(gamer) {
+  const { lvl, name, score } = gamer;
+  const template = `
+  <div class="top__row">
+              <div id="lvl" class="top__cell">${lvl}</div>
+              <div id="player" class="top__cell">${name}</div>
+              <div id="score" class="top__cell">${score}</div>
+            </div>
+  `;
+  const element = document.createElement("div");
+  element.innerHTML = template;
+  component.append(element);
+}
+function renderTopPlayers() {
+  const sorted = players.sort().slice(0, 10);
+  table.innerHTML=''
+  sorted.map((player) => {
+    Component(player);
+    table.append(component);
+  });
+}
+
+// сохранение в LocalStorage
+function getLS(key) {
+  dataPlayers = localStorage.getItem(key);
+  console.log("json", dataPlayers);
+  return JSON.parse(dataPlayers);
+}
+// Чтение из LocalStorage
+function setLS(players) {
+  localStorage.setItem("top-list", JSON.stringify(players));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // inputs
 // const inPlayer1 = document.querySelector("#player1");
