@@ -1,0 +1,6 @@
+<svg width="301" height="102" viewBox="0 0 301 102" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M51 101H101V1H51" stroke="black"/>
+<path d="M51 1L1 51L51 101" stroke="black"/>
+<rect x="201.5" y="100.5" width="99" height="99" transform="rotate(-90 201.5 100.5)" stroke="black"/>
+<rect x="101.5" y="100.5" width="99" height="99" transform="matrix(0 -1 1 0 1 202)" stroke="black"/>
+</svg>
