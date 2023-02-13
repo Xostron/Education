@@ -89,7 +89,7 @@ h4 {
 /* содержимое */
 .container {
   width: 85%;
-  margin: 0 auto;
+  margin: auto;
   position: relative;
   height: 100%;
 }
@@ -112,6 +112,7 @@ h4 {
   border-radius: 10px;
   align-items: center;
   gap: 0.5rem;
+  z-index: 10;
 }
 .login-title {
   font-size: 32px;
@@ -130,18 +131,21 @@ h4 {
 .field {
   display: flex;
   flex-direction: column;
-  row-gap: 0.15rem;
   align-items: center;
-  width: fit-content;
+  justify-content: center;
+  width: 50%;
+  background-color: var(--color-btn);
+  height: 50%;
+  z-index: 0;
+border-radius: 1rem;
 }
 .row {
   display: flex;
-  gap: 0.15rem;
 }
 .cell {
-  width: 25px;
-  height: 25px;
-  border: 1px solid rgba(0, 0, 0, 0.904);
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(0, 0, 0, 0.315);
 }
 .cell[data-state="cell"] {
   background-color: var(--color-cell);
@@ -157,4 +161,64 @@ h4 {
 }
 .cell[data-state="destroy"] {
   background-color: var(--color-destroy);
+}
+/* Панель кораблей */
+.toolbar {
+  display: flex;
+  gap: 10px;
+  height: fit-content;
+  background-color: var(--color-btn);
+  /* margin: 8px 14px; */
+  justify-content: center;
+  width: 50%;
+  /* margin: 0 auto; */
+}
+/* Карточки кораблей */
+.img-ship {
+}
+.tool {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 75px;
+  min-width: 75px;
+  height: 75px;
+  background-color: var(--bg-prime-w);
+  opacity: .5;
+  border-radius: .5rem;
+  position: relative;
+  user-select: none;
+}
+.tool:hover{
+  background-color: #ffffff;
+  opacity: 1;
+}
+.tool::selection{
+  border: 1px solid var(--color-ship);
+}
+.sum{
+  position: absolute;
+  bottom: 2.5px;
+  right: 2.5px;
+  width: 15px;
+  height: 15px;
+  text-align: center;
+  background-color: var(--color-alr);
+  border-radius: 50%;
+  font-size: 14px;
+}
+
+/* Header страницы */
+.header{
+  padding:10px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  font-size: 25px;
+  background-color: var(--color-btn);
+  width: 50%;
+  margin: 10px auto;
+  border-radius: 1rem;
 }

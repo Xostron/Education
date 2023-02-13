@@ -59,6 +59,11 @@ const Field = (element, arr = [[0]], render = true) => {
   }
 };
 // панель инструментов - корабли
-const Toolbar = ()=>{}
+const Toolbar = (element,render=true)=>{
+
+}
+const Tool = ()=>{
+
+}
 // вызов программы
-Login(login);
+// Login(login);
