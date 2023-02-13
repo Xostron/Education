@@ -1,0 +1,41 @@
+:root{
+    --bgcolor:white;
+    --color-st:black;
+    --color-nd:gray;
+    --color-alr:#fb4e4e;
+    --color-norm:#36c496;
+    --color-warn:#fbef4e;
+    --color-me:#2adc30;
+    --color-enemy:#f23434;
+}
+/* сброс стилей браузера */
+html,
+body {
+  padding: 0;
+  margin: 0;
+  color: rgb(255, 255, 255);
+  background-color: rgb(255, 255, 255);
+  min-width: 350px;
+  font-family: "noto sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+}
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+}
+/* содержимое */
+.container {
+  width: 85%;
+  margin: 0 auto;
+  position: relative;
+  height: 100%;
+}
