@@ -1,7 +1,7 @@
-<svg width="401" height="102" viewBox="0 0 401 102" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="101.5" y="100.5" width="99" height="99" transform="matrix(0 -1 1 0 1 202)" stroke="black"/>
-<path d="M51 101H101V1H51" stroke="black"/>
-<path d="M51 1L1 51L51 101" stroke="black"/>
-<rect x="201.5" y="100.5" width="99" height="99" transform="rotate(-90 201.5 100.5)" stroke="black"/>
-<rect x="301.5" y="100.5" width="99" height="99" transform="rotate(-90 301.5 100.5)" stroke="black"/>
+<svg width="392" height="110" viewBox="0 0 392 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M57 105H107V5H57" stroke="black" stroke-width="10" stroke-linecap="round"/>
+<path d="M58 4L8 55L58 106" stroke="black" stroke-width="10"/>
+<path d="M107 5H200V105H107V5Z" stroke="black" stroke-width="10"/>
+<path d="M201 5H294V105H201V5Z" stroke="black" stroke-width="10"/>
+<path d="M294 5H387V105H294V5Z" stroke="black" stroke-width="10"/>
 </svg>
