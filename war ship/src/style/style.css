@@ -1,12 +1,14 @@
 :root{
-    --bgcolor:white;
-    --color-st:black;
-    --color-nd:gray;
+    --bg-prime-w:white;
+    --color-prime-b:black;
+    --color-secondary:gray;
     --color-alr:#fb4e4e;
     --color-norm:#36c496;
     --color-warn:#fbef4e;
-    --color-me:#2adc30;
+    --color-ally:#2adc30;
     --color-enemy:#f23434;
+    --color-btn:rgba(0, 0, 0, 0.678);
+    --color-btn-hover:#f23434c4;
 }
 /* сброс стилей браузера */
 html,
@@ -26,11 +28,51 @@ body {
 *::before {
   box-sizing: border-box;
 }
+html{
+  font-family: noto sans;
+  font-size: 1rem;
+  font-weight: 500;
+}
 h1,
 h2,
 h3,
 h4 {
   margin: 0;
+}
+/* UI */
+.input{
+  outline: none;
+  border: 2px solid transparent;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-family: noto sans;
+  font-size: 1rem;
+  font-weight: 400;
+  cursor: pointer;
+  background-color: var(--color-btn);
+  color: var(--bg-prime-w);
+  transition: border-color .3s ease-in;
+}
+.input:focus{
+  border: 2px solid var(--color-enemy);
+}
+.btn{
+  outline: none;
+  border: none;
+  font-family: noto sans;
+  font-size: 1rem;
+  font-weight: 400;
+  color:var(--bg-prime-w);
+  cursor: pointer;
+}
+.btn-text{
+  padding: 10px 14px;
+  border-radius: 10px;
+  background-color: var(--color-btn);
+  transition: background-color .4s ease-in;
+}
+.btn-text:hover{
+  background-color: var(--color-btn-hover);
 }
 /* содержимое */
 .container {
@@ -39,3 +81,35 @@ h4 {
   position: relative;
   height: 100%;
 }
+/* background */
+.bg_game{
+  position: absolute;
+  top: 0;
+  left:0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Логин */
+.login{
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(78, 78, 78, 0.829);
+  border-radius: 10px;
+  align-items: center;
+  gap: .5rem;
+}
+.login-title{
+  font-size: 32px;
+}
+.login-subtitle{
+color: rgb(216, 216, 216);
+}
+.login-input{
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+  font-size: 16px;
+}
+.button-login{}
