@@ -82,6 +82,7 @@ h4 {
   border-radius: 10px;
   background-color: var(--color-btn);
   transition: background-color 0.4s ease-in;
+  width: 90%;
 }
 .btn-text:hover {
   background-color: var(--color-btn-hover);
@@ -113,6 +114,8 @@ h4 {
   align-items: center;
   gap: 0.5rem;
   z-index: 10;
+  width: 25%;
+  min-width: 290px;
 }
 .login-title {
   font-size: 32px;
@@ -184,7 +187,7 @@ border-radius: 1rem;
   min-width: 75px;
   height: 75px;
   background-color: var(--bg-prime-w);
-  opacity: .5;
+  opacity: .6;
   border-radius: .5rem;
   position: relative;
   user-select: none;
@@ -200,8 +203,8 @@ border-radius: 1rem;
   position: absolute;
   bottom: 2.5px;
   right: 2.5px;
-  width: 15px;
-  height: 15px;
+  width: 18px;
+  height: 18px;
   text-align: center;
   background-color: var(--color-alr);
   border-radius: 50%;
@@ -210,15 +213,19 @@ border-radius: 1rem;
 
 /* Header страницы */
 .header{
-  padding:10px 0px;
+  padding-top: 20px;
+}
+.header-inner{
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 50%;
+  min-width: 450px;
   gap: 1rem;
   font-size: 25px;
   background-color: var(--color-btn);
-  width: 50%;
-  margin: 10px auto;
+  margin: 0 auto;
+  padding:10px 0px;
   border-radius: 1rem;
 }
