@@ -67,7 +67,7 @@ const Login = (element, render = true) => {
       console.log("input = ", player1, player2);
       Login(login, false);
       Field(field, arrField);
-      Toolbar(header)
+      Toolbar(header);
     });
   }
 };
@@ -99,7 +99,7 @@ const Toolbar = (element, render = true) => {
   const toolbar = document.querySelector(".toolbar");
   tools.map((tool) => Tool(toolbar, tool));
 };
-const Tool = (element, tool) => {
+const Tool = (where, tool) => {
   const { img, sum, name } = tool;
   console.log("tool = ", img);
   const template = `
@@ -115,8 +115,30 @@ const Tool = (element, tool) => {
 `;
   const fragment = document.createElement("div");
   fragment.innerHTML = template;
-  element.append(fragment);
+  where.append(fragment);
 };
 
 // вызов программы
 Login(login);
+
+class Ship {
+  constructor(img, sum, size) {
+    this.img = img;
+    this.sum = sum;
+    this.size = size;
+  }
+  render(where, tool) {
+    where.innerHTML = "";
+    Tool(where, tool);
+  }
+}
+
+let a = new Ship("./src/source/icon/5xh.svg", 5, 1);
+const where = document.querySelector(".where");
+a.render(where,a);
+
+setInterval(()=>{
+a.sum=a.sum-1
+console.log(a.sum)
+a.render(where,a);
+},2000)
