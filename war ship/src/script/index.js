@@ -1,5 +1,6 @@
 const login = document.querySelector(".login");
 const field = document.querySelector(".field");
+const header = document.querySelector(".header");
 let player1,
   player2 = "";
 const SIZE = 10;
@@ -10,10 +11,37 @@ const state = {
   hit: 3,
   destroy: 4,
 };
+const tools = [
+  {
+    img: "./src/source/icon/1xh.svg",
+    sum: 0,
+    name: "",
+  },
+  {
+    img: "./src/source/icon/2xh.svg",
+    sum: 0,
+    name: "",
+  },
+  {
+    img: "./src/source/icon/3xh.svg",
+    sum: 0,
+    name: "",
+  },
+  {
+    img: "./src/source/icon/4xh.svg",
+    sum: 0,
+    name: "",
+  },
+  {
+    img: "./src/source/icon/5xh.svg",
+    sum: 0,
+    name: "",
+  },
+];
 let arrField = new Array(SIZE).fill(new Array(SIZE).fill(state.cell));
 console.log(arrField);
 
-// комопненты
+// компоненты
 // окно логина
 const Login = (element, render = true) => {
   let template = `
@@ -38,7 +66,8 @@ const Login = (element, render = true) => {
       player2 = in2.value ? in2.value : "Игрок 2";
       console.log("input = ", player1, player2);
       Login(login, false);
-      Field(field,arrField)
+      Field(field, arrField);
+      Toolbar(header)
     });
   }
 };
@@ -49,21 +78,45 @@ const Field = (element, arr = [[0]], render = true) => {
     row.classList.add("row");
     for (let j = 0; j < arr[0].length; j++) {
       let cell = document.createElement("div");
-      cell.dataset.state = 'cell'
+      cell.dataset.state = "cell";
       cell.classList.add("cell");
       row.append(cell);
     }
     element.append(row);
   }
+  element.classList.add("bg");
   if (render) {
   }
 };
 // панель инструментов - корабли
-const Toolbar = (element,render=true)=>{
+const Toolbar = (element, render = true) => {
+  let template = `
+<div class="header-inner">
+<span>Расположите корабли на поле</span>
+<div class="toolbar"></div>
+  `;
+  element.innerHTML = template;
+  const toolbar = document.querySelector(".toolbar");
+  tools.map((tool) => Tool(toolbar, tool));
+};
+const Tool = (element, tool) => {
+  const { img, sum, name } = tool;
+  console.log("tool = ", img);
+  const template = `
+<div class="tool">
+<img
+  class="img-ship"
+  height="15px"
+  src="${img}"
+  alt=""
+/>
+<span class="sum">${sum}</span>
+</div>
+`;
+  const fragment = document.createElement("div");
+  fragment.innerHTML = template;
+  element.append(fragment);
+};
 
-}
-const Tool = ()=>{
-
-}
 // вызов программы
 Login(login);

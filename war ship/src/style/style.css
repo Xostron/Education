@@ -95,14 +95,14 @@ h4 {
   height: 100%;
 }
 /* background */
-.bg_game {
+.bg-img {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.5;
+  opacity: 0.7;
   pointer-events: none;
 }
 /* Логин */
@@ -136,11 +136,15 @@ h4 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 50%;
-  background-color: var(--color-btn);
-  height: 50%;
   z-index: 0;
-border-radius: 1rem;
+}
+.bg{
+  width: 50%;
+  min-width: 450px;
+  height: fit-content;
+  background-color: var(--color-btn);
+  border-radius: 1rem;
+  padding: 2rem 0;
 }
 .row {
   display: flex;
@@ -171,10 +175,8 @@ border-radius: 1rem;
   gap: 10px;
   height: fit-content;
   background-color: var(--color-btn);
-  /* margin: 8px 14px; */
   justify-content: center;
   width: 50%;
-  /* margin: 0 auto; */
 }
 /* Карточки кораблей */
 .img-ship {
@@ -187,35 +189,37 @@ border-radius: 1rem;
   min-width: 75px;
   height: 75px;
   background-color: var(--bg-prime-w);
-  opacity: .6;
-  border-radius: .5rem;
+  opacity: 0.6;
+  border-radius: 0.5rem;
   position: relative;
   user-select: none;
 }
-.tool:hover{
+.tool:hover {
   background-color: #ffffff;
   opacity: 1;
 }
-.tool::selection{
+.tool::selection {
   border: 1px solid var(--color-ship);
 }
-.sum{
+.sum {
   position: absolute;
   bottom: 2.5px;
   right: 2.5px;
   width: 18px;
   height: 18px;
-  text-align: center;
   background-color: var(--color-alr);
   border-radius: 50%;
   font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Header страницы */
-.header{
+.header {
   padding-top: 20px;
 }
-.header-inner{
+.header-inner {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -226,6 +230,6 @@ border-radius: 1rem;
   font-size: 25px;
   background-color: var(--color-btn);
   margin: 0 auto;
-  padding:10px 0px;
+  padding: 10px 0px;
   border-radius: 1rem;
 }
