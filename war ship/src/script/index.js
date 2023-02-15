@@ -20,6 +20,32 @@ const tools = [
 ];
 let arrField = new Array(SIZE).fill(new Array(SIZE).fill(state.cell));
 
+function renderDragEl (tool,idx){
+  const {size} = tool
+  let dragEl = document.createElement("div");
+    dragEl.classList.add('drag-el')
+    dragEl.id=`drag${idx}`
+    let imgF = `
+    <img
+    class="cell"
+    src="./src/source/icon/1xh.svg"
+    />
+  `;
+    let imgB = `
+    <img
+    class="cell"
+    src="./src/source/icon/0x.svg"
+    />
+  `;
+    for (let i = 0; i < size; i++) {
+      let cell = document.createElement('div')
+    cell.classList.add("cell");
+      i === 0 ? (cell.innerHTML += imgF) : (cell.innerHTML += imgB);
+      dragEl.append(cell)
+    }
+    field.append(dragEl);
+}
+tools.map((val,idx)=>renderDragEl(val,idx))
 // компоненты
 // окно логина
 const Login = (element, render = true) => {
@@ -79,7 +105,7 @@ const Toolbar = (where, elements) => {
 };
 
 const Tool = (where, tool, idx) => {
-  const { img, sum } = tool;
+  const { img, sum,size } = tool;
   const template = `
 <div draggable="true" id="btn${idx}" class="tool">
 <img
@@ -102,30 +128,17 @@ const Tool = (where, tool, idx) => {
   });
 
   item.addEventListener("dragstart", (ev) => {
-    let img2 = document.createElement("div");
-    let temp = `<img
-    src="${img}"
-    height="29"
     
-  />`
-    img2.classList.add('selected-icon')
-    img2.innerHTML = temp
-    // img2.src = img;
-    // img2.height = "30";
-    // img2.width=30*(idx+1)+1
-    
-field.append(img2)
+    const el = document.querySelector(`#drag${idx}`)
 
     // ev.dataTransfer.dropEffect = "move";
-    ev.dataTransfer.effectAllowed = 'move'
-    ev.dataTransfer.setDragImage(img2, 15, 15);
-    console.log(img2, ev.dataTransfer);
+    ev.dataTransfer.effectAllowed = "move";
+    ev.dataTransfer.setDragImage(el, 15, 15);
   });
 
   item.addEventListener("dragend", (ev) => {});
 };
 
+
 // вызов программы
 Login(login);
-
-

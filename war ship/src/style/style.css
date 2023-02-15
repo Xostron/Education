@@ -150,8 +150,8 @@ h4 {
   display: flex;
 }
 .cell {
-  width: 26px;
-  height: 26px;
+  width: 35px;
+  height: 35px;
   border: 1px solid rgba(0, 0, 0, 0.315);
 }
 .cell[data-state="cell"] {
@@ -246,4 +246,8 @@ background-color: #f23434;
 }
 .img12{
   background-color: #2adc30;
+}
+.drag-el{
+  display: flex;
+  background-color: #2a68dc;
 }
