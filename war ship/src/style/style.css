@@ -150,8 +150,8 @@ h4 {
   display: flex;
 }
 .cell {
-  width: 25px;
-  height: 25px;
+  width: 26px;
+  height: 26px;
   border: 1px solid rgba(0, 0, 0, 0.315);
 }
 .cell[data-state="cell"] {
@@ -243,4 +243,7 @@ background-color: #f23434;
 }
 .test{
 
+}
+.img12{
+  background-color: #2adc30;
 }
