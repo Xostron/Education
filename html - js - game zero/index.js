@@ -105,6 +105,7 @@ function hndlStart(e) {
 }
 // кнопки - крестики-нолики - экран игровое поле
 function hndlCell(event) {
+  // делегирование событий 
   const target = event.target;
   // занята ли ячейка
   if (target.classList.length > 1 || target.classList[0] !== "cell") {

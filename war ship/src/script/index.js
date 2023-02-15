@@ -12,34 +12,13 @@ const state = {
   destroy: 4,
 };
 const tools = [
-  {
-    img: "./src/source/icon/1xh.svg",
-    sum: 0,
-    name: "",
-  },
-  {
-    img: "./src/source/icon/2xh.svg",
-    sum: 0,
-    name: "",
-  },
-  {
-    img: "./src/source/icon/3xh.svg",
-    sum: 0,
-    name: "",
-  },
-  {
-    img: "./src/source/icon/4xh.svg",
-    sum: 0,
-    name: "",
-  },
-  {
-    img: "./src/source/icon/5xh.svg",
-    sum: 0,
-    name: "",
-  },
+  new shipCard(1, 4),
+  new shipCard(2, 2),
+  new shipCard(3, 3),
+  new shipCard(4, 2),
+  new shipCard(5, 1),
 ];
 let arrField = new Array(SIZE).fill(new Array(SIZE).fill(state.cell));
-console.log(arrField);
 
 // компоненты
 // окно логина
@@ -64,10 +43,9 @@ const Login = (element, render = true) => {
     hndlStart.addEventListener("click", () => {
       player1 = in1.value ? in1.value : "Игрок 1";
       player2 = in2.value ? in2.value : "Игрок 2";
-      console.log("input = ", player1, player2);
       Login(login, false);
       Field(field, arrField);
-      Toolbar(header);
+      Toolbar(header, tools);
     });
   }
 };
@@ -89,24 +67,23 @@ const Field = (element, arr = [[0]], render = true) => {
   }
 };
 // панель инструментов - корабли
-const Toolbar = (element, render = true) => {
+const Toolbar = (where, elements) => {
   let template = `
 <div class="header-inner">
 <span>Расположите корабли на поле</span>
 <div class="toolbar"></div>
   `;
-  element.innerHTML = template;
+  where.innerHTML = template;
   const toolbar = document.querySelector(".toolbar");
-  tools.map((tool) => Tool(toolbar, tool));
+  elements.map((tool, idx) => Tool(toolbar, tool, idx));
 };
-const Tool = (where, tool) => {
-  const { img, sum, name } = tool;
-  console.log("tool = ", img);
+
+const Tool = (where, tool, idx) => {
+  const { img, sum } = tool;
   const template = `
-<div class="tool">
+<div draggable="true" id="btn${idx}" class="tool">
 <img
   class="img-ship"
-  height="15px"
   src="${img}"
   alt=""
 />
@@ -115,30 +92,40 @@ const Tool = (where, tool) => {
 `;
   const fragment = document.createElement("div");
   fragment.innerHTML = template;
+  const item = fragment.querySelector(`#btn${idx}`);
+  const icon = fragment.querySelector(".img-ship");
+  // icon.classList.add('selected-icon')
   where.append(fragment);
+  // ====подписка на события====
+  item.addEventListener("click", () => {
+    tool.sub();
+  });
+
+  item.addEventListener("dragstart", (ev) => {
+    let img2 = document.createElement("div");
+    let temp = `<img
+    src="${img}"
+    height="29"
+    
+  />`
+    img2.classList.add('selected-icon')
+    img2.innerHTML = temp
+    // img2.src = img;
+    // img2.height = "30";
+    // img2.width=30*(idx+1)+1
+    
+field.append(img2)
+
+    // ev.dataTransfer.dropEffect = "move";
+    ev.dataTransfer.effectAllowed = 'move'
+    ev.dataTransfer.setDragImage(img2, 15, 15);
+    console.log(img2, ev.dataTransfer);
+  });
+
+  item.addEventListener("dragend", (ev) => {});
 };
 
 // вызов программы
 Login(login);
 
-class Ship {
-  constructor(img, sum, size) {
-    this.img = img;
-    this.sum = sum;
-    this.size = size;
-  }
-  render(where, tool) {
-    where.innerHTML = "";
-    Tool(where, tool);
-  }
-}
 
-let a = new Ship("./src/source/icon/5xh.svg", 5, 1);
-const where = document.querySelector(".where");
-a.render(where,a);
-
-setInterval(()=>{
-a.sum=a.sum-1
-console.log(a.sum)
-a.render(where,a);
-},2000)

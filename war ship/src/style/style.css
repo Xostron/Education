@@ -150,8 +150,8 @@ h4 {
   display: flex;
 }
 .cell {
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   border: 1px solid rgba(0, 0, 0, 0.315);
 }
 .cell[data-state="cell"] {
@@ -180,6 +180,7 @@ h4 {
 }
 /* Карточки кораблей */
 .img-ship {
+  height: 15px;
 }
 .tool {
   display: flex;
@@ -198,9 +199,6 @@ h4 {
   background-color: #ffffff;
   opacity: 1;
 }
-.tool::selection {
-  border: 1px solid var(--color-ship);
-}
 .sum {
   position: absolute;
   bottom: 2.5px;
@@ -214,7 +212,17 @@ h4 {
   align-items: center;
   justify-content: center;
 }
-
+.selected{
+  width: auto;
+  height: auto;
+background-color: #f23434;
+}
+.selected-icon{
+  
+  background-color: #2a68dc;
+  /* position: absolute;
+  top: -1000; */
+}
 /* Header страницы */
 .header {
   padding-top: 20px;
@@ -232,4 +240,7 @@ h4 {
   margin: 0 auto;
   padding: 10px 0px;
   border-radius: 1rem;
+}
+.test{
+
 }
