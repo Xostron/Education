@@ -70,13 +70,18 @@ function hndlLoginStart(in1, in2) {
   Toolbar(header, tools);
 }
 // игровое поле
-const Field = (element, arr = [[0]], render = true) => {
+function Field(element, arr = [[0]], render = true) {
+  element.innerHTML=''
   for (let i = 0; i < arr.length; i++) {
     let row = document.createElement("div");
     row.classList.add("row");
     for (let j = 0; j < arr[0].length; j++) {
       let cell = document.createElement("div");
-      cell.dataset.state = "cell";
+      if(arrField[i][j]===1){
+        cell.dataset.state = "ship";
+      }else{
+        cell.dataset.state = "cell";
+      }
       cell.classList.add("cell");
       row.append(cell);
     }
@@ -120,16 +125,8 @@ const Tool = (where, tool, idx) => {
     ev.dataTransfer.setDragImage(el, 15, 15);
     // устанавливаем данные перетаскивания
     let dt = ev.dataTransfer
-    dt.setData("ship", JSON.stringify(tool))
+    dt.setData("ship", JSON.stringify(new Ship(tool.size)))
     // global - выбранный корабль
     selected = JSON.parse(dt.getData("ship"))
   });
-
-  // item.addEventListener("dragend", (ev) => {
-  //   console.log("dragend=", ev);
-  // });
-
-  // item.addEventListener("drop",(ev)=>{
-  //   console.log("tool drop",ev)
-  // })
 };
