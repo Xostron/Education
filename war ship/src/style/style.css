@@ -212,17 +212,7 @@ h4 {
   align-items: center;
   justify-content: center;
 }
-.selected{
-  width: auto;
-  height: auto;
-background-color: #f23434;
-}
-.selected-icon{
-  
-  background-color: #2a68dc;
-  /* position: absolute;
-  top: -1000; */
-}
+
 /* Header страницы */
 .header {
   padding-top: 20px;
@@ -241,13 +231,13 @@ background-color: #f23434;
   padding: 10px 0px;
   border-radius: 1rem;
 }
-.test{
-
-}
-.img12{
-  background-color: #2adc30;
-}
+/* фантомная копия drag&drop */
 .drag-el{
   display: flex;
-  background-color: #2a68dc;
+}
+.phantom{
+  position: absolute;
+  bottom:100%;
+  left: 0;
+  display: flex;
 }
