@@ -19,59 +19,86 @@ const tools = [
   new shipCard(5, 1),
 ];
 
-let arrField = []
-let r = Array(SIZE).fill(0)
+let arrField = [];
+let r = Array(SIZE).fill(0);
 for (let i = 0; i < SIZE; i++) {
-  arrField.push([...r])
+  arrField.push([...r]);
 }
-console.log(arrField)
+const arr1Field = [];
+for (let i = 0; i < SIZE; i++) {
+  arr1Field.push(...arrField[i]);
+}
+console.log(arrField);
 // подписка на события
 
 field.addEventListener("dragenter", (ev) => {
   // отслеживание ячеек - графика
-  console.log("dragenter=");
+  console.log("=============dragenter==========");
+  const cells = field.querySelectorAll(".cell");
   // ev.preventDefault()
   if (ev.target !== field) {
-    const cells = field.querySelectorAll(".cell");
-
-    const absIdx = Array.from(cells).indexOf(ev.target) + 1;
-    const int = Math.trunc((Array.from(cells).indexOf(ev.target) + 1) / 10);
-    const rltIdx = absIdx - int * 10 === 0 ? 10 : absIdx - int * 10;
+    
+    // координата-индекс отслеживаемой ячейки
+    const absId = Array.from(cells).indexOf(ev.target);
+    const rowId = Math.trunc(absId / 10);
+    const rltId = absId + 1 - rowId * 10;
     const sizeRow = 10;
+    console.log("координата = ", absId, rltId, rowId);
+    // переопределение выбранной ячейки
+    // проверка на коллизии
 
-    arrField[int][rltIdx-1] = 1;
-    console.log(arrField, int, rltIdx - 1, arrField[int]);
-    // очистка ячеек
-    // cells.forEach((cell, idx) => {
-    //   if (cell.dataset.state !== "cell"){
-    //   }
-    // });
-    Field(field, arrField)
-    // field.innerHTML=''
-    // for (let i = 0; i < arrField.length; i++) {
-    //   let row = document.createElement("div");
-    //   row.classList.add("row");
-    //   for (let j = 0; j < arrField[0].length; j++) {
-    //     let cell = document.createElement("div");
-    //     if(arrField[i][j]===1){
-    //       cell.dataset.state = "ship";
-    //     }else{
-    //       cell.dataset.state = "cell";
-    //     }
+    // очистка следов перемещения
+    arr1Field.forEach((val, idx) => {
+      val === 1 ? (arr1Field[idx] = 0) : arr1Field[idx];
+    });
+    // перемещение текущего корабля с проверкой границ поля
+    // область коллизии
+    // || absId+1===(rowId+1)*10
+    const a1 = absId === rowId * 10 ? absId : absId - 1;
+    const a11 =
+      absId + selected.size === (rowId + 1) * 10
+        ? absId + selected.size
+        : absId + selected.size + 1;
 
-    //     cell.classList.add("cell");
-    //     row.append(cell);
-    //   }
-    //   field.append(row);
-    // }
-    // field.classList.add("bg");
-    // подкрашивание выбранных ячеек
-    // if (rltIdx + selected.size - 1 <= sizeRow) {
-    //   let shipCell = Array.from(cells).slice(absIdx - 1, absIdx + selected.size - 1);
-    //   shipCell.forEach((cell) => {
-    //     cell.dataset.state = "ship";
-    //   });
-    // }
+    const a2 = a1 - 10;
+    const a22 = a11 - 10;
+    const a0 = a1 + 10;
+    const a00 = a11 + 10;
+
+    const piece2 = a2 >= 0 ? arr1Field.slice(a2, a22) : [];
+    const piece1 = arr1Field.slice(a1, a11);
+    const piece0 = arr1Field.slice(a0, a00);
+    const piece = [...piece2, ...piece1, ...piece0];
+    const isCollision = piece.includes("S1");
+
+    console.log("piece2=", a2, a22, piece2);
+    console.log("piece1=", a1, absId, a11, piece1);
+    console.log("piece0=", a0, a00, piece0);
+
+    if (selected.size <= sizeRow - rltId + 1 && !isCollision) {
+      arr1Field.splice(absId, selected.size, ...Array(selected.size).fill(1));
+    }
+    console.log("selected = ", sizeRow, rltId, arr1Field);
+    // изменение отображения ячеек
+    cells.forEach((cell, idx) => {
+      if (arr1Field[idx] === 1 || arr1Field[idx] === "S1") {
+        cell.dataset.state = "ship";
+      } else {
+        cell.dataset.state = "cell";
+      }
+    });
+  } else {
+    // очистка следов перемещения
+    arr1Field.forEach((val, idx) => {
+      val === 1 ? (arr1Field[idx] = 0) : arr1Field[idx];
+    });
+    cells.forEach((cell, idx) => {
+      if (arr1Field[idx] === 1 || arr1Field[idx] === "S1") {
+        cell.dataset.state = "ship";
+      } else {
+        cell.dataset.state = "cell";
+      }
+    });
   }
 });
 
@@ -85,7 +112,11 @@ field.addEventListener("dragover", (ev) => {
 field.addEventListener("drop", (ev) => {
   // передаваемые данные при
   let a = JSON.parse(ev.dataTransfer.getData("ship"));
-  console.log("field drop = ", ev.dataTransfer, a);
+  // console.log("field drop = ", ev.dataTransfer, a);
+  arr1Field.forEach((val, idx) => {
+    val === 1 ? (arr1Field[idx] = "S1") : arr1Field[idx];
+  });
+  // console.log("@@@drop = ", arr1Field);
 });
 
 // вызов программы
