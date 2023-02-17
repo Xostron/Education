@@ -104,8 +104,9 @@ const Toolbar = (where, elements) => {
 };
 // инструменты
 let selected={}
+
 const Tool = (where, tool, idx) => {
-  const { img, sum,size } = tool;
+  const { img, sum, size } = tool;
   const template = `
 <div draggable="true" id="btn${idx}" class="tool">
 <img class="img-ship" src="${img}" alt=""/>
@@ -114,9 +115,9 @@ const Tool = (where, tool, idx) => {
   const container = render(template, where);
   const item = container.querySelector(`#btn${idx}`);
   // ====подписка на события====
-  item.addEventListener("click", () => {
-    tool.sub();
-  });
+  // item.addEventListener("click", () => {
+  //   tool.sub();
+  // });
 
   item.addEventListener("dragstart", (ev) => {
     // выбор фантомной копии - находится за пределами экрана
@@ -126,7 +127,15 @@ const Tool = (where, tool, idx) => {
     // устанавливаем данные перетаскивания
     let dt = ev.dataTransfer
     dt.setData("ship", JSON.stringify(new Ship(tool.size)))
+    dt.setData("tool", JSON.stringify(tool))
     // global - выбранный корабль
     selected = JSON.parse(dt.getData("ship"))
   });
+  item.addEventListener("dragend",(ev)=>{
+    const cells = field.querySelector('.cell')
+  //   if (cells.includes(ev.target)){
+  //   tool.sub()
+  // }
+  console.log(ev.target)
+  })
 };

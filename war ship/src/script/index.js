@@ -29,11 +29,11 @@ for (let i = 0; i < SIZE; i++) {
   arr1Field.push(...arrField[i]);
 }
 console.log(arrField);
-// подписка на события
 
+// =====подписка на события=====
 field.addEventListener("dragenter", (ev) => {
   // отслеживание ячеек - графика
-  console.log("=============dragenter==========");
+  console.log("=============dragenter==========",ev.target);
   const cells = field.querySelectorAll(".cell");
   // ev.preventDefault()
   if (ev.target !== field) {
@@ -111,14 +111,15 @@ field.addEventListener("dragover", (ev) => {
 
 field.addEventListener("drop", (ev) => {
   // передаваемые данные при
-  let a = JSON.parse(ev.dataTransfer.getData("ship"));
-  // console.log("field drop = ", ev.dataTransfer, a);
+  let ship = JSON.parse(ev.dataTransfer.getData("ship"));
+  let tool = JSON.parse(ev.dataTransfer.getData("tool"));
   arr1Field.forEach((val, idx) => {
     val === 1 ? (arr1Field[idx] = "S1") : arr1Field[idx];
   });
-  // console.log("@@@drop = ", arr1Field);
+  // tool.sub()
+  console.log("@@@drop = ", ship, tool);
 });
 
-// вызов программы
+// ==============вызов программы==============
 Login(login);
 tools.map((val, idx) => DragEl(val, idx, phantom));
