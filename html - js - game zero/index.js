@@ -328,3 +328,6 @@ function setLS(players) {
 //       cells.forEach((cell, idx) => {
 //         cell.removeEventListener("click", objectsEvents[idx]);
 //       });
+// hndlCell(){
+  // console.log(this.cell, this.idx)
+// }

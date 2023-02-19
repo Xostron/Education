@@ -2,6 +2,7 @@
 // input field
 let player1,
   player2 = "";
+
 // функция отображения компонетов
 function render(template, where, wrapper = true) {
   if (wrapper) {
@@ -102,40 +103,61 @@ const Toolbar = (where, elements) => {
   const toolbar = document.querySelector(".toolbar");
   elements.map((tool, idx) => Tool(toolbar, tool, idx));
 };
-// инструменты
-let selected={}
-
+// инструмент + объект в атрибуиах
 const Tool = (where, tool, idx) => {
-  const { img, sum, size } = tool;
+  const { img, sum, size,draggable } = tool;
+  // on/off draggable element
+  if (sum<1){
+    tool.draggable=false
+  }
   const template = `
-<div draggable="true" id="btn${idx}" class="tool">
+<div draggable="${tool.draggable}" id="tool${idx}" class="tool">
 <img class="img-ship" src="${img}" alt=""/>
 <span class="sum">${sum}</span>
 </div>`;
   const container = render(template, where);
-  const item = container.querySelector(`#btn${idx}`);
-  // ====подписка на события====
-  // item.addEventListener("click", () => {
-  //   tool.sub();
-  // });
+  const item = container.querySelector(`#tool${idx}`);
 
-  item.addEventListener("dragstart", (ev) => {
-    // выбор фантомной копии - находится за пределами экрана
+  // ====подписка на события====
+  item.addEventListener("dragstart",(event)=> {
+    console.log('draggstart = ',event)
+    // выбор фантомной копии - находится за пределами экрана и отображение
     const el = document.querySelector(`#drag${idx}`);
-    // отображение фантомной копии
-    ev.dataTransfer.setDragImage(el, 15, 15);
+    event.dataTransfer.setDragImage(el, 15, 15);
     // устанавливаем данные перетаскивания
-    let dt = ev.dataTransfer
-    dt.setData("ship", JSON.stringify(new Ship(tool.size)))
-    dt.setData("tool", JSON.stringify(tool))
-    // global - выбранный корабль
-    selected = JSON.parse(dt.getData("ship"))
-  });
+    // global - выбранный корабль и tool
+    selectedShip = new Ship(size)
+    selectedTool = tool
+  })
+
   item.addEventListener("dragend",(ev)=>{
-    const cells = field.querySelector('.cell')
-  //   if (cells.includes(ev.target)){
-  //   tool.sub()
-  // }
-  console.log(ev.target)
+  console.log("dragend = ",ev.target)
   })
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // устанавливаем данные перетаскивания
+    // let dt = ev.dataTransfer
+    // dt.setData("ship", JSON.stringify(new Ship(tool.size)))
+    // dt.setData("tool", JSON.stringify(tool))
+    // в другом месте получаем данные перетаскивания
+      // передаваемые данные при
+  // let ship = JSON.parse(ev.dataTransfer.getData("ship"));
+  // let tool = JSON.parse(ev.dataTransfer.getData("tool"));

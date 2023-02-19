@@ -21,6 +21,7 @@ class shipCard {
   constructor(size, sum) {
     this.size = size;
     this.sum = sum;
+    this.draggable=true;
     if (size > 0 && size < 6) {
       this.img = `./src/source/icon/${size}xh.svg`;
     } else {
