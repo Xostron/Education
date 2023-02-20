@@ -28,8 +28,10 @@ class shipCard {
       this.img = "./src/source/icon/1xh.svg";
     }
   }
+  
   sub() {
     this.sum--;
+    // переотрисовка
     Toolbar(header, tools);
   }
   mouseDown(){

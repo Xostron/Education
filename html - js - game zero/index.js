@@ -105,7 +105,7 @@ function hndlStart(e) {
 }
 // кнопки - крестики-нолики - экран игровое поле
 function hndlCell(event) {
-  // делегирование событий 
+  // делегирование событий
   const target = event.target;
   // занята ли ячейка
   if (target.classList.length > 1 || target.classList[0] !== "cell") {
@@ -130,7 +130,7 @@ function hndlClose() {
   countWin2 = 0;
   init();
 }
-// ============
+// ====================================
 // проверка выйгрыша хода
 function win() {
   if (count < 5) {
@@ -252,7 +252,7 @@ function Component(gamer) {
 }
 function renderTopPlayers() {
   const sorted = players.sort().slice(0, 10);
-  table.innerHTML=''
+  table.innerHTML = "";
   sorted.map((player) => {
     Component(player);
     table.append(component);
@@ -269,24 +269,6 @@ function getLS(key) {
 function setLS(players) {
   localStorage.setItem("top-list", JSON.stringify(players));
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // inputs
 // const inPlayer1 = document.querySelector("#player1");
@@ -329,5 +311,5 @@ function setLS(players) {
 //         cell.removeEventListener("click", objectsEvents[idx]);
 //       });
 // hndlCell(){
-  // console.log(this.cell, this.idx)
+// console.log(this.cell, this.idx)
 // }

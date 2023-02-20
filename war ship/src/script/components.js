@@ -67,97 +67,194 @@ function hndlLoginStart(in1, in2) {
   player1 = in1.value ? in1.value : "Игрок 1";
   player2 = in2.value ? in2.value : "Игрок 2";
   Login(login, false);
-  Field(field, arrField);
-  Toolbar(header, tools);
+  initLocation();
 }
 // игровое поле
-function Field(element, arr = [[0]], render = true) {
-  element.innerHTML=''
-  for (let i = 0; i < arr.length; i++) {
+function Field(element, arr = [0], render = true) {
+  element.innerHTML = "";
+  for (let i = 0; i < SIZE; i++) {
     let row = document.createElement("div");
     row.classList.add("row");
-    for (let j = 0; j < arr[0].length; j++) {
+    for (let j = 0; j < SIZE; j++) {
       let cell = document.createElement("div");
-      if(arrField[i][j]===1){
+      let x = i * 10 + j;
+      if (arr[x] === 1 ) {
         cell.dataset.state = "ship";
-      }else{
+      } else if (arr[x]===0) {
         cell.dataset.state = "cell";
+      }else if (arr[x]==='K1'){
+        cell.dataset.state = "destroy";
+      }else if (arr[x]==='E1'){
+        cell.dataset.state = "away";
       }
+      
       cell.classList.add("cell");
       row.append(cell);
     }
     element.append(row);
   }
   element.classList.add("bg");
-  if (render) {
+}
+// кнопки управления
+function Control(where) {
+  let template = `
+  <div class="btns">
+  <button id="close" class="btn btn-text">Выйти</button>
+  <button id="back" class="btn btn-text">Назад</button>
+  <button id="next" class="btn btn-text">Дальше</button>
+  </div>
+`;
+  const container = render(template, where, false);
+  const btns = container.querySelector(".btns");
+  btns.addEventListener("click", hndlControl);
+}
+function hndlControl(event) {
+  const { target } = event;
+  if (target.id === "next") {
+    hndlNext();
+  } else if (target.id === "back") {
+  } else if (target.id === "close") {
   }
-};
+}
+// кнопка next
+function hndlNext() {
+  if (screenField === 0) {
+    screenField++;
+    fieldP1Loc = fieldTemp;
+    initLocation();
+  } else if (screenField === 1) {
+    screenField++;
+    fieldP2Loc = fieldTemp;
+    initGame(screenField);
+  } else if (screenField === 2) {
+    screenField++;
+    initGame(screenField);
+  } else if (screenField === 3) {
+    screenField--;
+    initGame(screenField);
+  }
+}
 // панель инструментов - корабли
 const Toolbar = (where, elements) => {
+  const title = [
+    "Игрок 1 расставляет корабли",
+    "Игрок 2 расставляет корабли",
+    "Ходит Игрок 1",
+    "Ходит Игрок 2",
+  ];
   let template = `
   <div class="header-inner">
-  <span>Расположите корабли на поле</span>
+  <span class="header-title">
+  ${title[screenField]}
+  </span>
   <div class="toolbar"></div>
   </div>`;
-  render(template, where, false);
-  const toolbar = document.querySelector(".toolbar");
-  elements.map((tool, idx) => Tool(toolbar, tool, idx));
+  const header = render(template, where, false);
+  header.style.fontSize = "25px";
+  if (screenField < 2) {
+    const toolbar = document.querySelector(".toolbar");
+    elements.map((tool, idx) => Tool(toolbar, tool, idx));
+    header.style.fontSize = "18px";
+  }
 };
 // инструмент + объект в атрибуиах
 const Tool = (where, tool, idx) => {
-  const { img, sum, size,draggable } = tool;
+  const { img, sum, size, draggable } = tool;
   // on/off draggable element
-  if (sum<1){
-    tool.draggable=false
+  if (sum < 1) {
+    tool.draggable = false;
   }
   const template = `
 <div draggable="${tool.draggable}" id="tool${idx}" class="tool">
-<img class="img-ship" src="${img}" alt=""/>
+<img draggable="false" class="img-ship" src="${img}" alt=""/>
 <span class="sum">${sum}</span>
 </div>`;
   const container = render(template, where);
   const item = container.querySelector(`#tool${idx}`);
 
   // ====подписка на события====
-  item.addEventListener("dragstart",(event)=> {
-    console.log('draggstart = ',event)
+  item.addEventListener("dragstart", (event) => {
     // выбор фантомной копии - находится за пределами экрана и отображение
     const el = document.querySelector(`#drag${idx}`);
     event.dataTransfer.setDragImage(el, 15, 15);
     // устанавливаем данные перетаскивания
     // global - выбранный корабль и tool
-    selectedShip = new Ship(size)
-    selectedTool = tool
-  })
+    selectedShip = new Ship(size);
+    selectedTool = tool;
+  });
 
-  item.addEventListener("dragend",(ev)=>{
-  console.log("dragend = ",ev.target)
-  })
+  item.addEventListener("dragend", (ev) => {
+    // console.log("dragend = ", ev.target);
+  });
 };
+// init field
+function initLocation() {
+  tools = [
+    new shipCard(1, 3),
+    new shipCard(2, 2),
+    new shipCard(3, 2),
+    new shipCard(4, 2),
+    // new shipCard(5, 1),
+  ];
+  fieldTemp = [];
+  for (let i = 0; i < SIZE * SIZE; i++) {
+    fieldTemp.push(0);
+  }
+  Field(field, fieldTemp);
+  Control(btns);
+  game.classList.remove("hide");
+  Toolbar(header, tools);
+}
+function initGame(screenField) {
+  Toolbar(header, tools);
+  Field(field, fieldP2Loc);
+  Field(field2, fieldP1Loc);
+  if (screenField===2){
+    field.style.opacity='1'
+    field2.style.opacity='0.4'
+    field.addEventListener("click",hndlBattle)
+    field2.removeEventListener("click",hndlBattle)
+  }
+  else if (screenField===3){
+    field.style.opacity='.4'
+    field2.style.opacity='1'
+    field2.addEventListener("click",hndlBattle)
+    field.removeEventListener("click",hndlBattle)
+  }
+  console.log('save field',fieldP1Loc, fieldP2Loc)
+}
 
+function hndlBattle(event){
+  // console.log('BATTLE = ',event,event.target)
+  const cells = event.currentTarget.querySelectorAll(".cell");
+  const absId = Array.from(cells).indexOf(event.target);
+  // console.log('cell = ',absId)
+  if (event.currentTarget===field){
+    setFire(fieldP2Loc, field, absId)
+  }
+  else if (event.currentTarget===field2){
+    setFire(fieldP1Loc, field2, absId)
+  }
+}
 
+function setFire(arrEnemy, where, pos){
+if (arrEnemy[pos]==='S1'){
+  // ранил - убил
+  arrEnemy[pos]==='K1'
 
+}
+else{
+  // мимо
+  arrEnemy[pos]==='E1'
+}
+Field(where,arrEnemy)
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // устанавливаем данные перетаскивания
-    // let dt = ev.dataTransfer
-    // dt.setData("ship", JSON.stringify(new Ship(tool.size)))
-    // dt.setData("tool", JSON.stringify(tool))
-    // в другом месте получаем данные перетаскивания
-      // передаваемые данные при
-  // let ship = JSON.parse(ev.dataTransfer.getData("ship"));
-  // let tool = JSON.parse(ev.dataTransfer.getData("tool"));
+// устанавливаем данные перетаскивания Drag&Drop ev.dataTransfer
+// let dt = ev.dataTransfer
+// dt.setData("ship", JSON.stringify(new Ship(tool.size)))
+// dt.setData("tool", JSON.stringify(tool))
+// в другом месте получаем данные перетаскивания
+// передаваемые данные при
+// let ship = JSON.parse(ev.dataTransfer.getData("ship"));
+// let tool = JSON.parse(ev.dataTransfer.getData("tool"));

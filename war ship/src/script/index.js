@@ -1,11 +1,15 @@
 const login = document.querySelector(".login");
-const field = document.querySelector(".field");
+const field = document.querySelector(".field1");
+const field2 = document.querySelector(".field2");
+const cells = document.querySelector(".cells");
 const header = document.querySelector(".header");
 const phantom = document.querySelector(".phantom");
+const game = document.querySelector(".game");
+const btns = document.querySelector(".game-btns");
 
 let selectedShip = {};
 let selectedTool = {};
-
+let isValid = false
 const SIZE = 10;
 const state = {
   cell: 0,
@@ -14,28 +18,24 @@ const state = {
   hit: 3,
   destroy: 4,
 };
-const tools = [
-  new shipCard(1, 4),
+let tools = [
+  new shipCard(1, 3),
   new shipCard(2, 2),
-  new shipCard(3, 3),
+  new shipCard(3, 2),
   new shipCard(4, 2),
-  new shipCard(5, 1),
+  // new shipCard(5, 1),
 ];
 
-let arrField = [];
-let r = Array(SIZE).fill(0);
-for (let i = 0; i < SIZE; i++) {
-  arrField.push([...r]);
-}
-const arr1Field = [];
-for (let i = 0; i < SIZE; i++) {
-  arr1Field.push(...arrField[i]);
-}
+let fieldP1Loc = []
+let fieldP2Loc = []
+let fieldP1Battle = []
+let fieldP2Battle = []
+let fieldTemp = [];
+let screenField = 0
 
 // =====подписка на события=====
 field.addEventListener("dragenter", (ev) => {
   // отслеживание ячеек - графика
-  console.log("=============dragenter==========", ev.target);
   const cells = field.querySelectorAll(".cell");
   if (ev.target !== field) {
     // координата-индекс отслеживаемой ячейки
@@ -44,8 +44,8 @@ field.addEventListener("dragenter", (ev) => {
     const rltId = absId + 1 - rowId * 10;
     const sizeRow = 10;
     // очистка следов перемещения
-    arr1Field.forEach((val, idx) => {
-      val === 1 ? (arr1Field[idx] = 0) : arr1Field[idx];
+    fieldTemp.forEach((val, idx) => {
+      val === 1 ? (fieldTemp[idx] = 0) : fieldTemp[idx];
     });
     // перемещение текущего корабля с проверкой границ поля
     // область коллизии
@@ -58,22 +58,25 @@ field.addEventListener("dragenter", (ev) => {
     const a22 = a11 - 10;
     const a0 = a1 + 10;
     const a00 = a11 + 10;
-    const piece2 = a2 >= 0 ? arr1Field.slice(a2, a22) : [];
-    const piece1 = arr1Field.slice(a1, a11);
-    const piece0 = arr1Field.slice(a0, a00);
+    const piece2 = a2 >= 0 ? fieldTemp.slice(a2, a22) : [];
+    const piece1 = fieldTemp.slice(a1, a11);
+    const piece0 = fieldTemp.slice(a0, a00);
     const piece = [...piece2, ...piece1, ...piece0];
     const isCollision = piece.includes("S1");
     // определяем валидную область для размещения корабля
     if (selectedShip.size <= sizeRow - rltId + 1 && !isCollision) {
-      arr1Field.splice(
+      fieldTemp.splice(
         absId,
         selectedShip.size,
         ...Array(selectedShip.size).fill(1)
       );
+      isValid = true;
+    } else {
+      isValid = false;
     }
     // вносим изменения (размещаем корабль)
     cells.forEach((cell, idx) => {
-      if (arr1Field[idx] === 1 || arr1Field[idx] === "S1") {
+      if (fieldTemp[idx] === 1 || fieldTemp[idx] === "S1") {
         cell.dataset.state = "ship";
       } else {
         cell.dataset.state = "cell";
@@ -81,17 +84,18 @@ field.addEventListener("dragenter", (ev) => {
     });
   } else {
     // очистка следов перемещения
-    arr1Field.forEach((val, idx) => {
-      val === 1 ? (arr1Field[idx] = 0) : arr1Field[idx];
+    fieldTemp.forEach((val, idx) => {
+      val === 1 ? (fieldTemp[idx] = 0) : fieldTemp[idx];
     });
     cells.forEach((cell, idx) => {
-      if (arr1Field[idx] === 1 || arr1Field[idx] === "S1") {
+      if (fieldTemp[idx] === 1 || fieldTemp[idx] === "S1") {
         cell.dataset.state = "ship";
       } else {
         cell.dataset.state = "cell";
       }
     });
   }
+  console.log("=============dragenter==========",fieldTemp);
 });
 
 field.addEventListener("dragover", (ev) => {
@@ -104,11 +108,13 @@ field.addEventListener("dragover", (ev) => {
 field.addEventListener("drop", (ev) => {
   // 1 - корабль который расположили на поле
   // S1 - установленный корабль
-  console.log('drop')
-  arr1Field.forEach((val, idx) => {
-    val === 1 ? (arr1Field[idx] = "S1") : arr1Field[idx];
-  });
-  selectedTool.sub();
+  if (isValid) {
+    isValid=false
+    fieldTemp.forEach((val, idx) => {
+      val === 1 ? (fieldTemp[idx] = "S1") : fieldTemp[idx];
+    });
+    selectedTool.sub();
+  }
 });
 
 // ==============вызов программы==============
