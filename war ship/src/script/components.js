@@ -80,10 +80,10 @@ function Field(element, arr = [0], render = true) {
       let x = i * 10 + j;
       if (arr[x] === 1 ) {
         cell.dataset.state = "ship";
-      } else if (arr[x]===0) {
+      } else if (arr[x]===0 || arr[x]==='S1') {
         cell.dataset.state = "cell";
       }else if (arr[x]==='K1'){
-        cell.dataset.state = "destroy";
+        cell.dataset.state = "hit";
       }else if (arr[x]==='E1'){
         cell.dataset.state = "away";
       }
@@ -228,7 +228,7 @@ function hndlBattle(event){
   // console.log('BATTLE = ',event,event.target)
   const cells = event.currentTarget.querySelectorAll(".cell");
   const absId = Array.from(cells).indexOf(event.target);
-  // console.log('cell = ',absId)
+  console.log('cell = ',absId)
   if (event.currentTarget===field){
     setFire(fieldP2Loc, field, absId)
   }
@@ -240,12 +240,12 @@ function hndlBattle(event){
 function setFire(arrEnemy, where, pos){
 if (arrEnemy[pos]==='S1'){
   // ранил - убил
-  arrEnemy[pos]==='K1'
+  arrEnemy[pos]='K1'
 
 }
 else{
   // мимо
-  arrEnemy[pos]==='E1'
+  arrEnemy[pos]='E1'
 }
 Field(where,arrEnemy)
 }
