@@ -187,7 +187,7 @@ const Tool = (where, tool, idx) => {
     // console.log("dragend = ", ev.target);
   });
 };
-// init field
+// init field для расположения
 function initLocation() {
   tools = [
     new shipCard(1, 3),
@@ -205,6 +205,7 @@ function initLocation() {
   game.classList.remove("hide");
   Toolbar(header, tools);
 }
+// init field для игры
 function initGame(screenField) {
   Toolbar(header, tools);
   Field(field, fieldP2Loc);
@@ -223,7 +224,7 @@ function initGame(screenField) {
   }
   console.log('save field',fieldP1Loc, fieldP2Loc)
 }
-
+// handler игры - выстрел
 function hndlBattle(event){
   // console.log('BATTLE = ',event,event.target)
   const cells = event.currentTarget.querySelectorAll(".cell");
@@ -236,7 +237,6 @@ function hndlBattle(event){
     setFire(fieldP1Loc, field2, absId)
   }
 }
-
 function setFire(arrEnemy, where, pos){
 if (arrEnemy[pos]==='S1'){
   // ранил - убил
