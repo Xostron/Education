@@ -38,7 +38,7 @@ const DragEl = (tool, idx, where) => {
   where.append(container);
 };
 // окно логина
-const Login = (element, display = true) => {
+const Login = (where, display = true) => {
   let template = `
   <span class="login-title">Морской бой</span>
   <span class="login-subtitle"> 1 на 1</span>
@@ -51,11 +51,11 @@ const Login = (element, display = true) => {
   <button class="btn btn-text">Начать игру</button>
   <div class="blur"></div>
   `;
-  display ? render(template, element, false) : render("", element, false);
+  display ? render(template, where, false) : render("", where, false);
   if (display) {
-    const hndlStart = element.querySelector(".btn-text");
-    const in1 = element.querySelector("#in1");
-    const in2 = element.querySelector("#in2");
+    const hndlStart = where.querySelector(".btn-text");
+    const in1 = where.querySelector("#in1");
+    const in2 = where.querySelector("#in2");
     // ====подписка на события====
     hndlStart.addEventListener("click", () => {
       hndlLoginStart(in1, in2);
@@ -70,8 +70,8 @@ function hndlLoginStart(in1, in2) {
   initLocation();
 }
 // игровое поле
-function Field(element, arr = [0], render = true) {
-  element.innerHTML = "";
+function Field(where, arr = [0], render = true) {
+  where.innerHTML = "";
   for (let i = 0; i < SIZE; i++) {
     let row = document.createElement("div");
     row.classList.add("row");
@@ -91,9 +91,9 @@ function Field(element, arr = [0], render = true) {
       cell.classList.add("cell");
       row.append(cell);
     }
-    element.append(row);
+    where.append(row);
   }
-  element.classList.add("bg");
+  where.classList.add("bg");
 }
 // кнопки управления
 function Control(where) {
@@ -241,7 +241,6 @@ function setFire(arrEnemy, where, pos){
 if (arrEnemy[pos]==='S1'){
   // ранил - убил
   arrEnemy[pos]='K1'
-
 }
 else{
   // мимо
