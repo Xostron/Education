@@ -6,10 +6,11 @@ const header = document.querySelector(".header");
 const phantom = document.querySelector(".phantom");
 const game = document.querySelector(".game");
 const btns = document.querySelector(".game-btns");
-
+const st1 = document.querySelector(".st1")
+const st2 = document.querySelector(".st2")
 let selectedShip = {};
 let selectedTool = {};
-let isValid = false
+let isValid = false;
 const SIZE = 10;
 const state = {
   cell: 0,
@@ -22,16 +23,16 @@ let tools = [
   new shipCard(1, 3),
   new shipCard(2, 2),
   new shipCard(3, 2),
-  new shipCard(4, 2),
+  new shipCard(4, 1),
   // new shipCard(5, 1),
 ];
 
-let fieldP1Loc = []
-let fieldP2Loc = []
-let fieldP1Battle = []
-let fieldP2Battle = []
+let fieldP1Loc = [];
+let fieldP2Loc = [];
+let shipP1Battle = [];
+let shipP2Battle = [];
 let fieldTemp = [];
-let screenField = 0
+let screenField = 0;
 
 // =====подписка на события=====
 field.addEventListener("dragenter", (ev) => {
@@ -40,31 +41,32 @@ field.addEventListener("dragenter", (ev) => {
   if (ev.target !== field) {
     // координата-индекс отслеживаемой ячейки
     const absId = Array.from(cells).indexOf(ev.target);
-    const rowId = Math.trunc(absId / 10);
-    const rltId = absId + 1 - rowId * 10;
-    const sizeRow = 10;
+    const rowId = Math.trunc(absId / SIZE);
+    const rltId = absId + 1 - rowId * SIZE;
+
     // очистка следов перемещения
-    fieldTemp.forEach((val, idx) => {
-      val === 1 ? (fieldTemp[idx] = 0) : fieldTemp[idx];
-    });
-    // перемещение текущего корабля с проверкой границ поля
+    clearField(fieldTemp);
+
     // область коллизии
-    const a1 = absId === rowId * 10 ? absId : absId - 1;
+    const a1 = absId === rowId * SIZE ? absId : absId - 1;
     const a11 =
-      absId + selectedShip.size === (rowId + 1) * 10
+      absId + selectedShip.size === (rowId + 1) * SIZE
         ? absId + selectedShip.size
         : absId + selectedShip.size + 1;
-    const a2 = a1 - 10;
-    const a22 = a11 - 10;
-    const a0 = a1 + 10;
-    const a00 = a11 + 10;
+    const a2 = a1 - SIZE;
+    const a22 = a11 - SIZE;
+    const a0 = a1 + SIZE;
+    const a00 = a11 + SIZE;
     const piece2 = a2 >= 0 ? fieldTemp.slice(a2, a22) : [];
     const piece1 = fieldTemp.slice(a1, a11);
     const piece0 = fieldTemp.slice(a0, a00);
     const piece = [...piece2, ...piece1, ...piece0];
-    const isCollision = piece.includes("S1");
+    const isCollision = piece
+      .map((val) => (typeof val === "object" ? "S1" : val))
+      .includes("S1");
+
     // определяем валидную область для размещения корабля
-    if (selectedShip.size <= sizeRow - rltId + 1 && !isCollision) {
+    if (selectedShip.size <= SIZE - rltId + 1 && !isCollision) {
       fieldTemp.splice(
         absId,
         selectedShip.size,
@@ -74,28 +76,14 @@ field.addEventListener("dragenter", (ev) => {
     } else {
       isValid = false;
     }
-    // вносим изменения (размещаем корабль)
-    cells.forEach((cell, idx) => {
-      if (fieldTemp[idx] === 1 || fieldTemp[idx] === "S1") {
-        cell.dataset.state = "ship";
-      } else {
-        cell.dataset.state = "cell";
-      }
-    });
+
+    updateField(cells, fieldTemp);
   } else {
     // очистка следов перемещения
-    fieldTemp.forEach((val, idx) => {
-      val === 1 ? (fieldTemp[idx] = 0) : fieldTemp[idx];
-    });
-    cells.forEach((cell, idx) => {
-      if (fieldTemp[idx] === 1 || fieldTemp[idx] === "S1") {
-        cell.dataset.state = "ship";
-      } else {
-        cell.dataset.state = "cell";
-      }
-    });
+    clearField(fieldTemp);
+    updateField(cells, fieldTemp);
   }
-  console.log("=============dragenter==========",fieldTemp);
+
 });
 
 field.addEventListener("dragover", (ev) => {
@@ -109,12 +97,34 @@ field.addEventListener("drop", (ev) => {
   // 1 - корабль который расположили на поле
   // S1 - установленный корабль
   if (isValid) {
-    isValid=false
+    // поле игрока 1
+    if (screenField === 0) {
+      shipP1Battle.push(selectedShip);
+      shipP1Battle[shipP1Battle.length - 1].state = "S1";
+    }
+    // поле игрока 2
+    else if (screenField === 1) {
+      shipP1Battle.push(selectedShip);
+      shipP1Battle[shipP1Battle.length - 1].state = "S1";
+    }
+    //
     fieldTemp.forEach((val, idx) => {
-      val === 1 ? (fieldTemp[idx] = "S1") : fieldTemp[idx];
+      // val === 1
+      //   ? (fieldTemp[idx] = shipP1Battle[shipP1Battle.length - 1])
+      //   : fieldTemp[idx];
+      if (val===1){
+        fieldTemp[idx] = shipP1Battle[shipP1Battle.length - 1]
+        fieldTemp[idx].ship[idx]=false
+      }
+      else{
+        fieldTemp[idx]
+      }
     });
     selectedTool.sub();
+    isValid = false;
   }
+  // console.log(shipP1Battle[shipP1Battle.length - 1], shipP2Battle);
+  Control(btns);
 });
 
 // ==============вызов программы==============

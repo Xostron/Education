@@ -78,16 +78,18 @@ function Field(where, arr = [0], render = true) {
     for (let j = 0; j < SIZE; j++) {
       let cell = document.createElement("div");
       let x = i * 10 + j;
-      if (arr[x] === 1 ) {
+      if (arr[x] === 1) {
         cell.dataset.state = "ship";
-      } else if (arr[x]===0 || arr[x]==='S1') {
+      } else if (arr[x] === 0) {
         cell.dataset.state = "cell";
-      }else if (arr[x]==='K1'){
-        cell.dataset.state = "hit";
-      }else if (arr[x]==='E1'){
+      } else if ( arr[x] === "E1") {
         cell.dataset.state = "away";
+      } else if (arr[x].ship[x] === true) {
+        cell.dataset.state = "hit";
       }
-      
+      else{
+        cell.dataset.state = "cell";
+      }
       cell.classList.add("cell");
       row.append(cell);
     }
@@ -97,15 +99,22 @@ function Field(where, arr = [0], render = true) {
 }
 // кнопки управления
 function Control(where) {
+  const isValid = permitted();
   let template = `
   <div class="btns">
   <button id="close" class="btn btn-text">Выйти</button>
   <button id="back" class="btn btn-text">Назад</button>
-  <button id="next" class="btn btn-text">Дальше</button>
+  <button ${
+    !isValid ? "disabled" : ""
+  } id="next" class="btn btn-text">Дальше</button>
   </div>
 `;
   const container = render(template, where, false);
   const btns = container.querySelector(".btns");
+  btnNext = btns.querySelector("#next");
+  isValid
+    ? btnNext.classList.remove("disabled")
+    : btnNext.classList.add("disabled");
   btns.addEventListener("click", hndlControl);
 }
 function hndlControl(event) {
@@ -126,13 +135,14 @@ function hndlNext() {
     screenField++;
     fieldP2Loc = fieldTemp;
     initGame(screenField);
-  } else if (screenField === 2) {
-    screenField++;
-    initGame(screenField);
-  } else if (screenField === 3) {
-    screenField--;
-    initGame(screenField);
   }
+  //  else if (screenField === 2) {
+  //   screenField++;
+  //   initGame(screenField);
+  // } else if (screenField === 3) {
+  //   screenField--;
+  //   initGame(screenField);
+  // }
 }
 // панель инструментов - корабли
 const Toolbar = (where, elements) => {
@@ -187,13 +197,45 @@ const Tool = (where, tool, idx) => {
     // console.log("dragend = ", ev.target);
   });
 };
+// прогресс игры
+function Progress(where,arrShip){
+  console.log(arrShip)
+  const t=0
+  template=`
+  <div class="st-row">
+  3 x
+  <img height="25px" src="./src/source/icon/1xh.svg" />
+  : ${t}
+</div>
+
+<div class="st-row">
+  2 x
+  <img height="25px" src="./src/source/icon/2xh.svg" />
+  : ${t}
+</div>
+
+<div class="st-row">
+  2 x
+  <img height="25px" src="./src/source/icon/3xh.svg" />
+  : ${t}
+</div>
+
+<div class="st-row">
+  2 x
+  <img height="25px" src="./src/source/icon/4xh.svg" />
+  : ${t}
+</div>  
+  `
+  where.innerHTML=''
+  render(template,where)
+}
 // init field для расположения
 function initLocation() {
   tools = [
     new shipCard(1, 3),
     new shipCard(2, 2),
     new shipCard(3, 2),
-    new shipCard(4, 2),
+    new shipCard(4, 1),
     // new shipCard(5, 1),
   ];
   fieldTemp = [];
@@ -210,43 +252,44 @@ function initGame(screenField) {
   Toolbar(header, tools);
   Field(field, fieldP2Loc);
   Field(field2, fieldP1Loc);
-  if (screenField===2){
-    field.style.opacity='1'
-    field2.style.opacity='0.4'
-    field.addEventListener("click",hndlBattle)
-    field2.removeEventListener("click",hndlBattle)
+  Progress(st1,shipP1Battle)
+  Progress(st2,shipP1Battle)
+  if (screenField === 2) {
+    field.style.opacity = "1";
+    field2.style.opacity = "0.4";
+    field.addEventListener("click", hndlBattle);
+    field2.removeEventListener("click", hndlBattle);
+  } else if (screenField === 3) {
+    field.style.opacity = ".4";
+    field2.style.opacity = "1";
+    field2.addEventListener("click", hndlBattle);
+    field.removeEventListener("click", hndlBattle);
   }
-  else if (screenField===3){
-    field.style.opacity='.4'
-    field2.style.opacity='1'
-    field2.addEventListener("click",hndlBattle)
-    field.removeEventListener("click",hndlBattle)
-  }
-  console.log('save field',fieldP1Loc, fieldP2Loc)
+  // console.log("save field", fieldP1Loc, fieldP2Loc);
 }
 // handler игры - выстрел
-function hndlBattle(event){
+function hndlBattle(event) {
   // console.log('BATTLE = ',event,event.target)
   const cells = event.currentTarget.querySelectorAll(".cell");
   const absId = Array.from(cells).indexOf(event.target);
-  console.log('cell = ',absId)
-  if (event.currentTarget===field){
-    setFire(fieldP2Loc, field, absId)
+  console.log("cell = ", absId);
+  if (event.currentTarget === field) {
+    setFire(fieldP2Loc, field, absId);
+  } else if (event.currentTarget === field2) {
+    setFire(fieldP1Loc, field2, absId);
   }
-  else if (event.currentTarget===field2){
-    setFire(fieldP1Loc, field2, absId)
+}
+function setFire(arrEnemy, where, pos) {
+  if (arrEnemy[pos] !== 0 && arrEnemy[pos] !== 'E1') {
+    arrEnemy[pos].hit(pos)
+  } else {
+    // мимо
+    arrEnemy[pos] = "E1";
+    screenField === 3 ? screenField-- : screenField++;
   }
-}
-function setFire(arrEnemy, where, pos){
-if (arrEnemy[pos]==='S1'){
-  // ранил - убил
-  arrEnemy[pos]='K1'
-}
-else{
-  // мимо
-  arrEnemy[pos]='E1'
-}
-Field(where,arrEnemy)
+  initGame(screenField);
+  // Field(where, arrEnemy);
+  console.log('ship hit', fieldP1Loc,fieldP2Loc)
 }
 
 // устанавливаем данные перетаскивания Drag&Drop ev.dataTransfer

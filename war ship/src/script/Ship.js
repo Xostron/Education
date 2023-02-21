@@ -3,7 +3,20 @@ class Ship {
   imgOther = "./src/source/icon/0x.svg";
   constructor(size) {
     this.size = size;
-    this.ship = Array(size).fill(0);
+    this.state = "live";
+    // this.ship = Array(size).fill(this.state);
+    this.ship = {}
+    this.life = 0;
+  }
+  hit(pos) {
+    this.life++;
+    if (this.life<=this.size){
+      this.ship[pos]=true
+    }
+    if (this.life===this.size){
+      this.state = 'kill';
+    }
+    
   }
 }
 
@@ -21,20 +34,18 @@ class shipCard {
   constructor(size, sum) {
     this.size = size;
     this.sum = sum;
-    this.draggable=true;
+    this.draggable = true;
     if (size > 0 && size < 6) {
       this.img = `./src/source/icon/${size}xh.svg`;
     } else {
       this.img = "./src/source/icon/1xh.svg";
     }
   }
-  
+
   sub() {
     this.sum--;
     // переотрисовка
     Toolbar(header, tools);
   }
-  mouseDown(){
-    
-  }
+  mouseDown() {}
 }

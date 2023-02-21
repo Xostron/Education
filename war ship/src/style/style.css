@@ -91,6 +91,9 @@ h4 {
 .btn-text:hover {
   background-color: var(--color-btn-hover);
 }
+.disabled{
+  opacity: .4;
+}
 /* содержимое */
 .container {
   width: 85%;
@@ -261,4 +264,14 @@ h4 {
   bottom:100%;
   left: 0;
   display: flex;
+}
+.st-row{
+  display: flex;
+  align-items: center;
+  gap:.5rem;
+  padding: .5rem;
+}
+.st1{
+  background-color: rgba(109, 109, 109, 0.64);
+  width: fit-content;
 }
