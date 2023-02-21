@@ -130,7 +130,7 @@ function hndlNext() {
   if (screenField === 0) {
     screenField++;
     fieldP1Loc = fieldTemp;
-    initLocation();
+    initLocation('right');
   } else if (screenField === 1) {
     screenField++;
     fieldP2Loc = fieldTemp;
@@ -202,8 +202,9 @@ function Progress(where,arrShip){
   console.log(arrShip)
   const t=0
   template=`
+  <div>
   <div class="st-row">
-  3 x
+  1 x
   <img height="25px" src="./src/source/icon/1xh.svg" />
   : ${t}
 </div>
@@ -213,28 +214,30 @@ function Progress(where,arrShip){
   <img height="25px" src="./src/source/icon/2xh.svg" />
   : ${t}
 </div>
-
+</div>
+<div>
 <div class="st-row">
-  2 x
+  3 x
   <img height="25px" src="./src/source/icon/3xh.svg" />
   : ${t}
 </div>
 
 <div class="st-row">
-  2 x
+  4 x
   <img height="25px" src="./src/source/icon/4xh.svg" />
   : ${t}
 </div>  
+</div>
   `
   where.innerHTML=''
-  render(template,where)
+  render(template,where,false)
 }
 // init field для расположения
-function initLocation() {
+function initLocation(side='left') {
   tools = [
-    new shipCard(1, 3),
-    new shipCard(2, 2),
-    new shipCard(3, 2),
+    new shipCard(1, 1),
+    new shipCard(2, 1),
+    new shipCard(3, 1),
     new shipCard(4, 1),
     // new shipCard(5, 1),
   ];
@@ -242,7 +245,15 @@ function initLocation() {
   for (let i = 0; i < SIZE * SIZE; i++) {
     fieldTemp.push(0);
   }
+  
   Field(field, fieldTemp);
+if (side==='left') {
+  field.classList.add('left')
+  field.classList.remove('right')
+}else{
+  field.classList.remove('left')
+  field.classList.add('right')
+}
   Control(btns);
   game.classList.remove("hide");
   Toolbar(header, tools);

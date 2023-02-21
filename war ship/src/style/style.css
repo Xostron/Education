@@ -51,6 +51,14 @@ h4 {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.left{
+  position: relative;
+  transform: translateX(-50%);
+}
+.right{
+  position: relative;
+  transform: translateX(50%);
+}
 .hide{
   visibility:hidden;
   opacity: 0;
@@ -140,12 +148,15 @@ h4 {
 }
 /* Игровая область */
 .game{
-  /* background-color: #2adc30; */
+  display: flex;
   width: 50%;
   min-width: 400px;
   margin: 0 auto;
   margin-top: 10px;
+  align-items: center;
+  justify-content: center;
 }
+
 /* Поле */
 .field1, .field2 {
   display: flex;
@@ -265,13 +276,25 @@ h4 {
   left: 0;
   display: flex;
 }
+/* прогресс игры */
+.game-btns{
+  width: 50%;
+  min-width: 400px;
+  margin: 0 auto;
+}
+.game-inner{
+  
+}
 .st-row{
   display: flex;
   align-items: center;
   gap:.5rem;
   padding: .5rem;
 }
-.st1{
+.st{
   background-color: rgba(109, 109, 109, 0.64);
-  width: fit-content;
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  margin: 0 auto;
+  min-width: 400px;
 }
