@@ -6,8 +6,8 @@ const header = document.querySelector(".header");
 const phantom = document.querySelector(".phantom");
 const game = document.querySelector(".game");
 const btns = document.querySelector(".game-btns");
-const st1 = document.querySelector("#st1")
-const st2 = document.querySelector("#st2")
+const st1 = document.querySelector("#st1");
+const st2 = document.querySelector("#st2");
 let selectedShip = {};
 let selectedTool = {};
 let isValid = false;
@@ -48,43 +48,36 @@ field.addEventListener("dragenter", (ev) => {
     // очистка следов перемещения
     clearField(fieldTemp);
 
-    // область коллизии - горизонт
-    const a1 = absId === rowId * SIZE ? absId : absId - 1;
-    const a11 =
-      absId + selectedShip.size === (rowId + 1) * SIZE
-        ? absId + selectedShip.size
-        : absId + selectedShip.size + 1;
-    const a2 = a1 - SIZE;
-    const a22 = a11 - SIZE;
-    const a0 = a1 + SIZE;
-    const a00 = a11 + SIZE;
-    const piece2 = a2 >= 0 ? fieldTemp.slice(a2, a22) : [];
-    const piece1 = fieldTemp.slice(a1, a11);
-    const piece0 = fieldTemp.slice(a0, a00);
-    const piece = [...piece2, ...piece1, ...piece0];
-    const isCollision = piece
-      .map((val) => (typeof val === "object" ? "S1" : val))
-      .includes("S1");
-
+    let { isCollision, arrSlice, rotation } = getCollision(
+      fieldTemp,
+      absId,
+      rowId,
+      rltId
+    );
     // определяем валидную область для размещения корабля
-    if (selectedShip.size <= SIZE - rltId + 1 && !isCollision) {
-      fieldTemp.splice(
-        absId,
-        selectedShip.size,
-        ...Array(selectedShip.size).fill(1)
-      );
+    if (isCollision) {
+      if (rotation === 0) {
+        fieldTemp.splice(
+          absId,
+          selectedShip.size,
+          ...Array(selectedShip.size).fill(1)
+        );
+        
+      }else{
+        arrSlice.forEach((val,idx)=>{
+          fieldTemp[val]=1
+        })
+      }
       isValid = true;
     } else {
       isValid = false;
     }
     updateField(cells, fieldTemp);
-
   } else {
     // очистка следов перемещения
     clearField(fieldTemp);
     updateField(cells, fieldTemp);
   }
-
 });
 
 field.addEventListener("dragover", (ev) => {
@@ -93,7 +86,7 @@ field.addEventListener("dragover", (ev) => {
     ev.preventDefault();
   }
 });
- 
+
 field.addEventListener("drop", (ev) => {
   // 1 - корабль который расположили на поле
   // S1 - установленный корабль
@@ -113,12 +106,11 @@ field.addEventListener("drop", (ev) => {
       // val === 1
       //   ? (fieldTemp[idx] = shipP1Battle[shipP1Battle.length - 1])
       //   : fieldTemp[idx];
-      if (val===1){
-        fieldTemp[idx] = shipP1Battle[shipP1Battle.length - 1]
-        fieldTemp[idx].ship[idx]=false
-      }
-      else{
-        fieldTemp[idx]
+      if (val === 1) {
+        fieldTemp[idx] = shipP1Battle[shipP1Battle.length - 1];
+        fieldTemp[idx].ship[idx] = false;
+      } else {
+        fieldTemp[idx];
       }
     });
     selectedTool.sub();
@@ -128,30 +120,27 @@ field.addEventListener("drop", (ev) => {
   Control(btns);
 });
 
-header.addEventListener("dblclick",(ev)=>{
+header.addEventListener("dblclick", (ev) => {
   // переключатель верт. - гориз. корабль
   // console.log("toggle = ", ev, ev.target)
-  const target = ev.target
-  const idName = target.id.slice(0,4)
+  const target = ev.target;
+  const idName = target.id.slice(0, 4);
 
-  if (idName==="tool"){
-    const idx = target.id.slice(4)
-    tools[idx].rotate()
+  if (idName === "tool") {
+    const idx = target.id.slice(4);
+    tools[idx].rotate();
     // иконка
-    const img_ship = ev.target.querySelector('.img-ship')
-    img_ship.style.transform=`rotateZ(${tools[idx].rotation}deg)`
+    const img_ship = ev.target.querySelector(".img-ship");
+    img_ship.style.transform = `rotateZ(${tools[idx].rotation}deg)`;
     // фантомная копия
     const el = document.querySelector(`#drag${idx}`);
-    el.style.flexDirection="column"
-    const phantomCell = el.querySelector('.cell')
-    const phantomImg = phantomCell.querySelector('.cell')
-    phantomImg.style.transform=`rotateZ(${tools[idx].rotation}deg)`
-    console.log('el=',el)
+    el.style.flexDirection = "column";
+    const phantomCell = el.querySelector(".cell");
+    const phantomImg = phantomCell.querySelector(".cell");
+    phantomImg.style.transform = `rotateZ(${tools[idx].rotation}deg)`;
+    console.log("el=", el);
   }
-
-})
+});
 // ==============вызов программы==============
 Login(login);
 tools.map((val, idx) => DragEl(val, idx, phantom));
-
-
