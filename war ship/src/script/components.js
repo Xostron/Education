@@ -29,7 +29,7 @@ const DragEl = (tool, idx, where) => {
   for (let i = 0; i < size; i++) {
     let cell = document.createElement("div");
     cell.classList.add("cell");
-    cell.dataset.state = "ship";
+    cell.dataset.state = "phantom";
     i === 0
       ? (cell.innerHTML += imgShip.front)
       : (cell.innerHTML += imgShip.middle);
@@ -181,10 +181,13 @@ style="transform:rotateZ(${rotation}deg)"
   item.addEventListener("dragstart", (event) => {
     // выбор фантомной копии - находится за пределами экрана и отображение
     const el = document.querySelector(`#drag${idx}`);
+    // el.style.transform=`rotateZ(${tool.rotation}deg)`
+    // el.style.backgroundColor='red'
+    console.log(el)
     event.dataTransfer.setDragImage(el, 15, 15);
     // устанавливаем данные перетаскивания
     // global - выбранный корабль и tool
-    selectedShip = new Ship(size);
+    selectedShip = new Ship(size,sum,tool.rotation);
     selectedTool = tool;
   });
 

@@ -219,6 +219,9 @@ h4 {
 .cell[data-state="destroy"] {
   background-color: var(--color-destroy);
 }
+.cell[data-state="phantom"] {
+  background-color: white;
+}
 .btns{
   display: flex;
   gap: 5%;
@@ -295,7 +298,8 @@ h4 {
 }
 .phantom{
   position: absolute;
-  bottom:100%;
+  bottom:150%;
   left: 0;
   display: flex;
+  opacity: .5;
 }

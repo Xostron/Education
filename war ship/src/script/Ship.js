@@ -1,25 +1,3 @@
-class Ship {
-  imgFront = "./src/source/icon/1xh.svg";
-  imgOther = "./src/source/icon/0x.svg";
-  constructor(size) {
-    this.size = size;
-    this.state = "live";
-    // this.ship = Array(size).fill(this.state);
-    this.ship = {}
-    this.life = 0;
-  }
-  hit(pos) {
-    this.life++;
-    if (this.life<=this.size){
-      this.ship[pos]=true
-    }
-    if (this.life===this.size){
-      this.state = 'kill';
-    }
-    
-  }
-}
-
 class shipCard {
   // img1xh = "./src/source/icon/1xh.svg";
   // img2xh = "./src/source/icon/2xh.svg";
@@ -48,8 +26,34 @@ class shipCard {
     // переотрисовка
     Toolbar(header, tools);
   }
-  
+
   rotate(){
     this.rotation===0 ? this.rotation=90 : this.rotation=0
   }
 }
+
+class Ship extends shipCard {
+  imgFront = "./src/source/icon/1xh.svg";
+  imgOther = "./src/source/icon/0x.svg";
+  constructor(size,sum,rotation) {
+    super(size,sum)
+    // this.size = size;
+    this.state = "live";
+    // this.ship = Array(size).fill(this.state);
+    this.ship = {}
+    this.life = 0;
+    this.rotation=rotation
+  }
+  hit(pos) {
+    this.life++;
+    if (this.life<=this.size){
+      this.ship[pos]=true
+    }
+    if (this.life===this.size){
+      this.state = 'kill';
+    }
+    
+  }
+}
+
+

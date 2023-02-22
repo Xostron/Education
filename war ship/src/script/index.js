@@ -20,9 +20,9 @@ const state = {
   destroy: 4,
 };
 let tools = [
-  new shipCard(1, 3),
-  new shipCard(2, 2),
-  new shipCard(3, 2),
+  new shipCard(1, 1),
+  new shipCard(2, 1),
+  new shipCard(3, 1),
   new shipCard(4, 1),
   // new shipCard(5, 1),
 ];
@@ -48,7 +48,7 @@ field.addEventListener("dragenter", (ev) => {
     // очистка следов перемещения
     clearField(fieldTemp);
 
-    // область коллизии
+    // область коллизии - горизонт
     const a1 = absId === rowId * SIZE ? absId : absId - 1;
     const a11 =
       absId + selectedShip.size === (rowId + 1) * SIZE
@@ -77,8 +77,8 @@ field.addEventListener("dragenter", (ev) => {
     } else {
       isValid = false;
     }
-
     updateField(cells, fieldTemp);
+
   } else {
     // очистка следов перемещения
     clearField(fieldTemp);
@@ -137,13 +137,21 @@ header.addEventListener("dblclick",(ev)=>{
   if (idName==="tool"){
     const idx = target.id.slice(4)
     tools[idx].rotate()
-    console.log(tools)
+    // иконка
     const img_ship = ev.target.querySelector('.img-ship')
-    console.log(img_ship,tools[idx].rotation)
     img_ship.style.transform=`rotateZ(${tools[idx].rotation}deg)`
+    // фантомная копия
+    const el = document.querySelector(`#drag${idx}`);
+    el.style.flexDirection="column"
+    const phantomCell = el.querySelector('.cell')
+    const phantomImg = phantomCell.querySelector('.cell')
+    phantomImg.style.transform=`rotateZ(${tools[idx].rotation}deg)`
+    console.log('el=',el)
   }
 
 })
 // ==============вызов программы==============
 Login(login);
 tools.map((val, idx) => DragEl(val, idx, phantom));
+
+
