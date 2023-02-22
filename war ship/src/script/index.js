@@ -35,6 +35,7 @@ let fieldTemp = [];
 let screenField = 0;
 
 // =====подписка на события=====
+
 field.addEventListener("dragenter", (ev) => {
   // отслеживание ячеек - графика
   const cells = field.querySelectorAll(".cell");
@@ -92,7 +93,7 @@ field.addEventListener("dragover", (ev) => {
     ev.preventDefault();
   }
 });
-
+ 
 field.addEventListener("drop", (ev) => {
   // 1 - корабль который расположили на поле
   // S1 - установленный корабль
@@ -127,6 +128,22 @@ field.addEventListener("drop", (ev) => {
   Control(btns);
 });
 
+header.addEventListener("dblclick",(ev)=>{
+  // переключатель верт. - гориз. корабль
+  // console.log("toggle = ", ev, ev.target)
+  const target = ev.target
+  const idName = target.id.slice(0,4)
+
+  if (idName==="tool"){
+    const idx = target.id.slice(4)
+    tools[idx].rotate()
+    console.log(tools)
+    const img_ship = ev.target.querySelector('.img-ship')
+    console.log(img_ship,tools[idx].rotation)
+    img_ship.style.transform=`rotateZ(${tools[idx].rotation}deg)`
+  }
+
+})
 // ==============вызов программы==============
 Login(login);
 tools.map((val, idx) => DragEl(val, idx, phantom));

@@ -53,11 +53,11 @@ h4 {
 }
 .left{
   position: relative;
-  transform: translateX(-50%);
+  transform: translateX(0%);
 }
 .right{
   position: relative;
-  transform: translateX(50%);
+  transform: translateX(100%);
 }
 .hide{
   visibility:hidden;
@@ -155,8 +155,30 @@ h4 {
   margin-top: 10px;
   align-items: center;
   justify-content: center;
+  gap: .5rem;
 }
-
+/* прогресс игры */
+.game-btns{
+  width: 50%;
+  min-width: 400px;
+  margin: 0 auto;
+}
+.game-inner{
+  
+}
+.st-row{
+  display: flex;
+  align-items: center;
+  gap:.5rem;
+  padding: .5rem;
+}
+.st{
+  background-color: rgba(109, 109, 109, 0.64);
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  margin: 0 auto;
+  min-width: 400px;
+}
 /* Поле */
 .field1, .field2 {
   display: flex;
@@ -214,6 +236,7 @@ h4 {
 /* Карточки кораблей */
 .img-ship {
   height: 15px;
+  pointer-events: fill;
 }
 .tool {
   display: flex;
@@ -275,26 +298,4 @@ h4 {
   bottom:100%;
   left: 0;
   display: flex;
-}
-/* прогресс игры */
-.game-btns{
-  width: 50%;
-  min-width: 400px;
-  margin: 0 auto;
-}
-.game-inner{
-  
-}
-.st-row{
-  display: flex;
-  align-items: center;
-  gap:.5rem;
-  padding: .5rem;
-}
-.st{
-  background-color: rgba(109, 109, 109, 0.64);
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  margin: 0 auto;
-  min-width: 400px;
 }

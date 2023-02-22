@@ -136,13 +136,6 @@ function hndlNext() {
     fieldP2Loc = fieldTemp;
     initGame(screenField);
   }
-  //  else if (screenField === 2) {
-  //   screenField++;
-  //   initGame(screenField);
-  // } else if (screenField === 3) {
-  //   screenField--;
-  //   initGame(screenField);
-  // }
 }
 // панель инструментов - корабли
 const Toolbar = (where, elements) => {
@@ -169,14 +162,16 @@ const Toolbar = (where, elements) => {
 };
 // инструмент + объект в атрибуиах
 const Tool = (where, tool, idx) => {
-  const { img, sum, size, draggable } = tool;
+  const { img, sum, size, draggable,rotation } = tool;
   // on/off draggable element
   if (sum < 1) {
     tool.draggable = false;
   }
   const template = `
 <div draggable="${tool.draggable}" id="tool${idx}" class="tool">
-<img draggable="false" class="img-ship" src="${img}" alt=""/>
+<img draggable="false" class="img-ship" src="${img}" alt="" 
+style="transform:rotateZ(${rotation}deg)"
+/>
 <span class="sum">${sum}</span>
 </div>`;
   const container = render(template, where);
@@ -260,6 +255,8 @@ if (side==='left') {
 }
 // init field для игры
 function initGame(screenField) {
+  field.classList.remove('left')
+  field.classList.remove('right')
   Toolbar(header, tools);
   Field(field, fieldP2Loc);
   Field(field2, fieldP1Loc);
@@ -268,11 +265,15 @@ function initGame(screenField) {
   if (screenField === 2) {
     field.style.opacity = "1";
     field2.style.opacity = "0.4";
+    st1.style.opacity="1";
+    st2.style.opacity="0.4";
     field.addEventListener("click", hndlBattle);
     field2.removeEventListener("click", hndlBattle);
   } else if (screenField === 3) {
     field.style.opacity = ".4";
     field2.style.opacity = "1";
+    st1.style.opacity=".4";
+    st2.style.opacity="1";
     field2.addEventListener("click", hndlBattle);
     field.removeEventListener("click", hndlBattle);
   }

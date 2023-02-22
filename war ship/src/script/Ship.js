@@ -35,6 +35,7 @@ class shipCard {
     this.size = size;
     this.sum = sum;
     this.draggable = true;
+    this.rotation=0
     if (size > 0 && size < 6) {
       this.img = `./src/source/icon/${size}xh.svg`;
     } else {
@@ -47,5 +48,8 @@ class shipCard {
     // переотрисовка
     Toolbar(header, tools);
   }
-  mouseDown() {}
+  
+  rotate(){
+    this.rotation===0 ? this.rotation=90 : this.rotation=0
+  }
 }
