@@ -61,6 +61,7 @@ const Login = (where, display = true) => {
       hndlLoginStart(in1, in2);
     });
   }
+
 };
 // handlers Login
 function hndlLoginStart(in1, in2) {
@@ -82,12 +83,11 @@ function Field(where, arr = [0], render = true) {
         cell.dataset.state = "ship";
       } else if (arr[x] === 0) {
         cell.dataset.state = "cell";
-      } else if ( arr[x] === "E1") {
+      } else if (arr[x] === "E1") {
         cell.dataset.state = "away";
       } else if (arr[x].ship[x] === true) {
         cell.dataset.state = "hit";
-      }
-      else{
+      } else {
         cell.dataset.state = "cell";
       }
       cell.classList.add("cell");
@@ -100,29 +100,45 @@ function Field(where, arr = [0], render = true) {
 // кнопки управления
 function Control(where) {
   const isValid = permitted();
-  let template = `
+  let template =''
+  if (screenField<=1){
+  template = `
   <div class="btns">
-  <button id="close" class="btn btn-text">Выйти</button>
-  <button id="back" class="btn btn-text">Назад</button>
+  <button id="close" class="btn btn-text">Завершить игру</button>
   <button ${
     !isValid ? "disabled" : ""
   } id="next" class="btn btn-text">Дальше</button>
   </div>
+`;}
+else{
+  template = `
+  <div class="btns">
+  <button id="close" class="btn btn-text">Завершить игру</button>
+  
+  </div>
 `;
+}
   const container = render(template, where, false);
   const btns = container.querySelector(".btns");
+  if (screenField<=1){
   btnNext = btns.querySelector("#next");
   isValid
     ? btnNext.classList.remove("disabled")
     : btnNext.classList.add("disabled");
-  btns.addEventListener("click", hndlControl);
+  
+}
+btns.addEventListener("click", hndlControl);
 }
 function hndlControl(event) {
+  console.log('btn@')
   const { target } = event;
   if (target.id === "next") {
     hndlNext();
   } else if (target.id === "back") {
+    
   } else if (target.id === "close") {
+    erase()
+    Login(login);
   }
 }
 // кнопка next
@@ -130,7 +146,7 @@ function hndlNext() {
   if (screenField === 0) {
     screenField++;
     fieldP1Loc = fieldTemp;
-    initLocation('right');
+    initLocation("right");
   } else if (screenField === 1) {
     screenField++;
     fieldP2Loc = fieldTemp;
@@ -162,7 +178,7 @@ const Toolbar = (where, elements) => {
 };
 // инструмент + объект в атрибуиах
 const Tool = (where, tool, idx) => {
-  const { img, sum, size, draggable,rotation } = tool;
+  const { img, sum, size, draggable, rotation } = tool;
   // on/off draggable element
   if (sum < 1) {
     tool.draggable = false;
@@ -183,11 +199,11 @@ style="transform:rotateZ(${rotation}deg)"
     const el = document.querySelector(`#drag${idx}`);
     // el.style.transform=`rotateZ(${tool.rotation}deg)`
     // el.style.backgroundColor='red'
-    console.log(el)
+    // console.log(el);
     event.dataTransfer.setDragImage(el, 15, 15);
     // устанавливаем данные перетаскивания
     // global - выбранный корабль и tool
-    selectedShip = new Ship(size,sum,tool.rotation);
+    selectedShip = new Ship(size, sum, tool.rotation);
     selectedTool = tool;
   });
 
@@ -196,42 +212,40 @@ style="transform:rotateZ(${rotation}deg)"
   });
 };
 // прогресс игры
-function Progress(where,arrShip){
-  console.log(arrShip)
-  const t=0
-  template=`
+function Progress(where, stP) {
+  template = `
   <div>
   <div class="st-row">
   1 x
   <img height="25px" src="./src/source/icon/1xh.svg" />
-  : ${t}
+  : ${stP[1]}
 </div>
 
 <div class="st-row">
   2 x
   <img height="25px" src="./src/source/icon/2xh.svg" />
-  : ${t}
+  : ${stP[2]}
 </div>
 </div>
 <div>
 <div class="st-row">
   3 x
   <img height="25px" src="./src/source/icon/3xh.svg" />
-  : ${t}
+  : ${stP[3]}
 </div>
 
 <div class="st-row">
   4 x
   <img height="25px" src="./src/source/icon/4xh.svg" />
-  : ${t}
+  : ${stP[4]}
 </div>  
 </div>
-  `
-  where.innerHTML=''
-  render(template,where,false)
+  `;
+  where.innerHTML = "";
+  render(template, where, false);
 }
 // init field для расположения
-function initLocation(side='left') {
+function initLocation(side = "left") {
   tools = [
     new shipCard(1, 1),
     new shipCard(2, 1),
@@ -243,51 +257,62 @@ function initLocation(side='left') {
   for (let i = 0; i < SIZE * SIZE; i++) {
     fieldTemp.push(0);
   }
-  
+
   Field(field, fieldTemp);
-if (side==='left') {
-  field.classList.add('left')
-  field.classList.remove('right')
-}else{
-  field.classList.remove('left')
-  field.classList.add('right')
-}
+  if (side === "left") {
+    field.classList.add("left");
+    field.classList.remove("right");
+  } else {
+    field.classList.remove("left");
+    field.classList.add("right");
+  }
   Control(btns);
   game.classList.remove("hide");
   Toolbar(header, tools);
+
+  const drag_el = document.querySelectorAll(`.drag-el`);
+  // console.log(drag_el)
+  drag_el.forEach((val)=>{
+    val.style.flexDirection = "row"
+    const phantomCell = val.querySelector(".cell");
+    const phantomImg = phantomCell.querySelector(".cell");
+    phantomImg.style.transform = `rotateZ(0deg)`;
+  })
+  
+  
 }
 // init field для игры
 function initGame(screenField) {
-  field.classList.remove('left')
-  field.classList.remove('right')
+  field.classList.remove("left");
+  field.classList.remove("right");
   Toolbar(header, tools);
   Field(field, fieldP2Loc);
   Field(field2, fieldP1Loc);
-  Progress(st1,shipP1Battle)
-  Progress(st2,shipP1Battle)
+  Progress(st1, stP1);
+  Progress(st2, stP2);
   if (screenField === 2) {
     field.style.opacity = "1";
     field2.style.opacity = "0.4";
-    st1.style.opacity="1";
-    st2.style.opacity="0.4";
+    st1.style.opacity = "1";
+    st2.style.opacity = "0.4";
     field.addEventListener("click", hndlBattle);
     field2.removeEventListener("click", hndlBattle);
   } else if (screenField === 3) {
     field.style.opacity = ".4";
     field2.style.opacity = "1";
-    st1.style.opacity=".4";
-    st2.style.opacity="1";
+    st1.style.opacity = ".4";
+    st2.style.opacity = "1";
     field2.addEventListener("click", hndlBattle);
     field.removeEventListener("click", hndlBattle);
   }
-  // console.log("save field", fieldP1Loc, fieldP2Loc);
+  Control(btns);
 }
 // handler игры - выстрел
 function hndlBattle(event) {
   // console.log('BATTLE = ',event,event.target)
   const cells = event.currentTarget.querySelectorAll(".cell");
   const absId = Array.from(cells).indexOf(event.target);
-  console.log("cell = ", absId);
+  // console.log("cell = ", absId);
   if (event.currentTarget === field) {
     setFire(fieldP2Loc, field, absId);
   } else if (event.currentTarget === field2) {
@@ -295,8 +320,18 @@ function hndlBattle(event) {
   }
 }
 function setFire(arrEnemy, where, pos) {
-  if (arrEnemy[pos] !== 0 && arrEnemy[pos] !== 'E1') {
-    arrEnemy[pos].hit(pos)
+  if (arrEnemy[pos] !== 0 && arrEnemy[pos] !== "E1") {
+    arrEnemy[pos].hit(pos);
+    if (arrEnemy[pos].state === "kill") {
+      if (screenField === 2) {
+        stP1[arrEnemy[pos].size] += 1;
+        win(stP1)
+      } else if (screenField === 3) {
+        stP2[arrEnemy[pos].size] += 1;
+        win(stP2)
+      }
+    }
+  } else if (arrEnemy[pos] === "E1") {
   } else {
     // мимо
     arrEnemy[pos] = "E1";
@@ -304,7 +339,7 @@ function setFire(arrEnemy, where, pos) {
   }
   initGame(screenField);
   // Field(where, arrEnemy);
-  console.log('ship hit', fieldP1Loc,fieldP2Loc)
+  // console.log("ship hit", fieldP1Loc, fieldP2Loc);
 }
 
 // устанавливаем данные перетаскивания Drag&Drop ev.dataTransfer
@@ -315,3 +350,64 @@ function setFire(arrEnemy, where, pos) {
 // передаваемые данные при
 // let ship = JSON.parse(ev.dataTransfer.getData("ship"));
 // let tool = JSON.parse(ev.dataTransfer.getData("tool"));
+function erase(){
+  field.innerHTML=""
+  field.classList.remove("left")
+  field.classList.remove("right")
+  field.classList.remove("bg")
+
+  field2.innerHTML=""
+  // cells.innerHTML=""
+  header.innerHTML=""
+  // phantom.innerHTML=""
+  // game.innerHTML=""
+  btns.innerHTML=""
+  st1.innerHTML=""
+  st2.innerHTML=""
+  tools = [
+    new shipCard(1, 1),
+    new shipCard(2, 1),
+    new shipCard(3, 1),
+    new shipCard(4, 1),
+    // new shipCard(5, 1),
+  ];
+  fieldTemp = [];
+  for (let i = 0; i < SIZE * SIZE; i++) {
+    fieldTemp.push(0);
+  }
+  screenField=0
+  stP1 = {
+    1:0,
+    2:0,
+    3:0,
+    4:0
+  }
+  stP2 = {
+    1:0,
+    2:0,
+    3:0,
+    4:0
+  }
+fieldP1Loc = [];
+fieldP2Loc = [];
+shipP1Battle = [];
+shipP2Battle = [];
+fieldTemp = [];
+}
+
+function win(stP){
+let summ = stP[1]+stP[2]+stP[3]+stP[4]
+let total = 0
+shipP1Battle.slice(0,4).forEach(tool=>{
+total+=tool.sum
+})
+console.log("WINNER = ", summ, total)
+if (summ === total){
+if (screenField===2){
+  alert(`Игрок 1 - ВЫЙГРАЛ!`)
+}
+if (screenField===3){
+  alert(`Игрок 2 - ВЫЙГРАЛ!`)
+}
+}
+}

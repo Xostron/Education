@@ -27,6 +27,19 @@ let tools = [
   // new shipCard(5, 1),
 ];
 
+let stP1 = {
+  1:0,
+  2:0,
+  3:0,
+  4:0
+}
+let stP2 = {
+  1:0,
+  2:0,
+  3:0,
+  4:0
+}
+
 let fieldP1Loc = [];
 let fieldP2Loc = [];
 let shipP1Battle = [];
@@ -134,11 +147,11 @@ header.addEventListener("dblclick", (ev) => {
     img_ship.style.transform = `rotateZ(${tools[idx].rotation}deg)`;
     // фантомная копия
     const el = document.querySelector(`#drag${idx}`);
-    el.style.flexDirection = "column";
+    el.style.flexDirection= el.style.flexDirection === "column" ? "row" : "column";
     const phantomCell = el.querySelector(".cell");
     const phantomImg = phantomCell.querySelector(".cell");
     phantomImg.style.transform = `rotateZ(${tools[idx].rotation}deg)`;
-    console.log("el=", el);
+    // console.log("el=", el);
   }
 });
 // ==============вызов программы==============
