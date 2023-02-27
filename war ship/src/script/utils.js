@@ -22,8 +22,8 @@ function updateField(arrElem, arrField) {
 function getCollision(arrField, absId, rowId, rltId) {
   // console.log("Collision=", selectedShip);
   let isCollision = false;
-  let arrSlice = []
-  let rotation = selectedShip.rotation
+  let arrSlice = [];
+  let rotation = selectedShip.rotation;
   if (selectedShip.rotation === 0) {
     // горизонталь
     const a1 = absId === rowId * SIZE ? absId : absId - 1;
@@ -58,29 +58,29 @@ function getCollision(arrField, absId, rowId, rltId) {
     const a2 = a1 === (rowId + 1) * SIZE ? a1 : a1 + 1;
     const a22 = a11 + 1;
 
-    const res = []
-    const temp=[a0, a1, a2]
+    const res = [];
+    const temp = [a0, a1, a2];
     temp.forEach((val) => {
       res.includes(val) ? res : res.push(val);
     });
-    const width = res.length
+    const width = res.length;
 
-// console.log("res =", [a0,a1,a2],res)
+    // console.log("res =", [a0,a1,a2],res)
 
-for (let j = 0; j < width; j++) {
-    let ref = res[j]
-    let pieceTemp = [];
-    for (let i = 0; i < height; i++) {
-      let sl = ref + SIZE * i;
-      piece.push(arrField[sl]);
+    for (let j = 0; j < width; j++) {
+      let ref = res[j];
+      let pieceTemp = [];
+      for (let i = 0; i < height; i++) {
+        let sl = ref + SIZE * i;
+        piece.push(arrField[sl]);
+      }
+      piece.push(...pieceTemp);
     }
-    piece.push(...pieceTemp);
-  }
 
-  for (let i = 0; i < selectedShip.size; i++) {
-    let sl = absId + SIZE * i;
-    arrSlice.push(sl);
-  }
+    for (let i = 0; i < selectedShip.size; i++) {
+      let sl = absId + SIZE * i;
+      arrSlice.push(sl);
+    }
 
     // const piece = [...piece2, ...piece1, ...piece0];
     let validArea = piece
@@ -90,7 +90,7 @@ for (let j = 0; j < width; j++) {
     isCollision = validBorder && !validArea;
     // console.log("vert = ", absId,ak);
   }
-  return {isCollision, arrSlice, rotation};
+  return { isCollision, arrSlice, rotation };
 }
 function initLocation(side = "left") {
   // init field для расположения
@@ -99,7 +99,6 @@ function initLocation(side = "left") {
     new shipCard(2, 1),
     new shipCard(3, 1),
     new shipCard(4, 1),
-    // new shipCard(5, 1),
   ];
   fieldTemp = [];
   for (let i = 0; i < SIZE * SIZE; i++) {
@@ -117,17 +116,15 @@ function initLocation(side = "left") {
   Control(btns);
   game.classList.remove("hide");
   Toolbar(header, tools);
-
+  // console.log("@1tools = ", tools);
   const drag_el = document.querySelectorAll(`.drag-el`);
   // console.log(drag_el)
-  drag_el.forEach((val)=>{
-    val.style.flexDirection = "row"
+  drag_el.forEach((val) => {
+    val.style.flexDirection = "row";
     const phantomCell = val.querySelector(".cell");
     const phantomImg = phantomCell.querySelector(".cell");
     phantomImg.style.transform = `rotateZ(0deg)`;
-  })
-  
-  
+  });
 }
 function initGame(screenField) {
   // init field для игры
@@ -155,67 +152,65 @@ function initGame(screenField) {
   }
   Control(btns);
 }
-function erase(){
+function init() {
   // Завершить игру - переинициализация
-  field.innerHTML=""
-  field.classList.remove("left")
-  field.classList.remove("right")
-  field.classList.remove("bg")
-
-  field2.innerHTML=""
-  field2.classList.remove("bg")
-
-  header.innerHTML=""
-
-  btns.innerHTML=""
-  st1.innerHTML=""
-  st2.innerHTML=""
+  field.innerHTML = "";
+  field.classList.remove("left");
+  field.classList.remove("right");
+  field.classList.remove("bg");
+  field2.innerHTML = "";
+  field2.classList.remove("bg");
+  header.innerHTML = "";
+  btns.innerHTML = "";
+  st1.innerHTML = "";
+  st2.innerHTML = "";
   tools = [
-    new shipCard(1, 1),
-    new shipCard(2, 1),
-    new shipCard(3, 1),
+    new shipCard(1, 4),
+    new shipCard(2, 3),
+    new shipCard(3, 2),
     new shipCard(4, 1),
   ];
   fieldTemp = [];
   for (let i = 0; i < SIZE * SIZE; i++) {
     fieldTemp.push(0);
   }
-  screenField=0
+  screenField = 0;
   stP1 = {
-    1:0,
-    2:0,
-    3:0,
-    4:0
-  }
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    amount: 0,
+  };
   stP2 = {
-    1:0,
-    2:0,
-    3:0,
-    4:0
-  }
-fieldP1Loc = [];
-fieldP2Loc = [];
-shipP1Battle = [];
-shipP2Battle = [];
-fieldTemp = [];
-onOffModal(1,'',false)
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    amount: 0,
+  };
+  fieldP1Loc = [];
+  fieldP2Loc = [];
+  shipP1Battle = [];
+  shipP2Battle = [];
+  fieldTemp = [];
+  onOffModal(1, "", false);
 }
-function win(stP){
+function win(stP) {
   // победа - вычисление и уведомление
-let summ = stP[1]+stP[2]+stP[3]+stP[4]
-let total = 0
-shipP1Battle.slice(0,4).forEach(tool=>{
-total+=tool.sum
-})
-console.log("WINNER = ", summ, total)
-if (summ === total){
-if (screenField===2){
-  setTimeout(()=> alert(`Игрок 1 - ВЫЙГРАЛ!`),100)
-}
-if (screenField===3){
-  setTimeout(()=> alert(`Игрок 2 - ВЫЙГРАЛ!`),100)
-}
-}
+  let summ = stP[1] + stP[2] + stP[3] + stP[4];
+  let total = 0;
+  shipP1Battle.slice(0, shipP1Battle.length/2).forEach((tool) => {
+    total += tool.sum;
+  });
+  console.log("WINNER = ", summ, total);
+  if (summ === total) {
+    if (screenField === 2) {
+      setTimeout(() => alert(`Игрок 1 - ВЫЙГРАЛ!`), 100);
+    } else if (screenField === 3) {
+      setTimeout(() => alert(`Игрок 2 - ВЫЙГРАЛ!`), 100);
+    }
+  }
 }
 function onOffModal(player = 1, msg, active) {
   // modal.classList.length === 1
@@ -236,4 +231,57 @@ function onOffModal(player = 1, msg, active) {
   `;
   render(template, modal, false);
   // setTimeout(()=>{modal.classList.add("hide")},2000)
+}
+function getArrCollision(begin,rowId,ori,size,arrField){
+  console.log('enter data = ', begin,rowId,ori,size,arrField)
+  if (ori === 0) {
+    // горизонталь
+    const a1 = begin === rowId * SIZE ? begin : begin - 1;
+    const a11 =
+      begin + size === (rowId + 1) * SIZE
+        ? begin + size
+        : begin + size + 1;
+    const a2 = a1 - SIZE;
+    const a22 = a11 - SIZE;
+    const a0 = a1 + SIZE;
+    const a00 = a11 + SIZE;
+    const piece2 = a2 >= 0 ? arrField.slice(a2, a22) : [];
+    const piece1 = arrField.slice(a1, a11);
+    const piece0 = arrField.slice(a0, a00);
+    const piece = [...piece2, ...piece1, ...piece0];
+    console.log('piece=',piece2,piece1,piece0)
+    return piece
+  } else {
+    // вертикаль
+    let piece = [];
+    const a1 = begin > SIZE ? begin - SIZE : begin;
+    const ak = begin + (size - 1) * SIZE;
+    const a11 = ak + SIZE > SIZE * SIZE ? ak : ak + SIZE;
+    const height = (a11 - a1) / SIZE + 1;
+
+    const a0 = a1 === rowId * SIZE ? a1 : a1 - 1;
+    const a00 = a11 - 1;
+    const a2 = a1 === (rowId + 1) * SIZE ? a1 : a1 + 1;
+    const a22 = a11 + 1;
+
+    const res = [];
+    const temp = [a0, a1, a2];
+    temp.forEach((val) => {
+      res.includes(val) ? res : res.push(val);
+    });
+    const width = res.length;
+
+    for (let j = 0; j < width; j++) {
+      let ref = res[j];
+      let pieceTemp = [];
+      for (let i = 0; i < height; i++) {
+        let sl = ref + SIZE * i;
+        piece.push(arrField[sl]);
+      }
+      piece.push(...pieceTemp);
+    }
+    console.log('piece=',piece)
+    return piece
+  }
+  
 }

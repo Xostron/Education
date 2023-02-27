@@ -13,8 +13,8 @@
   --color-cell: rgba(255, 255, 255, 0.884);
   --color-ship: #497be7;
   --color-away: #2c2c2c;
-  --color-hit: #ff0040;
-  --color-destroy: #000000;
+  --color-hit: #ff004054;
+  --color-destroy: #ff0040;
 }
 /* сброс стилей браузера */
 html,
@@ -239,7 +239,7 @@ h4 {
 /* Карточки кораблей */
 .img-ship {
   height: 15px;
-  pointer-events: fill;
+  pointer-events: none;
 }
 .tool {
   display: flex;
@@ -258,13 +258,17 @@ h4 {
   background-color: #ffffff;
   opacity: 1;
 }
+.off{
+  opacity:.5;
+  pointer-events: none;
+}
 .sum {
   position: absolute;
   bottom: 2.5px;
   right: 2.5px;
   width: 18px;
   height: 18px;
-  background-color: var(--color-alr);
+  background-color: var(--color-ship);
   border-radius: 50%;
   font-size: 14px;
   display: flex;
@@ -298,7 +302,7 @@ h4 {
 }
 .phantom {
   position: absolute;
-  bottom: 150%;
+  bottom: 50%;
   left: 0;
   display: flex;
   opacity: 0.5;

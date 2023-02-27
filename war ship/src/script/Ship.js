@@ -12,6 +12,7 @@ class shipCard {
   constructor(size, sum) {
     this.size = size;
     this.sum = sum;
+    this.total=sum
     this.draggable = true;
     this.rotation=0
     if (size > 0 && size < 6) {
@@ -20,13 +21,11 @@ class shipCard {
       this.img = "./src/source/icon/1xh.svg";
     }
   }
-
   sub() {
     this.sum--;
     // переотрисовка
     Toolbar(header, tools);
   }
-
   rotate(){
     this.rotation===0 ? this.rotation=90 : this.rotation=0
   }
@@ -46,9 +45,11 @@ class Ship extends shipCard {
   }
   hit(pos) {
     this.life++;
+    // метка попадания
     if (this.life<=this.size){
       this.ship[pos]=true
     }
+    // статус корабля - уничтожен
     if (this.life===this.size){
       this.state = 'kill';
     }
