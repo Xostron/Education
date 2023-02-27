@@ -245,11 +245,14 @@ function getArrCollision(begin,rowId,ori,size,arrField){
     const a22 = a11 - SIZE;
     const a0 = a1 + SIZE;
     const a00 = a11 + SIZE;
-    const piece2 = a2 >= 0 ? arrField.slice(a2, a22) : [];
-    const piece1 = arrField.slice(a1, a11);
-    const piece0 = arrField.slice(a0, a00);
-    const piece = [...piece2, ...piece1, ...piece0];
-    console.log('piece=',piece2,piece1,piece0)
+    const piece2 = createArr(a2,a22);
+    const piece1 = createArr(a1,a11);
+    const piece0 = createArr(a0,a00);
+    const piece = [...piece2, ...piece1, ...piece0].filter(val=>val>=0)
+    console.log("piece2 = ",a2,a22,piece2)
+    console.log('piece1 = ',a1,a11,piece1)
+    console.log('piece0 = ',a0,a00,piece0)
+    console.log('piece = ',piece)
     return piece
   } else {
     // вертикаль
@@ -276,12 +279,21 @@ function getArrCollision(begin,rowId,ori,size,arrField){
       let pieceTemp = [];
       for (let i = 0; i < height; i++) {
         let sl = ref + SIZE * i;
-        piece.push(arrField[sl]);
+        piece.push(sl);
+        console.log("sl = ",sl)
       }
-      piece.push(...pieceTemp);
+      // console.log("@@@@@@@@@a0",pieceTemp)
+      // piece.push(...pieceTemp);
     }
     console.log('piece=',piece)
     return piece
   }
   
+}
+function createArr(xn,xk,step=1){
+  let res = []
+  for (let i = xn; i < xk; i+=step) {
+    res.push(i)
+  }
+  return res
 }

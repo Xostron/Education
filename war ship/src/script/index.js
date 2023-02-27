@@ -199,13 +199,17 @@ function setFire(arrEnemy, pos, stP) {
         win(stP);
         onOffModal(screenField - 1, "Корабль уничтожен", true);
         // ****подсветка области уничтоженного корабля******
-        const begin = Object.keys(arrEnemy[pos].ship)[0];
+        const begin = +Object.keys(arrEnemy[pos].ship)[0];
         const ori = arrEnemy[pos].rotation;
         const size = arrEnemy[pos].size
         const rowId = Math.trunc(begin / SIZE);
-        
+        console.log('arr=',begin,rowId,ori,size,arrEnemy)
         const arr = getArrCollision(begin,rowId,ori,size,arrEnemy);
-        // console.log('arr=',arrEnemy,arr)
+        arr.forEach((val)=>{
+          if (typeof arrEnemy[val]!=="object"){
+            arrEnemy[val]="E1"
+          }
+        })
       }
     }
   } else if (arrEnemy[pos] === "E1") {
