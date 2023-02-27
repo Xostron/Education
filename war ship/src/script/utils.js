@@ -5,13 +5,11 @@ function permitted() {
   });
   return sum <= 0 ? true : false;
 }
-
 function clearField(arr) {
   arr.forEach((val, idx) => {
     val === 1 ? (arr[idx] = 0) : arr[idx];
   });
 }
-
 function updateField(arrElem, arrField) {
   arrElem.forEach((elem, idx) => {
     if (arrField[idx] === 1 || arrField[idx].state === "S1") {
@@ -21,9 +19,8 @@ function updateField(arrElem, arrField) {
     }
   });
 }
-
 function getCollision(arrField, absId, rowId, rltId) {
-  console.log("Collision=", selectedShip);
+  // console.log("Collision=", selectedShip);
   let isCollision = false;
   let arrSlice = []
   let rotation = selectedShip.rotation
@@ -46,7 +43,7 @@ function getCollision(arrField, absId, rowId, rltId) {
       .map((val) => (typeof val === "object" ? "S1" : val))
       .includes("S1");
     let validBorder = selectedShip.size <= SIZE - rltId + 1;
-    console.log("horiz = ", piece);
+    // console.log("horiz = ", piece);
     isCollision = validBorder && !validArea;
   } else {
     // вертикаль
@@ -68,7 +65,7 @@ function getCollision(arrField, absId, rowId, rltId) {
     });
     const width = res.length
 
-console.log("res =", [a0,a1,a2],res)
+// console.log("res =", [a0,a1,a2],res)
 
 for (let j = 0; j < width; j++) {
     let ref = res[j]
@@ -91,7 +88,152 @@ for (let j = 0; j < width; j++) {
       .includes("S1");
     let validBorder = ak >= SIZE * SIZE ? false : true;
     isCollision = validBorder && !validArea;
-    console.log("vert = ", absId,ak);
+    // console.log("vert = ", absId,ak);
   }
   return {isCollision, arrSlice, rotation};
+}
+function initLocation(side = "left") {
+  // init field для расположения
+  tools = [
+    new shipCard(1, 1),
+    new shipCard(2, 1),
+    new shipCard(3, 1),
+    new shipCard(4, 1),
+    // new shipCard(5, 1),
+  ];
+  fieldTemp = [];
+  for (let i = 0; i < SIZE * SIZE; i++) {
+    fieldTemp.push(0);
+  }
+
+  Field(field, fieldTemp);
+  if (side === "left") {
+    field.classList.add("left");
+    field.classList.remove("right");
+  } else {
+    field.classList.remove("left");
+    field.classList.add("right");
+  }
+  Control(btns);
+  game.classList.remove("hide");
+  Toolbar(header, tools);
+
+  const drag_el = document.querySelectorAll(`.drag-el`);
+  // console.log(drag_el)
+  drag_el.forEach((val)=>{
+    val.style.flexDirection = "row"
+    const phantomCell = val.querySelector(".cell");
+    const phantomImg = phantomCell.querySelector(".cell");
+    phantomImg.style.transform = `rotateZ(0deg)`;
+  })
+  
+  
+}
+function initGame(screenField) {
+  // init field для игры
+  field.classList.remove("left");
+  field.classList.remove("right");
+  Toolbar(header, tools);
+  Field(field, fieldP2Loc);
+  Field(field2, fieldP1Loc);
+  Progress(st1, stP1);
+  Progress(st2, stP2);
+  if (screenField === 2) {
+    field.style.opacity = "1";
+    field2.style.opacity = "0.4";
+    st1.style.opacity = "1";
+    st2.style.opacity = "0.4";
+    field.addEventListener("click", hndlBattle);
+    field2.removeEventListener("click", hndlBattle);
+  } else if (screenField === 3) {
+    field.style.opacity = ".4";
+    field2.style.opacity = "1";
+    st1.style.opacity = ".4";
+    st2.style.opacity = "1";
+    field2.addEventListener("click", hndlBattle);
+    field.removeEventListener("click", hndlBattle);
+  }
+  Control(btns);
+}
+function erase(){
+  // Завершить игру - переинициализация
+  field.innerHTML=""
+  field.classList.remove("left")
+  field.classList.remove("right")
+  field.classList.remove("bg")
+
+  field2.innerHTML=""
+  field2.classList.remove("bg")
+
+  header.innerHTML=""
+
+  btns.innerHTML=""
+  st1.innerHTML=""
+  st2.innerHTML=""
+  tools = [
+    new shipCard(1, 1),
+    new shipCard(2, 1),
+    new shipCard(3, 1),
+    new shipCard(4, 1),
+  ];
+  fieldTemp = [];
+  for (let i = 0; i < SIZE * SIZE; i++) {
+    fieldTemp.push(0);
+  }
+  screenField=0
+  stP1 = {
+    1:0,
+    2:0,
+    3:0,
+    4:0
+  }
+  stP2 = {
+    1:0,
+    2:0,
+    3:0,
+    4:0
+  }
+fieldP1Loc = [];
+fieldP2Loc = [];
+shipP1Battle = [];
+shipP2Battle = [];
+fieldTemp = [];
+onOffModal(1,'',false)
+}
+function win(stP){
+  // победа - вычисление и уведомление
+let summ = stP[1]+stP[2]+stP[3]+stP[4]
+let total = 0
+shipP1Battle.slice(0,4).forEach(tool=>{
+total+=tool.sum
+})
+console.log("WINNER = ", summ, total)
+if (summ === total){
+if (screenField===2){
+  setTimeout(()=> alert(`Игрок 1 - ВЫЙГРАЛ!`),100)
+}
+if (screenField===3){
+  setTimeout(()=> alert(`Игрок 2 - ВЫЙГРАЛ!`),100)
+}
+}
+}
+function onOffModal(player = 1, msg, active) {
+  // modal.classList.length === 1
+  // ? modal.classList.add("hide")
+  // : modal.classList.remove("hide");
+  !active ? modal.classList.add("hide") : modal.classList.remove("hide");
+  const template = `
+  <div class="notification">
+        <span 
+        data-player="${player}" 
+        class="label">
+        ${player === 1 ? "Игрок 1" : "Игрок 2"}
+        </span>
+        <span>
+          ${msg}
+        </span>
+      </div>
+  `;
+  render(template, modal, false);
+  // setTimeout(()=>{modal.classList.add("hide")},2000)
 }

@@ -8,6 +8,8 @@ const game = document.querySelector(".game");
 const btns = document.querySelector(".game-btns");
 const st1 = document.querySelector("#st1");
 const st2 = document.querySelector("#st2");
+const modal = document.querySelector(".modal")
+
 let selectedShip = {};
 let selectedTool = {};
 let isValid = false;
@@ -20,13 +22,12 @@ const state = {
   destroy: 4,
 };
 let tools = [
-  new shipCard(1, 1),
-  new shipCard(2, 1),
-  new shipCard(3, 1),
+  new shipCard(1, 4),
+  new shipCard(2, 3),
+  new shipCard(3, 2),
   new shipCard(4, 1),
   // new shipCard(5, 1),
 ];
-
 let stP1 = {
   1:0,
   2:0,
@@ -39,7 +40,6 @@ let stP2 = {
   3:0,
   4:0
 }
-
 let fieldP1Loc = [];
 let fieldP2Loc = [];
 let shipP1Battle = [];
@@ -154,6 +154,7 @@ header.addEventListener("dblclick", (ev) => {
     // console.log("el=", el);
   }
 });
+
 // ==============вызов программы==============
 Login(login);
 tools.map((val, idx) => DragEl(val, idx, phantom));

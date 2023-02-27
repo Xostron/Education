@@ -51,16 +51,16 @@ h4 {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.left{
+.left {
   position: relative;
   transform: translateX(0%);
 }
-.right{
+.right {
   position: relative;
   transform: translateX(100%);
 }
-.hide{
-  visibility:hidden;
+.hide {
+  visibility: hidden;
   opacity: 0;
 }
 /* UI */
@@ -99,8 +99,8 @@ h4 {
 .btn-text:hover {
   background-color: var(--color-btn-hover);
 }
-.disabled{
-  opacity: .4;
+.disabled {
+  opacity: 0.4;
 }
 /* содержимое */
 .container {
@@ -116,7 +116,7 @@ h4 {
   top: 0;
   left: 0;
   width: 100%;
-  height:100%;
+  height: 100%;
   object-fit: cover;
   opacity: 0.7;
   pointer-events: none;
@@ -147,7 +147,7 @@ h4 {
   font-size: 16px;
 }
 /* Игровая область */
-.game{
+.game {
   display: flex;
   width: 50%;
   min-width: 400px;
@@ -155,32 +155,32 @@ h4 {
   margin-top: 10px;
   align-items: center;
   justify-content: center;
-  gap: .5rem;
+  gap: 0.5rem;
 }
 /* прогресс игры */
-.game-btns{
+.game-btns {
   width: 50%;
   min-width: 400px;
   margin: 0 auto;
 }
-.game-inner{
-  
+.game-inner {
 }
-.st-row{
+.st-row {
   display: flex;
   align-items: center;
-  gap:.5rem;
-  padding: .5rem;
+  gap: 0.5rem;
+  padding: 0.5rem;
 }
-.st{
+.st {
   background-color: rgba(109, 109, 109, 0.64);
   display: grid;
-  grid-template-columns: repeat(2,1fr);
+  grid-template-columns: repeat(2, 1fr);
   margin: 0 auto;
   min-width: 400px;
 }
 /* Поле */
-.field1, .field2 {
+.field1,
+.field2 {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -188,7 +188,7 @@ h4 {
   z-index: 0;
   margin-top: 10px;
 }
-.bg{
+.bg {
   width: 100%;
   min-width: 400px;
   height: fit-content;
@@ -222,7 +222,7 @@ h4 {
 .cell[data-state="phantom"] {
   background-color: white;
 }
-.btns{
+.btns {
   display: flex;
   gap: 5%;
   padding: 2%;
@@ -289,17 +289,47 @@ h4 {
   padding: 10px 0px;
   border-radius: 1rem;
 }
-.header-title{
+.header-title {
   /* padding:10px; */
 }
 /* фантомная копия drag&drop */
-.drag-el{
+.drag-el {
   display: flex;
 }
-.phantom{
+.phantom {
   position: absolute;
-  bottom:150%;
+  bottom: 150%;
   left: 0;
   display: flex;
-  opacity: .5;
+  opacity: 0.5;
+}
+/* Модальное окно */
+.modal {
+  position: absolute;
+  bottom: 0%;
+  right: 3%;
+  transform: translate(-0%, -0%);
+  width: fit-content;
+  padding: 15px 15px;
+  z-index: 100;
+  border-radius: 10px;
+  text-align: center;
+}
+.notification {
+  padding: 7px 15px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.708);
+  background-color: #00000047;
+  overflow-y: auto;
+}
+.label {
+  position: absolute;
+  top: -10px;
+  left: 15px;
+}
+.label[data-player='1']{
+  color: #82ef86;
+}
+.label[data-player='2']{
+  color: #f88d8d;
 }

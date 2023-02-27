@@ -3,8 +3,8 @@
 let player1,
   player2 = "";
 
-// функция отображения компонетов
 function render(template, where, wrapper = true) {
+  // функция отображения компонетов
   if (wrapper) {
     const container = document.createElement("div");
     container.innerHTML = template;
@@ -15,8 +15,8 @@ function render(template, where, wrapper = true) {
     return where;
   }
 }
-// отображение фантомной копии
-const DragEl = (tool, idx, where) => {
+function DragEl(tool, idx, where) {
+  // отображение фантомной копии
   const { size } = tool;
   const imgShip = {
     front: `<img class="cell" src="./src/source/icon/1xh.svg"/>`,
@@ -36,9 +36,9 @@ const DragEl = (tool, idx, where) => {
     container.append(cell);
   }
   where.append(container);
-};
-// окно логина
-const Login = (where, display = true) => {
+}
+function Login(where, display = true) {
+  // окно логина
   let template = `
   <span class="login-title">Морской бой</span>
   <span class="login-subtitle"> 1 на 1</span>
@@ -61,17 +61,16 @@ const Login = (where, display = true) => {
       hndlLoginStart(in1, in2);
     });
   }
-
-};
-// handlers Login
+}
 function hndlLoginStart(in1, in2) {
+  // кнопка старт - Логин
   player1 = in1.value ? in1.value : "Игрок 1";
   player2 = in2.value ? in2.value : "Игрок 2";
   Login(login, false);
   initLocation();
 }
-// игровое поле
 function Field(where, arr = [0], render = true) {
+  // отрисовка игрового поля
   where.innerHTML = "";
   for (let i = 0; i < SIZE; i++) {
     let row = document.createElement("div");
@@ -97,52 +96,49 @@ function Field(where, arr = [0], render = true) {
   }
   where.classList.add("bg");
 }
-// кнопки управления
 function Control(where) {
+  // кнопки управления
   const isValid = permitted();
-  let template =''
-  if (screenField<=1){
-  template = `
+  let template = "";
+  if (screenField <= 1) {
+    template = `
   <div class="btns">
   <button id="close" class="btn btn-text">Завершить игру</button>
   <button ${
     !isValid ? "disabled" : ""
   } id="next" class="btn btn-text">Дальше</button>
   </div>
-`;}
-else{
-  template = `
+`;
+  } else {
+    template = `
   <div class="btns">
   <button id="close" class="btn btn-text">Завершить игру</button>
   
   </div>
 `;
-}
+  }
   const container = render(template, where, false);
   const btns = container.querySelector(".btns");
-  if (screenField<=1){
-  btnNext = btns.querySelector("#next");
-  isValid
-    ? btnNext.classList.remove("disabled")
-    : btnNext.classList.add("disabled");
-  
-}
-btns.addEventListener("click", hndlControl);
+  if (screenField <= 1) {
+    btnNext = btns.querySelector("#next");
+    isValid
+      ? btnNext.classList.remove("disabled")
+      : btnNext.classList.add("disabled");
+  }
+  btns.addEventListener("click", hndlControl);
 }
 function hndlControl(event) {
-  console.log('btn@')
   const { target } = event;
   if (target.id === "next") {
     hndlNext();
   } else if (target.id === "back") {
-    
   } else if (target.id === "close") {
-    erase()
+    erase();
     Login(login);
   }
 }
-// кнопка next
 function hndlNext() {
+  // кнопка next
   if (screenField === 0) {
     screenField++;
     fieldP1Loc = fieldTemp;
@@ -153,21 +149,27 @@ function hndlNext() {
     initGame(screenField);
   }
 }
-// панель инструментов - корабли
-const Toolbar = (where, elements) => {
+function Toolbar(where, elements) {
+  // панель инструментов - корабли
   const title = [
     "Игрок 1 расставляет корабли",
     "Игрок 2 расставляет корабли",
     "Ходит Игрок 1",
     "Ходит Игрок 2",
   ];
-  let template = `
+  let template = screenField<2 ? `
   <div class="header-inner">
   <span class="header-title">
   ${title[screenField]}
   </span>
   <div class="toolbar"></div>
-  </div>`;
+  </div>`:
+  `
+  <div class="header-inner">
+  <span class="header-title">
+  ${title[screenField]}
+  </span>
+  </div>`
   const header = render(template, where, false);
   header.style.fontSize = "25px";
   if (screenField < 2) {
@@ -175,9 +177,9 @@ const Toolbar = (where, elements) => {
     elements.map((tool, idx) => Tool(toolbar, tool, idx));
     header.style.fontSize = "18px";
   }
-};
-// инструмент + объект в атрибуиах
-const Tool = (where, tool, idx) => {
+}
+function Tool(where, tool, idx) {
+  // инструмент + объект в атрибуиах
   const { img, sum, size, draggable, rotation } = tool;
   // on/off draggable element
   if (sum < 1) {
@@ -210,9 +212,9 @@ style="transform:rotateZ(${rotation}deg)"
   item.addEventListener("dragend", (ev) => {
     // console.log("dragend = ", ev.target);
   });
-};
-// прогресс игры
+}
 function Progress(where, stP) {
+  // прогресс игры
   template = `
   <div>
   <div class="st-row">
@@ -244,72 +246,8 @@ function Progress(where, stP) {
   where.innerHTML = "";
   render(template, where, false);
 }
-// init field для расположения
-function initLocation(side = "left") {
-  tools = [
-    new shipCard(1, 1),
-    new shipCard(2, 1),
-    new shipCard(3, 1),
-    new shipCard(4, 1),
-    // new shipCard(5, 1),
-  ];
-  fieldTemp = [];
-  for (let i = 0; i < SIZE * SIZE; i++) {
-    fieldTemp.push(0);
-  }
-
-  Field(field, fieldTemp);
-  if (side === "left") {
-    field.classList.add("left");
-    field.classList.remove("right");
-  } else {
-    field.classList.remove("left");
-    field.classList.add("right");
-  }
-  Control(btns);
-  game.classList.remove("hide");
-  Toolbar(header, tools);
-
-  const drag_el = document.querySelectorAll(`.drag-el`);
-  // console.log(drag_el)
-  drag_el.forEach((val)=>{
-    val.style.flexDirection = "row"
-    const phantomCell = val.querySelector(".cell");
-    const phantomImg = phantomCell.querySelector(".cell");
-    phantomImg.style.transform = `rotateZ(0deg)`;
-  })
-  
-  
-}
-// init field для игры
-function initGame(screenField) {
-  field.classList.remove("left");
-  field.classList.remove("right");
-  Toolbar(header, tools);
-  Field(field, fieldP2Loc);
-  Field(field2, fieldP1Loc);
-  Progress(st1, stP1);
-  Progress(st2, stP2);
-  if (screenField === 2) {
-    field.style.opacity = "1";
-    field2.style.opacity = "0.4";
-    st1.style.opacity = "1";
-    st2.style.opacity = "0.4";
-    field.addEventListener("click", hndlBattle);
-    field2.removeEventListener("click", hndlBattle);
-  } else if (screenField === 3) {
-    field.style.opacity = ".4";
-    field2.style.opacity = "1";
-    st1.style.opacity = ".4";
-    st2.style.opacity = "1";
-    field2.addEventListener("click", hndlBattle);
-    field.removeEventListener("click", hndlBattle);
-  }
-  Control(btns);
-}
-// handler игры - выстрел
 function hndlBattle(event) {
-  // console.log('BATTLE = ',event,event.target)
+  // handler ячеек - выстрел
   const cells = event.currentTarget.querySelectorAll(".cell");
   const absId = Array.from(cells).indexOf(event.target);
   // console.log("cell = ", absId);
@@ -320,27 +258,35 @@ function hndlBattle(event) {
   }
 }
 function setFire(arrEnemy, where, pos) {
+  // выстрел по полю с ячейками
   if (arrEnemy[pos] !== 0 && arrEnemy[pos] !== "E1") {
     arrEnemy[pos].hit(pos);
+    onOffModal(screenField-1, "Корабль подбит", true);
     if (arrEnemy[pos].state === "kill") {
       if (screenField === 2) {
         stP1[arrEnemy[pos].size] += 1;
-        win(stP1)
+        win(stP1);
+        onOffModal(1, "Корабль уничтожен",true);
       } else if (screenField === 3) {
         stP2[arrEnemy[pos].size] += 1;
-        win(stP2)
+        win(stP2);
+        onOffModal(2, "Корабль уничтожен",true);
       }
     }
   } else if (arrEnemy[pos] === "E1") {
+    onOffModal(screenField-1, "В эту позицию уже стреляли, каллибровка",true);
   } else {
     // мимо
+    onOffModal(screenField-1, "Мимо, перезаряжаюсь",true);
     arrEnemy[pos] = "E1";
     screenField === 3 ? screenField-- : screenField++;
   }
+  // перерисовка
   initGame(screenField);
-  // Field(where, arrEnemy);
-  // console.log("ship hit", fieldP1Loc, fieldP2Loc);
+  
 }
+
+
 
 // устанавливаем данные перетаскивания Drag&Drop ev.dataTransfer
 // let dt = ev.dataTransfer
@@ -350,64 +296,3 @@ function setFire(arrEnemy, where, pos) {
 // передаваемые данные при
 // let ship = JSON.parse(ev.dataTransfer.getData("ship"));
 // let tool = JSON.parse(ev.dataTransfer.getData("tool"));
-function erase(){
-  field.innerHTML=""
-  field.classList.remove("left")
-  field.classList.remove("right")
-  field.classList.remove("bg")
-
-  field2.innerHTML=""
-  // cells.innerHTML=""
-  header.innerHTML=""
-  // phantom.innerHTML=""
-  // game.innerHTML=""
-  btns.innerHTML=""
-  st1.innerHTML=""
-  st2.innerHTML=""
-  tools = [
-    new shipCard(1, 1),
-    new shipCard(2, 1),
-    new shipCard(3, 1),
-    new shipCard(4, 1),
-    // new shipCard(5, 1),
-  ];
-  fieldTemp = [];
-  for (let i = 0; i < SIZE * SIZE; i++) {
-    fieldTemp.push(0);
-  }
-  screenField=0
-  stP1 = {
-    1:0,
-    2:0,
-    3:0,
-    4:0
-  }
-  stP2 = {
-    1:0,
-    2:0,
-    3:0,
-    4:0
-  }
-fieldP1Loc = [];
-fieldP2Loc = [];
-shipP1Battle = [];
-shipP2Battle = [];
-fieldTemp = [];
-}
-
-function win(stP){
-let summ = stP[1]+stP[2]+stP[3]+stP[4]
-let total = 0
-shipP1Battle.slice(0,4).forEach(tool=>{
-total+=tool.sum
-})
-console.log("WINNER = ", summ, total)
-if (summ === total){
-if (screenField===2){
-  alert(`Игрок 1 - ВЫЙГРАЛ!`)
-}
-if (screenField===3){
-  alert(`Игрок 2 - ВЫЙГРАЛ!`)
-}
-}
-}
