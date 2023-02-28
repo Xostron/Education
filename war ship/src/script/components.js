@@ -83,7 +83,6 @@ function Field(where, arr = [0], render = true) {
         } else {
           cell.dataset.state = "hit";
         }
-        
       } else {
         cell.dataset.state = "cell";
       }
@@ -98,22 +97,38 @@ function Control(where) {
   // кнопки управления
   const isValid = permitted();
   let template = "";
-  if (screenField <= 1) {
+  if (screenField ===0) {
     template = `
   <div class="btns">
-  <button id="close" class="btn btn-text">Завершить игру</button>
-  <button ${
-    !isValid ? "disabled" : ""
-  } id="next" class="btn btn-text">Дальше</button>
+  <button 
+  ${!isValid ? "disabled" : ""} 
+  id="next" 
+  class="btn btn-text">
+  Дальше
+  </button>
+  <button id="alocn" class="btn btn-text">Автораспределение</button>
   </div>
 `;
-  } else {
+  } else if (screenField===1) {
     template = `
   <div class="btns">
-  <button id="close" class="btn btn-text">Завершить игру</button>
-  
+  <button id="back" class="btn btn-text">Назад</button>
+  <button 
+  ${!isValid ? "disabled" : ""} 
+  id="next" 
+  class="btn btn-text">
+  Дальше
+  </button>
+  <button id="alocn" class="btn btn-text">Автораспределение</button>
   </div>
 `;
+  }
+  else if (screenField===2 || screenField===3){
+    template = `
+    <div class="btns">
+    <button id="close" class="btn btn-text">Завершить</button>
+    </div>
+  `;
   }
   const container = render(template, where, false);
   const btns = container.querySelector(".btns");

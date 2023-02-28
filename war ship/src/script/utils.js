@@ -53,10 +53,10 @@ function getCollision(arrField, absId, rowId, rltId) {
     const a11 = ak + SIZE > SIZE * SIZE ? ak : ak + SIZE;
     const height = (a11 - a1) / SIZE + 1;
 
-    const a0 = a1 === rowId * SIZE ? a1 : a1 - 1;
-    const a00 = a11 - 1;
-    const a2 = a1 === (rowId + 1) * SIZE ? a1 : a1 + 1;
-    const a22 = a11 + 1;
+    const a0 = absId === rowId * SIZE ? a1 : a1 - 1;
+    // const a00 = a11 - 1;
+    const a2 = absId + 1 === (rowId + 1) * SIZE ? a1 : a1 + 1;
+    // const a22 = a11 + 1;
 
     const res = [];
     const temp = [a0, a1, a2];
@@ -69,12 +69,10 @@ function getCollision(arrField, absId, rowId, rltId) {
 
     for (let j = 0; j < width; j++) {
       let ref = res[j];
-      let pieceTemp = [];
       for (let i = 0; i < height; i++) {
         let sl = ref + SIZE * i;
         piece.push(arrField[sl]);
       }
-      piece.push(...pieceTemp);
     }
 
     for (let i = 0; i < selectedShip.size; i++) {
@@ -88,14 +86,14 @@ function getCollision(arrField, absId, rowId, rltId) {
       .includes("S1");
     let validBorder = ak >= SIZE * SIZE ? false : true;
     isCollision = validBorder && !validArea;
-    // console.log("vert = ", absId,ak);
+    console.log("vert = ", temp, piece, a1 + 1, rowId, (rowId + 1) * SIZE);
   }
   return { isCollision, arrSlice, rotation };
 }
 function initLocation(side = "left") {
   // init field для расположения
   tools = [
-    new shipCard(1, 1),
+    new shipCard(1, 2),
     new shipCard(2, 1),
     new shipCard(3, 1),
     new shipCard(4, 1),
@@ -196,14 +194,14 @@ function init() {
   fieldTemp = [];
   onOffModal(1, "", false);
 }
-function win(stP) {
+function win(stP, shipPBattle) {
   // победа - вычисление и уведомление
   let summ = stP[1] + stP[2] + stP[3] + stP[4];
-  let total = 0;
-  shipP1Battle.slice(0, shipP1Battle.length/2).forEach((tool) => {
-    total += tool.sum;
-  });
-  console.log("WINNER = ", summ, total);
+  let total = shipPBattle.length;
+  // shipPBattle.forEach((tool) => {
+  //   total += tool.sum;
+  // });
+  console.log("WINNER = ", summ, total, shipP1Battle, shipP2Battle);
   if (summ === total) {
     if (screenField === 2) {
       setTimeout(() => alert(`Игрок 1 - ВЫЙГРАЛ!`), 100);
@@ -232,28 +230,28 @@ function onOffModal(player = 1, msg, active) {
   render(template, modal, false);
   // setTimeout(()=>{modal.classList.add("hide")},2000)
 }
-function getArrCollision(begin,rowId,ori,size,arrField){
-  console.log('enter data = ', begin,rowId,ori,size,arrField)
+function getArrCollision(begin, rowId, ori, size) {
+  // console.log('enter data = ', begin,rowId,ori,size,arrField)
   if (ori === 0) {
     // горизонталь
     const a1 = begin === rowId * SIZE ? begin : begin - 1;
     const a11 =
-      begin + size === (rowId + 1) * SIZE
-        ? begin + size
-        : begin + size + 1;
+      begin + size === (rowId + 1) * SIZE ? begin + size : begin + size + 1;
     const a2 = a1 - SIZE;
     const a22 = a11 - SIZE;
     const a0 = a1 + SIZE;
     const a00 = a11 + SIZE;
-    const piece2 = createArr(a2,a22);
-    const piece1 = createArr(a1,a11);
-    const piece0 = createArr(a0,a00);
-    const piece = [...piece2, ...piece1, ...piece0].filter(val=>val>=0)
-    console.log("piece2 = ",a2,a22,piece2)
-    console.log('piece1 = ',a1,a11,piece1)
-    console.log('piece0 = ',a0,a00,piece0)
-    console.log('piece = ',piece)
-    return piece
+
+    const piece2 = createArr(a2, a22);
+    const piece1 = createArr(a1, a11);
+    const piece0 = createArr(a0, a00);
+    const piece = [...piece2, ...piece1, ...piece0].filter((val) => val >= 0);
+    // console.log("piece2 = ",a2,a22,piece2)
+    // console.log('piece1 = ',a1,a11,piece1)
+    // console.log('piece0 = ',a0,a00,piece0)
+    // console.log('piece = ',piece)
+    const pieceShip = createArr(begin, begin + size);
+    return { piece, pieceShip };
   } else {
     // вертикаль
     let piece = [];
@@ -262,10 +260,10 @@ function getArrCollision(begin,rowId,ori,size,arrField){
     const a11 = ak + SIZE > SIZE * SIZE ? ak : ak + SIZE;
     const height = (a11 - a1) / SIZE + 1;
 
-    const a0 = a1 === rowId * SIZE ? a1 : a1 - 1;
-    const a00 = a11 - 1;
-    const a2 = a1 === (rowId + 1) * SIZE ? a1 : a1 + 1;
-    const a22 = a11 + 1;
+    const a0 = begin === rowId * SIZE ? a1 : a1 - 1;
+    // const a00 = a11 - 1;
+    const a2 = begin + 1 === (rowId + 1) * SIZE ? a1 : a1 + 1;
+    // const a22 = a11 + 1;
 
     const res = [];
     const temp = [a0, a1, a2];
@@ -276,24 +274,124 @@ function getArrCollision(begin,rowId,ori,size,arrField){
 
     for (let j = 0; j < width; j++) {
       let ref = res[j];
-      let pieceTemp = [];
       for (let i = 0; i < height; i++) {
         let sl = ref + SIZE * i;
         piece.push(sl);
-        console.log("sl = ",sl)
+        // console.log("sl = ",sl)
       }
       // console.log("@@@@@@@@@a0",pieceTemp)
       // piece.push(...pieceTemp);
     }
-    console.log('piece=',piece)
-    return piece
+    // console.log('piece=',piece)
+    const pieceShip = createArr(begin, begin + size * SIZE, SIZE);
+    return { piece, pieceShip };
   }
-  
 }
-function createArr(xn,xk,step=1){
-  let res = []
-  for (let i = xn; i < xk; i+=step) {
-    res.push(i)
+function createArr(xn, xk, step = 1) {
+  let res = [];
+  for (let i = xn; i < xk; i += step) {
+    res.push(i);
   }
-  return res
+  return res;
+}
+function autolocn(shipPBattle) {
+  // считаются доступные корабли
+  const sumShip = tools.reduce((sum, curr) => {
+    return sum + curr;
+  }, 0);
+  // внешний цикл - пробегает по карточкам кораблей.
+  // внутренний цикл - генерирует из текущей карточки
+  // корабль и сразу располагает на поле, до тех пор
+  // пока кол-во кораблей в карточке не станет = 0.
+  let booked = [];
+  let arrShip = [];
+  tools.forEach((tool, idx) => {
+    while (tool.sum > 0) {
+      const rot = Math.random() * 2 < 1 ? 0 : 90;
+      shipPBattle.push(new Ship(tool.size, tool.sum, rot));
+      shipPBattle[shipPBattle.length - 1].state = "S1";
+      tool.sub();
+      // выбор месторасположения корабля
+      let isValid = true;
+      // генерирование валидного месторасположения
+      while (isValid) {
+        const size = tool.size;
+        let abs = 0;
+        const randomAbs = Math.floor(Math.random() * 110);
+        const row =
+          Math.trunc(randomAbs / SIZE) > 9 ? 9 : Math.trunc(randomAbs / SIZE);
+        if (rot === 0) {
+          // horiz
+          abs =
+            randomAbs + size > (row + 1) * SIZE - 1
+              ? (row + 1) * SIZE - size
+              : randomAbs;
+        } else if (rot === 90) {
+          // vert
+          const ak = randomAbs + (size - 1) * SIZE;
+          const q =
+            Math.ceil((ak - SIZE * SIZE) / 10) === 0
+              ? 1
+              : Math.ceil((ak - SIZE * SIZE) / 10);
+          abs = ak > SIZE * SIZE - 1 ? randomAbs - q * SIZE : randomAbs;
+        }
+        // получить массив корабля и область
+        const { piece, pieceShip } = getArrCollision(abs, row, rot, size);
+        // проверка на валидность
+        isValid = pieceShip.some((val) => {
+          // console.log("valid = ", booked.includes(val));
+          return booked.includes(val);
+        });
+        if (!isValid) {
+          booked.push(...piece);
+          // console.log("coor = ", abs, rot);
+        }
+        arrShip = pieceShip;
+      }
+      // добавление корабля на поле
+      arrShip.forEach((val, idx) => {
+        fieldTemp[val] = shipPBattle[shipPBattle.length - 1];
+        fieldTemp[val].ship[val] = false;
+      });
+      // console.log("autolocn = ",abs,row,rot,size)
+      // console.log("autolocn = ", pieceShip)
+      // проверка на колизии
+    }
+    // отрисовка
+    const cells = field.querySelectorAll(".cell");
+    updateField(cells, fieldTemp);
+  });
+  console.log("AUTOLOCN BOOKED = ", booked, fieldTemp);
+  // перерисовка для обновления валидации кнопки "Дальше"
+  Control(btns);
+}
+
+function reInit(side = "left") {
+  if (side === "left") {
+    shipP1Battle = [];
+    tools = [
+      new shipCard(1, 2),
+      new shipCard(2, 1),
+      new shipCard(3, 1),
+      new shipCard(4, 1),
+    ];
+    fieldTemp = [];
+    for (let i = 0; i < SIZE * SIZE; i++) {
+      fieldTemp.push(0);
+    }
+    console.log("REINIT LEFT= ", shipP1Battle, tools, fieldTemp);
+  } else if (side === "right") {
+    shipP2Battle = [];
+    tools = [
+      new shipCard(1, 2),
+      new shipCard(2, 1),
+      new shipCard(3, 1),
+      new shipCard(4, 1),
+    ];
+    fieldTemp = [];
+    for (let i = 0; i < SIZE * SIZE; i++) {
+      fieldTemp.push(0);
+    }
+    console.log("REINIT RIGHT = ", shipP2Battle, tools, fieldTemp);
+  }
 }

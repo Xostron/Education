@@ -92,27 +92,35 @@ field.addEventListener("drop", (ev) => {
     if (screenField === 0) {
       shipP1Battle.push(selectedShip);
       shipP1Battle[shipP1Battle.length - 1].state = "S1";
+      //сохранение в рабочий массив
+      fieldTemp.forEach((val, idx) => {
+        if (val === 1) {
+          fieldTemp[idx] = shipP1Battle[shipP1Battle.length - 1];
+          fieldTemp[idx].ship[idx] = false;
+        } else {
+          fieldTemp[idx];
+        }
+      });
     }
     // поле игрока 2
     else if (screenField === 1) {
-      shipP1Battle.push(selectedShip);
-      shipP1Battle[shipP1Battle.length - 1].state = "S1";
+      shipP2Battle.push(selectedShip);
+      shipP2Battle[shipP2Battle.length - 1].state = "S1";
+      //сохранение в рабочий массив
+      fieldTemp.forEach((val, idx) => {
+        if (val === 1) {
+          fieldTemp[idx] = shipP2Battle[shipP2Battle.length - 1];
+          fieldTemp[idx].ship[idx] = false;
+        } else {
+          fieldTemp[idx];
+        }
+      });
     }
-    //
-    fieldTemp.forEach((val, idx) => {
-      // val === 1
-      //   ? (fieldTemp[idx] = shipP1Battle[shipP1Battle.length - 1])
-      //   : fieldTemp[idx];
-      if (val === 1) {
-        fieldTemp[idx] = shipP1Battle[shipP1Battle.length - 1];
-        fieldTemp[idx].ship[idx] = false;
-      } else {
-        fieldTemp[idx];
-      }
-    });
+
     selectedTool.sub();
     isValid = false;
   }
+  // перерисовка для обновления валидации кнопки "Дальше"
   Control(btns);
 });
 
@@ -152,6 +160,14 @@ function hndlControl(event) {
   } else if (target.id === "close") {
     init();
     Login(login);
+  } else if (target.id === "alocn") {
+    if (screenField === 0) {
+      reInit("left");
+      autolocn(shipP1Battle);
+    } else if (screenField === 1) {
+      reInit("right");
+      autolocn(shipP2Battle);
+    }
   }
 }
 function hndlNext() {
@@ -171,12 +187,12 @@ function hndlBattle(event) {
   const cells = event.currentTarget.querySelectorAll(".cell");
   const absId = Array.from(cells).indexOf(event.target);
   if (event.currentTarget === field) {
-    setFire(fieldP2Loc, absId, stP1);
+    setFire(fieldP2Loc, absId, stP1, shipP1Battle);
   } else if (event.currentTarget === field2) {
-    setFire(fieldP1Loc, absId, stP2);
+    setFire(fieldP1Loc, absId, stP2, shipP2Battle);
   }
 }
-function setFire(arrEnemy, pos, stP) {
+function setFire(arrEnemy, pos, stP, shipPBattle) {
   // выстрел по полю с ячейками
   console.log(" @@@ = ", arrEnemy);
   if (arrEnemy[pos] !== 0 && arrEnemy[pos] !== "E1") {
@@ -196,20 +212,20 @@ function setFire(arrEnemy, pos, stP) {
       // проверяем уничтожение корабля
       if (arrEnemy[pos].state === "kill") {
         stP[arrEnemy[pos].size] += 1;
-        win(stP);
+        win(stP, shipPBattle);
         onOffModal(screenField - 1, "Корабль уничтожен", true);
         // ****подсветка области уничтоженного корабля******
         const begin = +Object.keys(arrEnemy[pos].ship)[0];
         const ori = arrEnemy[pos].rotation;
-        const size = arrEnemy[pos].size
+        const size = arrEnemy[pos].size;
         const rowId = Math.trunc(begin / SIZE);
-        console.log('arr=',begin,rowId,ori,size,arrEnemy)
-        const arr = getArrCollision(begin,rowId,ori,size,arrEnemy);
-        arr.forEach((val)=>{
-          if (typeof arrEnemy[val]!=="object"){
-            arrEnemy[val]="E1"
+        console.log("arr=", begin, rowId, ori, size, arrEnemy);
+        const { piece, pieceShip } = getArrCollision(begin, rowId, ori, size);
+        piece.forEach((val) => {
+          if (typeof arrEnemy[val] !== "object") {
+            arrEnemy[val] = "E1";
           }
-        })
+        });
       }
     }
   } else if (arrEnemy[pos] === "E1") {
