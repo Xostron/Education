@@ -302,7 +302,7 @@ h4 {
 }
 .phantom {
   position: absolute;
-  bottom: 50%;
+  bottom: 150%;
   left: 0;
   display: flex;
   opacity: 0.5;

@@ -194,7 +194,7 @@ function hndlBattle(event) {
 }
 function setFire(arrEnemy, pos, stP, shipPBattle) {
   // выстрел по полю с ячейками
-  console.log(" @@@ = ", arrEnemy);
+  // console.log(" @@@ = ", arrEnemy);
   if (arrEnemy[pos] !== 0 && arrEnemy[pos] !== "E1") {
     // попали в корабль
     if (arrEnemy[pos].ship[pos] === true) {

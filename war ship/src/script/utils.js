@@ -315,6 +315,7 @@ function autolocn(shipPBattle) {
       let isValid = true;
       // генерирование валидного месторасположения
       while (isValid) {
+        console.log("меняй!")
         const size = tool.size;
         let abs = 0;
         const randomAbs = Math.floor(Math.random() * 110);
@@ -333,7 +334,10 @@ function autolocn(shipPBattle) {
             Math.ceil((ak - SIZE * SIZE) / 10) === 0
               ? 1
               : Math.ceil((ak - SIZE * SIZE) / 10);
-          abs = ak > SIZE * SIZE - 1 ? randomAbs - q * SIZE : randomAbs;
+          abs = ak > SIZE * SIZE - 1 ? randomAbs - q * SIZE-1 : randomAbs;
+          if (Math.ceil((ak - SIZE * SIZE) / 10)) {
+            console.log("@@@@@ = ",abs);
+          }
         }
         // получить массив корабля и область
         const { piece, pieceShip } = getArrCollision(abs, row, rot, size);
@@ -344,7 +348,7 @@ function autolocn(shipPBattle) {
         });
         if (!isValid) {
           booked.push(...piece);
-          // console.log("coor = ", abs, rot);
+          console.log("зафиксировал", abs, randomAbs, size);
         }
         arrShip = pieceShip;
       }
