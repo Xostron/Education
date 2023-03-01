@@ -94,7 +94,7 @@ h4 {
   border-radius: 10px;
   background-color: var(--color-btn);
   transition: background-color 0.4s ease-in;
-  width: 90%;
+  width: 100%;
 }
 .btn-text:hover {
   background-color: var(--color-btn-hover);
@@ -132,6 +132,7 @@ h4 {
   z-index: 10;
   width: 25%;
   min-width: 290px;
+  padding: 10px 10px;
 }
 .login-title {
   font-size: 32px;
@@ -140,11 +141,12 @@ h4 {
   color: rgb(216, 216, 216);
 }
 .login-input {
-  width: 90%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   font-size: 16px;
+
 }
 /* Игровая область */
 .game {

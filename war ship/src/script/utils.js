@@ -1,4 +1,11 @@
-function permitted() {
+function permitted(reverse=false) {
+  if (reverse) {
+    let sum = 0;
+  tools.forEach((tool) => {
+    sum += tool.sum;
+  });
+  return sum < 10 ? true : false;
+  }
   let sum = 0;
   tools.forEach((tool) => {
     sum += tool.sum;
@@ -124,13 +131,18 @@ function initNext(side = "left") {
     phantomImg.style.transform = `rotateZ(0deg)`;
   });
 }
-function initBack(arrP,side="left"){
+function initBack(arrP,shipP,side="left"){
+  console.log("BACK = ",shipP)
   tools=[
-    new shipCard(1, 0),
-    new shipCard(2, 0),
-    new shipCard(3, 0),
-    new shipCard(4, 0),
+    new shipCard(1, 4),
+    new shipCard(2, 3),
+    new shipCard(3, 2),
+    new shipCard(4, 1),
   ]
+  shipP.forEach((val)=>{
+    tools[val.size-1].sum -=1 
+  })
+
   fieldTemp=arrP
   Field(field, fieldTemp, true);
 
@@ -202,6 +214,8 @@ function init() {
   for (let i = 0; i < SIZE * SIZE; i++) {
     fieldTemp.push(0);
   }
+  bufferP1.push(fieldTemp.slice())
+  bufferP2.push(fieldTemp.slice())
   screenField = 0;
   stP1 = {
     1: 0,
@@ -353,7 +367,7 @@ function createArr(xn, xk, step = 1) {
   }
   return res;
 }
-function autolocn(shipPBattle) {
+function autolocn(shipPBattle, buffP) {
   // считаются доступные корабли
   const sumShip = tools.reduce((sum, curr) => {
     return sum + curr;
@@ -413,6 +427,9 @@ function autolocn(shipPBattle) {
         arrShip = pieceShip;
       }
       // добавление корабля на поле
+      
+      buffP.push(fieldTemp.slice())
+      console.log("autocoln buffer= ",buffP)
       arrShip.forEach((val, idx) => {
         fieldTemp[val] = shipPBattle[shipPBattle.length - 1];
         fieldTemp[val].ship[val] = false;

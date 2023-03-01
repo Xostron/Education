@@ -62,7 +62,7 @@ function Login(where, display = true) {
     });
   }
 }
-function Field(where, arr = [0], show=false,render = true) {
+function Field(where, arr = [0], show = false, render = true) {
   // отрисовка игрового поля
   where.innerHTML = "";
   for (let i = 0; i < SIZE; i++) {
@@ -71,7 +71,7 @@ function Field(where, arr = [0], show=false,render = true) {
     for (let j = 0; j < SIZE; j++) {
       let cell = document.createElement("div");
       let x = i * 10 + j;
-      if (arr[x] === 1 || show && typeof arr[x] ==="object") {
+      if (arr[x] === 1 || (show && typeof arr[x] === "object")) {
         cell.dataset.state = "ship";
       } else if (arr[x] === 0) {
         cell.dataset.state = "cell";
@@ -96,16 +96,24 @@ function Field(where, arr = [0], show=false,render = true) {
 function Control(where) {
   // кнопки управления
   const isValid = permitted();
+  const isValidB = permitted(true);
   let template = "";
   if (screenField === 0) {
     template = `
   <div class="btns">
   <div class="btns-row">
+  <button id="clear" class="btn btn-text">Очистить</button>
+  <button 
+  ${isValidB ? "": "disabled"} 
+  id="stepB" 
+  class="btn btn-text">
+  Шаг назад
+  </button>
   <button id="alocn" class="btn btn-text">Автораспределение</button>
   </div>
   <div class="btns-row">
   <button 
-  ${!isValid ? "disabled" : ""} 
+  ${isValid ? "" : "disabled"} 
   id="next" 
   class="btn btn-text">
   Дальше
@@ -117,12 +125,14 @@ function Control(where) {
     template = `
   <div class="btns">
   <div class="btns-row">
+  <button id="clear" class="btn btn-text">Очистить</button>
+  <button ${isValidB ? "": "disabled"}  id="stepB" class="btn btn-text">Шаг назад</button>
   <button id="alocn" class="btn btn-text">Автораспределение</button>
   </div>
   <div class="btns-row">
   <button id="back" class="btn btn-text">Назад</button>
   <button 
-  ${!isValid ? "disabled" : ""} 
+  ${isValid ? "" : "disabled"} 
   id="next" 
   class="btn btn-text">
   Дальше
@@ -133,6 +143,7 @@ function Control(where) {
   } else if (screenField === 2 || screenField === 3) {
     template = `
     <div class="btns">
+    <button id="close" class="btn btn-text">Повторить</button>
     <button id="close" class="btn btn-text">Завершить</button>
     </div>
   `;
@@ -141,10 +152,15 @@ function Control(where) {
   const btns = container.querySelector(".btns");
   // валидация кнопки "Дальше"
   if (screenField <= 1) {
-    btnNext = btns.querySelector("#next");
+    const btnNext = btns.querySelector("#next");
     isValid
       ? btnNext.classList.remove("disabled")
       : btnNext.classList.add("disabled");
+
+    const btnStepB = btns.querySelector("#stepB");
+    isValidB
+      ? btnStepB.classList.remove("disabled")
+      : btnStepB.classList.add("disabled");
   }
   // подписка на события
   btns.addEventListener("click", hndlControl);
@@ -186,6 +202,7 @@ function Tool(where, tool, idx) {
   // on/off draggable element
   const style = ["tool"];
   const styleImg = ["img-ship"];
+  tool.draggable = true;
   if (sum < 1) {
     tool.draggable = false;
     style.push("off");
@@ -222,15 +239,15 @@ style="transform:rotateZ(${rotation}deg)"
   });
 }
 function Progress(where, stP, arrShipBattle) {
-  const ships ={}
-  shipP1Battle.forEach(element => {
-    if (ships[element.size]===undefined){
-      ships[element.size]=0
-    } 
-    ships[element.size]+=1
+  const ships = {};
+  shipP1Battle.forEach((element) => {
+    if (ships[element.size] === undefined) {
+      ships[element.size] = 0;
+    }
+    ships[element.size] += 1;
   });
-  
-  console.log("PROGRESS = ",ships)
+
+  console.log("PROGRESS = ", ships);
   // прогресс игры
   template = `
   <div>
