@@ -90,12 +90,12 @@ function getCollision(arrField, absId, rowId, rltId) {
   }
   return { isCollision, arrSlice, rotation };
 }
-function initLocation(side = "left") {
+function initNext(side = "left") {
   // init field для расположения
   tools = [
-    new shipCard(1, 2),
-    new shipCard(2, 1),
-    new shipCard(3, 1),
+    new shipCard(1, 4),
+    new shipCard(2, 3),
+    new shipCard(3, 2),
     new shipCard(4, 1),
   ];
   fieldTemp = [];
@@ -124,7 +124,35 @@ function initLocation(side = "left") {
     phantomImg.style.transform = `rotateZ(0deg)`;
   });
 }
-function initGame(screenField) {
+function initBack(arrP,side="left"){
+  tools=[
+    new shipCard(1, 0),
+    new shipCard(2, 0),
+    new shipCard(3, 0),
+    new shipCard(4, 0),
+  ]
+  fieldTemp=arrP
+  Field(field, fieldTemp, true);
+
+  if (side === "left") {
+    field.classList.add("left");
+    field.classList.remove("right");
+  } else {
+    field.classList.remove("left");
+    field.classList.add("right");
+  }
+  game.classList.remove("hide");
+  Control(btns);
+  Toolbar(header, tools);
+  const drag_el = document.querySelectorAll(`.drag-el`);
+  drag_el.forEach((val) => {
+    val.style.flexDirection = "row";
+    const phantomCell = val.querySelector(".cell");
+    const phantomImg = phantomCell.querySelector(".cell");
+    phantomImg.style.transform = `rotateZ(0deg)`;
+  });
+}
+function initNextGame(screenField) {
   // init field для игры
   field.classList.remove("left");
   field.classList.remove("right");
@@ -162,6 +190,8 @@ function init() {
   btns.innerHTML = "";
   st1.innerHTML = "";
   st2.innerHTML = "";
+  field.style.opacity = "1";
+  field2.style.opacity = "1";
   tools = [
     new shipCard(1, 4),
     new shipCard(2, 3),
@@ -194,6 +224,35 @@ function init() {
   fieldTemp = [];
   onOffModal(1, "", false);
 }
+function reInit(side = "left") {
+  if (side === "left") {
+    shipP1Battle = [];
+    tools = [
+      new shipCard(1, 4),
+      new shipCard(2, 3),
+      new shipCard(3, 2),
+      new shipCard(4, 1),
+    ];
+    fieldTemp = [];
+    for (let i = 0; i < SIZE * SIZE; i++) {
+      fieldTemp.push(0);
+    }
+    // console.log("REINIT LEFT= ", shipP1Battle, tools, fieldTemp);
+  } else if (side === "right") {
+    shipP2Battle = [];
+    tools = [
+      new shipCard(1, 4),
+      new shipCard(2, 3),
+      new shipCard(3, 2),
+      new shipCard(4, 1),
+    ];
+    fieldTemp = [];
+    for (let i = 0; i < SIZE * SIZE; i++) {
+      fieldTemp.push(0);
+    }
+    // console.log("REINIT RIGHT = ", shipP2Battle, tools, fieldTemp);
+  }
+}
 function win(stP, shipPBattle) {
   // победа - вычисление и уведомление
   let summ = stP[1] + stP[2] + stP[3] + stP[4];
@@ -201,7 +260,7 @@ function win(stP, shipPBattle) {
   // shipPBattle.forEach((tool) => {
   //   total += tool.sum;
   // });
-  console.log("WINNER = ", summ, total, shipP1Battle, shipP2Battle);
+  // console.log("WINNER = ", summ, total, shipP1Battle, shipP2Battle);
   if (summ === total) {
     if (screenField === 2) {
       setTimeout(() => alert(`Игрок 1 - ВЫЙГРАЛ!`), 100);
@@ -305,7 +364,8 @@ function autolocn(shipPBattle) {
   // пока кол-во кораблей в карточке не станет = 0.
   let booked = [];
   let arrShip = [];
-  tools.forEach((tool, idx) => {
+  const toolsT = tools.slice()
+  toolsT.reverse().forEach((tool, idx) => {
     while (tool.sum > 0) {
       const rot = Math.random() * 2 < 1 ? 0 : 90;
       shipPBattle.push(new Ship(tool.size, tool.sum, rot));
@@ -315,7 +375,7 @@ function autolocn(shipPBattle) {
       let isValid = true;
       // генерирование валидного месторасположения
       while (isValid) {
-        console.log("меняй!")
+        // console.log("меняй!")
         const size = tool.size;
         let abs = 0;
         const randomAbs = Math.floor(Math.random() * 110);
@@ -336,7 +396,7 @@ function autolocn(shipPBattle) {
               : Math.ceil((ak - SIZE * SIZE) / 10);
           abs = ak > SIZE * SIZE - 1 ? randomAbs - q * SIZE-1 : randomAbs;
           if (Math.ceil((ak - SIZE * SIZE) / 10)) {
-            console.log("@@@@@ = ",abs);
+            // console.log("@@@@@ = ",abs);
           }
         }
         // получить массив корабля и область
@@ -348,7 +408,7 @@ function autolocn(shipPBattle) {
         });
         if (!isValid) {
           booked.push(...piece);
-          console.log("зафиксировал", abs, randomAbs, size);
+          // console.log("зафиксировал", abs, randomAbs, size);
         }
         arrShip = pieceShip;
       }
@@ -361,41 +421,13 @@ function autolocn(shipPBattle) {
       // console.log("autolocn = ", pieceShip)
       // проверка на колизии
     }
+    // tools.reverse()
     // отрисовка
     const cells = field.querySelectorAll(".cell");
     updateField(cells, fieldTemp);
   });
-  console.log("AUTOLOCN BOOKED = ", booked, fieldTemp);
+  // console.log("AUTOLOCN BOOKED = ", booked, fieldTemp);
   // перерисовка для обновления валидации кнопки "Дальше"
   Control(btns);
 }
 
-function reInit(side = "left") {
-  if (side === "left") {
-    shipP1Battle = [];
-    tools = [
-      new shipCard(1, 2),
-      new shipCard(2, 1),
-      new shipCard(3, 1),
-      new shipCard(4, 1),
-    ];
-    fieldTemp = [];
-    for (let i = 0; i < SIZE * SIZE; i++) {
-      fieldTemp.push(0);
-    }
-    console.log("REINIT LEFT= ", shipP1Battle, tools, fieldTemp);
-  } else if (side === "right") {
-    shipP2Battle = [];
-    tools = [
-      new shipCard(1, 2),
-      new shipCard(2, 1),
-      new shipCard(3, 1),
-      new shipCard(4, 1),
-    ];
-    fieldTemp = [];
-    for (let i = 0; i < SIZE * SIZE; i++) {
-      fieldTemp.push(0);
-    }
-    console.log("REINIT RIGHT = ", shipP2Battle, tools, fieldTemp);
-  }
-}

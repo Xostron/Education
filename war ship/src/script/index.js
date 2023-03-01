@@ -150,13 +150,14 @@ function hndlLoginStart(in1, in2) {
   player1 = in1.value ? in1.value : "Игрок 1";
   player2 = in2.value ? in2.value : "Игрок 2";
   Login(login, false);
-  initLocation();
+  initNext();
 }
 function hndlControl(event) {
   const { target } = event;
   if (target.id === "next") {
     hndlNext();
   } else if (target.id === "back") {
+    hndlBack();
   } else if (target.id === "close") {
     init();
     Login(login);
@@ -175,12 +176,25 @@ function hndlNext() {
   if (screenField === 0) {
     screenField++;
     fieldP1Loc = fieldTemp;
-    initLocation("right");
+    if (fieldP2Loc.length>0)
+    {
+      initBack(fieldP2Loc,"right")
+    }else{
+      initNext("right");
+    }
+    
   } else if (screenField === 1) {
     screenField++;
     fieldP2Loc = fieldTemp;
-    initGame(screenField);
+    initNextGame(screenField);
   }
+}
+function hndlBack() {
+  screenField--;
+  // сохранение текущеего поля 2 
+  fieldP2Loc = fieldTemp;
+  // восстановление предыдущего поля 1
+  initBack(fieldP1Loc,"left");
 }
 function hndlBattle(event) {
   // handler ячеек - выстрел
@@ -243,7 +257,7 @@ function setFire(arrEnemy, pos, stP, shipPBattle) {
     screenField === 3 ? screenField-- : screenField++;
   }
   // перерисовка
-  initGame(screenField);
+  initNextGame(screenField);
 }
 
 // ==============вызов программы==============
