@@ -31,9 +31,9 @@ let shipP1Battle = [];
 let shipP2Battle = [];
 let fieldTemp = [];
 let screenField = 0;
-let bufferP1 = []
-let bufferP2 = []
-
+let bufferP1 = [];
+let bufferP2 = [];
+let mode =''
 // =====подписка на события=====
 
 field.addEventListener("dragenter", (ev) => {
@@ -94,9 +94,11 @@ field.addEventListener("drop", (ev) => {
     if (screenField === 0) {
       shipP1Battle.push(selectedShip);
       shipP1Battle[shipP1Battle.length - 1].state = "S1";
-      bufferP1.push(fieldTemp.map(val=>{
-        return val===1 ? 0 : val
-      }))
+      bufferP1.push(
+        fieldTemp.map((val) => {
+          return val === 1 ? 0 : val;
+        })
+      );
       //сохранение в рабочий массив
       fieldTemp.forEach((val, idx) => {
         if (val === 1) {
@@ -106,15 +108,16 @@ field.addEventListener("drop", (ev) => {
           fieldTemp[idx];
         }
       });
-
     }
     // поле игрока 2
     else if (screenField === 1) {
       shipP2Battle.push(selectedShip);
       shipP2Battle[shipP2Battle.length - 1].state = "S1";
-      bufferP2.push(fieldTemp.map(val=>{
-        return val===1 ? 0 : val
-      }))
+      bufferP2.push(
+        fieldTemp.map((val) => {
+          return val === 1 ? 0 : val;
+        })
+      );
       //сохранение в рабочий массив
       fieldTemp.forEach((val, idx) => {
         if (val === 1) {
@@ -128,7 +131,7 @@ field.addEventListener("drop", (ev) => {
     }
     selectedTool.sub();
     isValid = false;
-    console.log("DROP - push = ",bufferP1, bufferP2)
+    console.log("DROP - push = ", bufferP1, bufferP2);
   }
   // перерисовка для обновления валидации кнопки "Дальше"
   Control(btns);
@@ -155,11 +158,16 @@ header.addEventListener("dblclick", (ev) => {
   }
 });
 
-function hndlLoginStart(in1, in2) {
+function hndlLoginStart(...args) {
   // кнопка старт - Логин
-  player1 = in1.value ? in1.value : "Игрок 1";
-  player2 = in2.value ? in2.value : "Игрок 2";
-  Login(login, false);
+  const inputs = args;
+  mode = inputs.length
+  console.log("hanler = ", inputs, mode);
+  player1 = inputs[0].value ? inputs[0].value : "Игрок 1";
+  if (inputs[1]) {
+    player2 = inputs[1].value ? inputs[1].value : "Игрок 2";
+  }
+  Login(login, mode,false);
   initNext();
 }
 function hndlControl(event) {
@@ -171,19 +179,18 @@ function hndlControl(event) {
   } else if (target.id === "clear") {
     hndlClear();
   } else if (target.id === "stepB") {
-    if (screenField===0){
-    hndlStepB(bufferP1,shipP1Battle);
-  }
-    else if (screenField===1){
-      hndlStepB(bufferP2,shipP2Battle);
+    if (screenField === 0) {
+      hndlStepB(bufferP1, shipP1Battle);
+    } else if (screenField === 1) {
+      hndlStepB(bufferP2, shipP2Battle);
     }
   } else if (target.id === "alocn") {
     if (screenField === 0) {
       reInit("left");
-      autolocn(shipP1Battle,bufferP1);
+      autolocn(shipP1Battle, bufferP1);
     } else if (screenField === 1) {
       reInit("right");
-      autolocn(shipP2Battle,bufferP2);
+      autolocn(shipP2Battle, bufferP2);
     }
   } else if (target.id === "close") {
     init();
@@ -193,16 +200,34 @@ function hndlControl(event) {
 function hndlNext() {
   // кнопка next
   if (screenField === 0) {
-    screenField++;
     fieldP1Loc = fieldTemp;
-    if (fieldP2Loc.length > 0) {
-      initBack(fieldP2Loc, shipP2Battle, "right");
-    } else {
-      initNext("right");
+    if (mode===1){
+      // singlePlayer экран редактирования
+      screenField+=2
+      // конфигурация поля ПК ? и вывод 2-х экранов
+      reInit("right");
+      autolocn(shipP2Battle, bufferP2);
+      fieldP2Loc=fieldTemp
+      //отрисовка 
+      initNextGame(screenField);
+    }else{
+      // 2xPlayers
+      screenField++;
+      if (fieldP2Loc.length > 0) {
+        // если уже редактировали поле 2
+        initBack(fieldP2Loc, shipP2Battle, "right");
+      } else {
+        // если поле 2 - "чистое"
+        initNext("right");
+      }
     }
+    
+    
   } else if (screenField === 1) {
+    // эран редактирования поля 2
     screenField++;
     fieldP2Loc = fieldTemp;
+    // играть
     initNextGame(screenField);
   }
 }
@@ -216,10 +241,10 @@ function hndlBack() {
 function hndlClear() {
   if (screenField === 0) {
     reInit("left");
-    bufferP1=[]
+    bufferP1 = [];
   } else if (screenField === 1) {
     reInit("right");
-    bufferP2=[]
+    bufferP2 = [];
   }
   Control(btns);
   Toolbar(header, tools);
@@ -227,17 +252,18 @@ function hndlClear() {
 }
 function hndlStepB(arrBuffer, shipP) {
   // извлекаем из буфера конфигурацию поля
-  if (arrBuffer.length<2){
-    console.log('STEP B - return')
-    return}
-  fieldTemp=arrBuffer.pop()
+  if (arrBuffer.length < 2) {
+    console.log("STEP B - return");
+    return;
+  }
+  fieldTemp = arrBuffer.pop();
   // извлекаем из списка добавленных кораблей
   // и увеличиваем в tools - карточке корабля
-  const ship = shipP.pop()
-  tools[ship.size-1].sum +=1
+  const ship = shipP.pop();
+  tools[ship.size - 1].sum += 1;
 
-  Field(field, fieldTemp,true);
-console.log("STEB B = ", fieldTemp, arrBuffer)
+  Field(field, fieldTemp, true);
+  console.log("STEB B = ", fieldTemp, arrBuffer);
   Control(btns);
   Toolbar(header, tools);
 }

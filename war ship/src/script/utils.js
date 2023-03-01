@@ -109,7 +109,7 @@ function initNext(side = "left") {
   for (let i = 0; i < SIZE * SIZE; i++) {
     fieldTemp.push(0);
   }
-
+  
   Field(field, fieldTemp);
   if (side === "left") {
     field.classList.add("left");

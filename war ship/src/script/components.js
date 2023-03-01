@@ -37,29 +37,74 @@ function DragEl(tool, idx, where) {
   }
   where.append(container);
 }
-function Login(where, display = true) {
+function Login(where, type=1,display = true) {
   // окно логина
-  let template = `
-  <span class="login-title">Морской бой</span>
-  <span class="login-subtitle"> 1 на 1</span>
-  <div class="login-input">
-  <input class="input" type="text" id="in1" placeholder="Игрок 1"/>
-  </div>
-  <div class="login-input">
-  <input class="input" type="text" id="in2" placeholder="Игрок 2"/>
-  </div>
-  <button class="btn btn-text">Начать игру</button>
-  <div class="blur"></div>
-  `;
-  display ? render(template, where, false) : render("", where, false);
+  let template=''
+  if (type===1){
+    template =`
+    <span class="login-title">Морской бой</span>
+    <span class="login-subtitle">Выберите режим:</span>
+    <button id="single" class="btn btn-text">Одиночный </button>
+    <button id="pair" class="btn btn-text">2 x Игрока</button>
+    `
+  }else if(type===2){
+    template = `
+    <span class="login-title">Морской бой</span>
+    <span class="login-subtitle"> Введите имя:</span>
+    <div class="login-input">
+    <input class="input" type="text" id="in1" placeholder="Игрок 1"/>
+    </div>
+    <button id="play" class="btn btn-text">В БОЙ!</button>
+    <div class="blur"></div>
+    `;
+  }else if(type===3){
+    template = `
+    <span class="login-title">Морской бой</span>
+    <span class="login-subtitle"> 1 на 1</span>
+    <div class="login-input">
+    <input class="input" type="text" id="in1" placeholder="Игрок 1"/>
+    </div>
+    <div class="login-input">
+    <input class="input" type="text" id="in2" placeholder="Игрок 2"/>
+    </div>
+    <button id="play" class="btn btn-text">В БОЙ!</button>
+    <div class="blur"></div>
+    `;
+  }
+  
   if (display) {
-    const hndlStart = where.querySelector(".btn-text");
-    const in1 = where.querySelector("#in1");
-    const in2 = where.querySelector("#in2");
-    // ====подписка на события====
-    hndlStart.addEventListener("click", () => {
-      hndlLoginStart(in1, in2);
-    });
+    where.classList.remove('hide')
+    render(template, where, false)
+if (type===1){
+const single = where.querySelector("#single")
+const pair = where.querySelector("#pair")
+// ====подписка на события====
+single.addEventListener("click", () => {
+  Login(login,2)
+});
+pair.addEventListener("click", () => {
+  Login(login,3)
+});
+}else if (type===2){
+  const play = where.querySelector("#play");
+  const in1 = where.querySelector("#in1");
+  // ====подписка на события====
+ play.addEventListener("click", () => {
+    hndlLoginStart(in1);
+  });
+}else if (type===3){
+  const play = where.querySelector("#play");
+  const in1 = where.querySelector("#in1");
+  const in2 = where.querySelector("#in2");
+  // ====подписка на события====
+ play.addEventListener("click", () => {
+    hndlLoginStart(in1, in2);
+  });
+}
+
+  }else{
+    where.classList.add('hide')
+    render("", where, false);
   }
 }
 function Field(where, arr = [0], show = false, render = true) {
@@ -116,7 +161,7 @@ function Control(where) {
   ${isValid ? "" : "disabled"} 
   id="next" 
   class="btn btn-text">
-  Дальше
+  ${mode===1? "Играть":"Дальше"}
   </button>
   </div>
   </div>
@@ -144,7 +189,7 @@ function Control(where) {
     template = `
     <div class="btns">
     <button id="close" class="btn btn-text">Повторить</button>
-    <button id="close" class="btn btn-text">Завершить</button>
+    <button id="close" class="btn btn-text">Выйти</button>
     </div>
   `;
   }
