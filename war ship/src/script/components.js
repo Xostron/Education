@@ -188,7 +188,7 @@ function Control(where) {
   } else if (screenField === 2 || screenField === 3) {
     template = `
     <div class="btns">
-    <button id="close" class="btn btn-text">Повторить</button>
+    <button id="repeat" class="btn btn-text">Повторить</button>
     <button id="close" class="btn btn-text">Выйти</button>
     </div>
   `;
@@ -216,7 +216,7 @@ function Toolbar(where, elements) {
     "Игрок 1 расставляет корабли",
     "Игрок 2 расставляет корабли",
     "Ходит Игрок 1",
-    "Ходит Игрок 2",
+    mode===2?"Ходит Игрок 2":"Ход компьютера",
   ];
   let template =
     screenField < 2
@@ -292,7 +292,7 @@ function Progress(where, stP, arrShipBattle) {
     ships[element.size] += 1;
   });
 
-  console.log("PROGRESS = ", ships);
+  // console.log("PROGRESS = ", ships);
   // прогресс игры
   template = `
   <div>

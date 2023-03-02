@@ -1,10 +1,10 @@
-function permitted(reverse=false) {
+function permitted(reverse = false) {
   if (reverse) {
     let sum = 0;
-  tools.forEach((tool) => {
-    sum += tool.sum;
-  });
-  return sum < 10 ? true : false;
+    tools.forEach((tool) => {
+      sum += tool.sum;
+    });
+    return sum < 10 ? true : false;
   }
   let sum = 0;
   tools.forEach((tool) => {
@@ -109,7 +109,7 @@ function initNext(side = "left") {
   for (let i = 0; i < SIZE * SIZE; i++) {
     fieldTemp.push(0);
   }
-  
+
   Field(field, fieldTemp);
   if (side === "left") {
     field.classList.add("left");
@@ -131,19 +131,19 @@ function initNext(side = "left") {
     phantomImg.style.transform = `rotateZ(0deg)`;
   });
 }
-function initBack(arrP,shipP,side="left"){
-  console.log("BACK = ",shipP)
-  tools=[
+function initBack(arrP, shipP, side = "left") {
+  console.log("BACK = ", shipP);
+  tools = [
     new shipCard(1, 4),
     new shipCard(2, 3),
     new shipCard(3, 2),
     new shipCard(4, 1),
-  ]
-  shipP.forEach((val)=>{
-    tools[val.size-1].sum -=1 
-  })
+  ];
+  shipP.forEach((val) => {
+    tools[val.size - 1].sum -= 1;
+  });
 
-  fieldTemp=arrP
+  fieldTemp = arrP;
   Field(field, fieldTemp, true);
 
   if (side === "left") {
@@ -214,8 +214,8 @@ function init() {
   for (let i = 0; i < SIZE * SIZE; i++) {
     fieldTemp.push(0);
   }
-  bufferP1.push(fieldTemp.slice())
-  bufferP2.push(fieldTemp.slice())
+  bufferP1.push(fieldTemp.slice());
+  bufferP2.push(fieldTemp.slice());
   screenField = 0;
   stP1 = {
     1: 0,
@@ -378,7 +378,7 @@ function autolocn(shipPBattle, buffP) {
   // пока кол-во кораблей в карточке не станет = 0.
   let booked = [];
   let arrShip = [];
-  const toolsT = tools.slice()
+  const toolsT = tools.slice();
   toolsT.reverse().forEach((tool, idx) => {
     while (tool.sum > 0) {
       const rot = Math.random() * 2 < 1 ? 0 : 90;
@@ -408,7 +408,7 @@ function autolocn(shipPBattle, buffP) {
             Math.ceil((ak - SIZE * SIZE) / 10) === 0
               ? 1
               : Math.ceil((ak - SIZE * SIZE) / 10);
-          abs = ak > SIZE * SIZE - 1 ? randomAbs - q * SIZE-1 : randomAbs;
+          abs = ak > SIZE * SIZE - 1 ? randomAbs - q * SIZE - 1 : randomAbs;
           if (Math.ceil((ak - SIZE * SIZE) / 10)) {
             // console.log("@@@@@ = ",abs);
           }
@@ -427,9 +427,8 @@ function autolocn(shipPBattle, buffP) {
         arrShip = pieceShip;
       }
       // добавление корабля на поле
-      
-      buffP.push(fieldTemp.slice())
-      console.log("autocoln buffer= ",buffP)
+      buffP.push(fieldTemp.slice());
+      // console.log("autocoln buffer= ", buffP);
       arrShip.forEach((val, idx) => {
         fieldTemp[val] = shipPBattle[shipPBattle.length - 1];
         fieldTemp[val].ship[val] = false;
@@ -447,4 +446,116 @@ function autolocn(shipPBattle, buffP) {
   // перерисовка для обновления валидации кнопки "Дальше"
   Control(btns);
 }
+function checkTwist(arrEnemy, pos, stP, shipPBattle, lastPos) {
+  let repeat = true;
+  let lucky = lastPos;
+  if (arrEnemy[pos] !== 0 && arrEnemy[pos] !== "E1") {
+    // попали в корабль
+    if (arrEnemy[pos].ship[pos] === true) {
+      // если уже стреляли сюда, то ничего не делаем
+      onOffModal(
+        screenField - 1,
+        "По данной координате уже стреляли, корабль подбит",
+        true
+      );
+      return { repeat, lucky };
+    } else {
+      // попали
+      arrEnemy[pos].hit(pos);
+      // stP.amount += 1;
+      onOffModal(screenField - 1, "Корабль подбит", true);
+      lucky = pos;
+      // проверяем уничтожение корабля
+      if (arrEnemy[pos].state === "kill") {
+        lucky = "kill";
+        stP[arrEnemy[pos].size] += 1;
+        win(stP, shipPBattle);
+        onOffModal(screenField - 1, "Корабль уничтожен", true);
+        // ****подсветка области уничтоженного корабля******
+        const begin = +Object.keys(arrEnemy[pos].ship)[0];
+        const ori = arrEnemy[pos].rotation;
+        const size = arrEnemy[pos].size;
+        const rowId = Math.trunc(begin / SIZE);
+        // console.log("arr=", begin, rowId, ori, size, arrEnemy);
+        const { piece, pieceShip } = getArrCollision(begin, rowId, ori, size);
+        piece.forEach((val) => {
+          if (typeof arrEnemy[val] !== "object") {
+            arrEnemy[val] = "E1";
+          }
+        });
+      }
+      return { repeat, lucky };
+    }
+  } else if (arrEnemy[pos] === "E1") {
+    // если уже стреляли сюда, то ничего не делаем
+    onOffModal(
+      screenField - 1,
+      "В эту позицию уже стреляли, каллибровка",
+      true
+    );
+    return { repeat, lucky };
+  } else {
+    // мимо
+    onOffModal(screenField - 1, "Мимо, перезаряжаюсь", true);
+    arrEnemy[pos] = "E1";
+    stP.amount += 1;
+    screenField === 3 ? screenField-- : screenField++;
+    repeat = false;
+    return { repeat, lucky };
+  }
+}
+function queensGambit() {
+  // мозги
+  let run = true;
+  let lastPos = "";
+  let rdmNum = 0;
+  let newPos = 0;
+  let combi = [-1, 1, -10, 10];
+  // цикл обработки
+  while (run) {
+    if (!Object.keys(last).length) {
+      // случайный выбор
+      rdmNum = Math.trunc(Math.random() * 110);
+      newPos = rdmNum > 99 ? 99 : rdmNum;
+      lastPos = "";
+    } else {
+      // аналитический выбор
+      Object.entries(last).forEach((item) => {
+        if (item[1].length-1 <= 3) {
+          const step = item[1].length<=1?combi[0]:combi[item[1].length-1];
+          newPos = +item[0] + step;
+          if (newPos<0 || newPos>99){
+            last[item[0]].push(false)
+          }
+          lastPos = +item[0]
+        } else {
+          // переход к следующему item
+        }
+      });
+      console.log("enter = ", last, newPos, lastPos);
+    }
 
+    let { repeat, lucky } = checkTwist(
+      fieldP1Loc,
+      newPos,
+      stP2,
+      shipP2Battle,
+      lastPos
+    );
+    // lucky = kill, milk, "", number
+    run = repeat;
+
+    if (!Object.keys(last).includes(String(lucky)) && typeof lucky === "number") {
+      console.log("create")
+      last[lucky] = [];
+    } else if (Object.keys(last).includes(String(lucky))) {
+      console.log('push')
+      last[lucky].push(repeat);
+    } else if (lucky === "kill" || lucky === "") {
+      last = {};
+    }
+    console.log("exit = ", last, repeat, lucky);
+  }
+  // перерисовка + передача хода
+  initNextGame(screenField);
+}

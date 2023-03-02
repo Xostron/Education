@@ -33,7 +33,8 @@ let fieldTemp = [];
 let screenField = 0;
 let bufferP1 = [];
 let bufferP2 = [];
-let mode =''
+let mode = "";
+let last = {};
 // =====подписка на события=====
 
 field.addEventListener("dragenter", (ev) => {
@@ -161,13 +162,13 @@ header.addEventListener("dblclick", (ev) => {
 function hndlLoginStart(...args) {
   // кнопка старт - Логин
   const inputs = args;
-  mode = inputs.length
-  console.log("hanler = ", inputs, mode);
+  mode = inputs.length;
+  // console.log("hanler = ", inputs, mode);
   player1 = inputs[0].value ? inputs[0].value : "Игрок 1";
   if (inputs[1]) {
     player2 = inputs[1].value ? inputs[1].value : "Игрок 2";
   }
-  Login(login, mode,false);
+  Login(login, mode, false);
   initNext();
 }
 function hndlControl(event) {
@@ -196,21 +197,26 @@ function hndlControl(event) {
     init();
     Login(login);
   }
+  else if (target.id==="repeat"){
+    console.log("REPEAT GAME")
+    init()
+    initNext();
+  }
 }
 function hndlNext() {
   // кнопка next
   if (screenField === 0) {
     fieldP1Loc = fieldTemp;
-    if (mode===1){
+    if (mode === 1) {
       // singlePlayer экран редактирования
-      screenField+=2
+      screenField += 2;
       // конфигурация поля ПК ? и вывод 2-х экранов
       reInit("right");
       autolocn(shipP2Battle, bufferP2);
-      fieldP2Loc=fieldTemp
-      //отрисовка 
+      fieldP2Loc = fieldTemp;
+      //отрисовка
       initNextGame(screenField);
-    }else{
+    } else {
       // 2xPlayers
       screenField++;
       if (fieldP2Loc.length > 0) {
@@ -221,8 +227,6 @@ function hndlNext() {
         initNext("right");
       }
     }
-    
-    
   } else if (screenField === 1) {
     // эран редактирования поля 2
     screenField++;
@@ -279,56 +283,68 @@ function hndlBattle(event) {
 }
 function setFire(arrEnemy, pos, stP, shipPBattle) {
   // выстрел по полю с ячейками
-  // console.log(" @@@ = ", arrEnemy);
-  if (arrEnemy[pos] !== 0 && arrEnemy[pos] !== "E1") {
-    // попали в корабль
-    if (arrEnemy[pos].ship[pos] === true) {
-      // если уже стреляли сюда, то ничего не делаем
-      onOffModal(
-        screenField - 1,
-        "По данной координате уже стреляли, корабль подбит",
-        true
-      );
-    } else {
-      // попали
-      arrEnemy[pos].hit(pos);
-      // stP.amount += 1;
-      onOffModal(screenField - 1, "Корабль подбит", true);
-      // проверяем уничтожение корабля
-      if (arrEnemy[pos].state === "kill") {
-        stP[arrEnemy[pos].size] += 1;
-        win(stP, shipPBattle);
-        onOffModal(screenField - 1, "Корабль уничтожен", true);
-        // ****подсветка области уничтоженного корабля******
-        const begin = +Object.keys(arrEnemy[pos].ship)[0];
-        const ori = arrEnemy[pos].rotation;
-        const size = arrEnemy[pos].size;
-        const rowId = Math.trunc(begin / SIZE);
-        console.log("arr=", begin, rowId, ori, size, arrEnemy);
-        const { piece, pieceShip } = getArrCollision(begin, rowId, ori, size);
-        piece.forEach((val) => {
-          if (typeof arrEnemy[val] !== "object") {
-            arrEnemy[val] = "E1";
-          }
-        });
-      }
-    }
-  } else if (arrEnemy[pos] === "E1") {
-    // если уже стреляли сюда, то ничего не делаем
-    onOffModal(
-      screenField - 1,
-      "В эту позицию уже стреляли, каллибровка",
-      true
-    );
-  } else {
-    // мимо
-    onOffModal(screenField - 1, "Мимо, перезаряжаюсь", true);
-    arrEnemy[pos] = "E1";
-    stP.amount += 1;
-    screenField === 3 ? screenField-- : screenField++;
+  checkTwist(arrEnemy, pos, stP, shipPBattle)
+  // if (arrEnemy[pos] !== 0 && arrEnemy[pos] !== "E1") {
+  //   // попали в корабль
+  //   if (arrEnemy[pos].ship[pos] === true) {
+  //     // если уже стреляли сюда, то ничего не делаем
+  //     onOffModal(
+  //       screenField - 1,
+  //       "По данной координате уже стреляли, корабль подбит",
+  //       true
+  //     );
+  //   } else {
+  //     // попали
+  //     arrEnemy[pos].hit(pos);
+  //     // stP.amount += 1;
+  //     onOffModal(screenField - 1, "Корабль подбит", true);
+  //     // проверяем уничтожение корабля
+  //     if (arrEnemy[pos].state === "kill") {
+  //       stP[arrEnemy[pos].size] += 1;
+  //       win(stP, shipPBattle);
+  //       onOffModal(screenField - 1, "Корабль уничтожен", true);
+  //       // ****подсветка области уничтоженного корабля******
+  //       const begin = +Object.keys(arrEnemy[pos].ship)[0];
+  //       const ori = arrEnemy[pos].rotation;
+  //       const size = arrEnemy[pos].size;
+  //       const rowId = Math.trunc(begin / SIZE);
+  //       console.log("arr=", begin, rowId, ori, size, arrEnemy);
+  //       const { piece, pieceShip } = getArrCollision(begin, rowId, ori, size);
+  //       piece.forEach((val) => {
+  //         if (typeof arrEnemy[val] !== "object") {
+  //           arrEnemy[val] = "E1";
+  //         }
+  //       });
+  //     }
+  //   }
+  // } else if (arrEnemy[pos] === "E1") {
+  //   // если уже стреляли сюда, то ничего не делаем
+  //   onOffModal(
+  //     screenField - 1,
+  //     "В эту позицию уже стреляли, каллибровка",
+  //     true
+  //   );
+  // } else {
+  //   // мимо
+  //   onOffModal(screenField - 1, "Мимо, перезаряжаюсь", true);
+  //   arrEnemy[pos] = "E1";
+  //   stP.amount += 1;
+  //   screenField === 3 ? screenField-- : screenField++;
+  // }
+  
+  // перерисовка + передача управления
+  if (mode === 2) {
+    // 2xPlayers
+    initNextGame(screenField);
+  } else if (mode === 1) {
+    // singlePlayers
+    // отрисовка+ передача управления
+    initNextGame(screenField);
+    // ход королевы
+    if (screenField===3){
+    setTimeout(queensGambit,1000)
   }
-  // перерисовка
-  initNextGame(screenField);
+  }
 }
 
 // ==============вызов программы==============
