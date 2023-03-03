@@ -132,7 +132,7 @@ field.addEventListener("drop", (ev) => {
     }
     selectedTool.sub();
     isValid = false;
-    console.log("DROP - push = ", bufferP1, bufferP2);
+    // console.log("DROP - push = ", bufferP1, bufferP2);
   }
   // перерисовка для обновления валидации кнопки "Дальше"
   Control(btns);
@@ -352,3 +352,6 @@ init();
 Login(login);
 
 tools.map((val, idx) => DragEl(val, idx, phantom));
+
+
+

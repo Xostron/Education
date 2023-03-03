@@ -448,7 +448,8 @@ function autolocn(shipPBattle, buffP) {
 }
 function checkTwist(arrEnemy, pos, stP, shipPBattle, lastPos) {
   let repeat = true;
-  let lucky = lastPos;
+  let pre = lastPos;
+  let curr = "";
   if (arrEnemy[pos] !== 0 && arrEnemy[pos] !== "E1") {
     // попали в корабль
     if (arrEnemy[pos].ship[pos] === true) {
@@ -458,16 +459,16 @@ function checkTwist(arrEnemy, pos, stP, shipPBattle, lastPos) {
         "По данной координате уже стреляли, корабль подбит",
         true
       );
-      return { repeat, lucky };
+      return { repeat, pre, curr };
     } else {
       // попали
       arrEnemy[pos].hit(pos);
       // stP.amount += 1;
       onOffModal(screenField - 1, "Корабль подбит", true);
-      lucky = pos;
+      curr = pos;
       // проверяем уничтожение корабля
       if (arrEnemy[pos].state === "kill") {
-        lucky = "kill";
+        curr = "kill";
         stP[arrEnemy[pos].size] += 1;
         win(stP, shipPBattle);
         onOffModal(screenField - 1, "Корабль уничтожен", true);
@@ -484,7 +485,7 @@ function checkTwist(arrEnemy, pos, stP, shipPBattle, lastPos) {
           }
         });
       }
-      return { repeat, lucky };
+      return { repeat, pre, curr };
     }
   } else if (arrEnemy[pos] === "E1") {
     // если уже стреляли сюда, то ничего не делаем
@@ -493,7 +494,7 @@ function checkTwist(arrEnemy, pos, stP, shipPBattle, lastPos) {
       "В эту позицию уже стреляли, каллибровка",
       true
     );
-    return { repeat, lucky };
+    return { repeat, pre, curr };
   } else {
     // мимо
     onOffModal(screenField - 1, "Мимо, перезаряжаюсь", true);
@@ -501,7 +502,7 @@ function checkTwist(arrEnemy, pos, stP, shipPBattle, lastPos) {
     stP.amount += 1;
     screenField === 3 ? screenField-- : screenField++;
     repeat = false;
-    return { repeat, lucky };
+    return { repeat, pre, curr };
   }
 }
 function queensGambit() {
@@ -519,43 +520,93 @@ function queensGambit() {
       newPos = rdmNum > 99 ? 99 : rdmNum;
       lastPos = "";
     } else {
-      // аналитический выбор
-      Object.entries(last).forEach((item) => {
-        if (item[1].length-1 <= 3) {
-          const step = item[1].length<=1?combi[0]:combi[item[1].length-1];
-          newPos = +item[0] + step;
-          if (newPos<0 || newPos>99){
-            last[item[0]].push(false)
-          }
-          lastPos = +item[0]
-        } else {
-          // переход к следующему item
-        }
-      });
-      console.log("enter = ", last, newPos, lastPos);
+      // аналитика - куда стрелять (обрабатываем последний случай,
+      // когда последний исчерпывает себя, переходим к первому случаю)
+      const cases = Object.entries(last);
+      const pCases = cases[cases.length - 1];
+      lastPos = +pCases[0];
+      lastCombi = Object.entries(pCases[1]);
+      lastCombi;
+      console.log("@@@ Entry = ", last, cases, pCases, lastPos, lastCombi);
     }
 
-    let { repeat, lucky } = checkTwist(
+    let { repeat, pre, curr } = checkTwist(
       fieldP1Loc,
       newPos,
       stP2,
       shipP2Battle,
       lastPos
     );
-    // lucky = kill, milk, "", number
+    // curr = kill, milk, "", number
     run = repeat;
 
-    if (!Object.keys(last).includes(String(lucky)) && typeof lucky === "number") {
-      console.log("create")
-      last[lucky] = [];
-    } else if (Object.keys(last).includes(String(lucky))) {
-      console.log('push')
-      last[lucky].push(repeat);
-    } else if (lucky === "kill" || lucky === "") {
+    // сохранение-формирование результата выстрела
+    if (!Object.keys(last).includes(curr + "") && typeof curr === "number") {
+      console.log("create");
+      last[curr] = {};
+      // вариации ходов
+      const row = Math.trunc(curr / SIZE);
+      // combi=[-1,1,-10,10]
+      combi.forEach((val, idx) => {
+        newPos = curr + val;
+        // -1
+        if (idx===0 && (newPos<0 || newPos<(row+1)*SIZE)){
+          last[curr][newPos] = false;
+        }else{
+          if (pre === newPos) {
+            last[curr][newPos] = true;
+            last[pre][curr] = true;
+          } else {
+            last[curr][newPos] = null;
+          }
+        }
+        // +1
+        if (idx===1 && (newPos>=(row+1)*SIZE)){
+          last[curr][newPos] = false;
+        }else{
+          if (pre === newPos) {
+            last[curr][newPos] = true;
+            last[pre][curr] = true;
+          } else {
+            last[curr][newPos] = null;
+          }
+        }
+        // -10
+        if (idx===2 && (newPos<0)){
+          last[curr][newPos] = false;
+        }else{
+          if (pre === newPos) {
+            last[curr][newPos] = true;
+            last[pre][curr] = true;
+          } else {
+            last[curr][newPos] = null;
+          }
+        }
+        // +10
+        if (idx===3 && (newPos>99)){
+          last[curr][newPos] = false;
+        }else{
+          if (pre === newPos) {
+            last[curr][newPos] = true;
+            last[pre][curr] = true;
+          } else {
+            last[curr][newPos] = null;
+          }
+        }
+      });
+    } else if (curr === "kill" || (pre === "" && curr === "")) {
+      console.log("kill or milk");
       last = {};
+    } else {
+      console.log("push milk");
+      last[pre][newPos] = false;
     }
-    console.log("exit = ", last, repeat, lucky);
+    console.log("exit = ", last, repeat, pre, curr);
   }
   // перерисовка + передача хода
   initNextGame(screenField);
 }
+
+
+// []: исправить обводку корабля позиция 10,20
+// []: анализатор хода - одиночная игра
