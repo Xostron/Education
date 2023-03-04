@@ -328,7 +328,7 @@ function getArrCollision(begin, rowId, ori, size) {
   } else {
     // вертикаль
     let piece = [];
-    const a1 = begin > SIZE ? begin - SIZE : begin;
+    const a1 = begin >= SIZE ? begin - SIZE : begin;
     const ak = begin + (size - 1) * SIZE;
     const a11 = ak + SIZE > SIZE * SIZE ? ak : ak + SIZE;
     const height = (a11 - a1) / SIZE + 1;
@@ -355,7 +355,7 @@ function getArrCollision(begin, rowId, ori, size) {
       // console.log("@@@@@@@@@a0",pieceTemp)
       // piece.push(...pieceTemp);
     }
-    // console.log('piece=',piece)
+    console.log('piece=',piece, a1, a0, a2)
     const pieceShip = createArr(begin, begin + size * SIZE, SIZE);
     return { piece, pieceShip };
   }
@@ -512,14 +512,15 @@ function queensGambit() {
   let rdmNum = 0;
   let newPos = 0;
   let combi = [-1, 1, -10, 10];
-  // цикл обработки
+  // цикл обработки и ход
   while (run) {
     if (!Object.keys(last).length) {
       // случайный выбор
       rdmNum = Math.trunc(Math.random() * 110);
       newPos = rdmNum > 99 ? 99 : rdmNum;
       lastPos = "";
-    } else {
+    } else 
+    {
       // аналитика - куда стрелять (обрабатываем последний случай,
       // когда последний исчерпывает себя, переходим к первому случаю)
       const cases = Object.entries(last);
@@ -542,6 +543,7 @@ function queensGambit() {
 
     // сохранение-формирование результата выстрела
     if (!Object.keys(last).includes(curr + "") && typeof curr === "number") {
+      // вариации
       console.log("create");
       last[curr] = {};
       // вариации ходов
@@ -552,35 +554,14 @@ function queensGambit() {
         // -1
         if (idx===0 && (newPos<0 || newPos<(row+1)*SIZE)){
           last[curr][newPos] = false;
-        }else{
-          if (pre === newPos) {
-            last[curr][newPos] = true;
-            last[pre][curr] = true;
-          } else {
-            last[curr][newPos] = null;
-          }
         }
         // +1
         if (idx===1 && (newPos>=(row+1)*SIZE)){
           last[curr][newPos] = false;
-        }else{
-          if (pre === newPos) {
-            last[curr][newPos] = true;
-            last[pre][curr] = true;
-          } else {
-            last[curr][newPos] = null;
-          }
         }
         // -10
         if (idx===2 && (newPos<0)){
           last[curr][newPos] = false;
-        }else{
-          if (pre === newPos) {
-            last[curr][newPos] = true;
-            last[pre][curr] = true;
-          } else {
-            last[curr][newPos] = null;
-          }
         }
         // +10
         if (idx===3 && (newPos>99)){
@@ -595,9 +576,11 @@ function queensGambit() {
         }
       });
     } else if (curr === "kill" || (pre === "" && curr === "")) {
+      // корабли убит или мимо
       console.log("kill or milk");
       last = {};
     } else {
+      // мимо, но цель определена
       console.log("push milk");
       last[pre][newPos] = false;
     }
