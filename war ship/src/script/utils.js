@@ -544,7 +544,7 @@ function queensGambit() {
       lastPos = +pCases[0].slice(1);
       lastCombi = Object.entries(pCases[1]);
       lastCombi;
-      console.log("@@@ Entry = ", last, cases, pCases, lastPos, lastCombi);
+      console.log("@@@ Entry = ?", last, cases, pCases, lastPos, lastCombi);
     }
 
     let { repeat, pre, curr } = checkTwist(
@@ -561,7 +561,7 @@ function queensGambit() {
     const keyLast = `a${curr}`;
     // && typeof curr === "number"
     console.log(
-      "@@@@****",
+      "@@@@****?",
       Object.keys(last),
       !Object.keys(last).includes(keyLast),
       typeof curr === "number"
@@ -613,7 +613,7 @@ function queensGambit() {
       last = {};
     } else {
       // мимо, но цель определена
-      console.log("@@@@ push milk", pre, curr);
+      console.log("@@@@ push milk?", pre, curr);
       last[`a${pre}`][newPos] = false;
     }
     console.log("@@@@@ exit = ", last, repeat, pre, curr);
