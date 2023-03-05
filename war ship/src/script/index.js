@@ -284,53 +284,6 @@ function hndlBattle(event) {
 function setFire(arrEnemy, pos, stP, shipPBattle) {
   // выстрел по полю с ячейками
   checkTwist(arrEnemy, pos, stP, shipPBattle)
-  // if (arrEnemy[pos] !== 0 && arrEnemy[pos] !== "E1") {
-  //   // попали в корабль
-  //   if (arrEnemy[pos].ship[pos] === true) {
-  //     // если уже стреляли сюда, то ничего не делаем
-  //     onOffModal(
-  //       screenField - 1,
-  //       "По данной координате уже стреляли, корабль подбит",
-  //       true
-  //     );
-  //   } else {
-  //     // попали
-  //     arrEnemy[pos].hit(pos);
-  //     // stP.amount += 1;
-  //     onOffModal(screenField - 1, "Корабль подбит", true);
-  //     // проверяем уничтожение корабля
-  //     if (arrEnemy[pos].state === "kill") {
-  //       stP[arrEnemy[pos].size] += 1;
-  //       win(stP, shipPBattle);
-  //       onOffModal(screenField - 1, "Корабль уничтожен", true);
-  //       // ****подсветка области уничтоженного корабля******
-  //       const begin = +Object.keys(arrEnemy[pos].ship)[0];
-  //       const ori = arrEnemy[pos].rotation;
-  //       const size = arrEnemy[pos].size;
-  //       const rowId = Math.trunc(begin / SIZE);
-  //       console.log("arr=", begin, rowId, ori, size, arrEnemy);
-  //       const { piece, pieceShip } = getArrCollision(begin, rowId, ori, size);
-  //       piece.forEach((val) => {
-  //         if (typeof arrEnemy[val] !== "object") {
-  //           arrEnemy[val] = "E1";
-  //         }
-  //       });
-  //     }
-  //   }
-  // } else if (arrEnemy[pos] === "E1") {
-  //   // если уже стреляли сюда, то ничего не делаем
-  //   onOffModal(
-  //     screenField - 1,
-  //     "В эту позицию уже стреляли, каллибровка",
-  //     true
-  //   );
-  // } else {
-  //   // мимо
-  //   onOffModal(screenField - 1, "Мимо, перезаряжаюсь", true);
-  //   arrEnemy[pos] = "E1";
-  //   stP.amount += 1;
-  //   screenField === 3 ? screenField-- : screenField++;
-  // }
   
   // перерисовка + передача управления
   if (mode === 2) {

@@ -355,7 +355,7 @@ function getArrCollision(begin, rowId, ori, size) {
       // console.log("@@@@@@@@@a0",pieceTemp)
       // piece.push(...pieceTemp);
     }
-    console.log('piece=',piece, a1, a0, a2)
+    // console.log("piece=", piece, a1, a0, a2);
     const pieceShip = createArr(begin, begin + size * SIZE, SIZE);
     return { piece, pieceShip };
   }
@@ -465,7 +465,7 @@ function checkTwist(arrEnemy, pos, stP, shipPBattle, lastPos) {
       arrEnemy[pos].hit(pos);
       // stP.amount += 1;
       onOffModal(screenField - 1, "Корабль подбит", true);
-      curr = pos;
+      curr = +pos;
       // проверяем уничтожение корабля
       if (arrEnemy[pos].state === "kill") {
         curr = "kill";
@@ -519,13 +519,29 @@ function queensGambit() {
       rdmNum = Math.trunc(Math.random() * 110);
       newPos = rdmNum > 99 ? 99 : rdmNum;
       lastPos = "";
-    } else 
-    {
+    } else {
       // аналитика - куда стрелять (обрабатываем последний случай,
       // когда последний исчерпывает себя, переходим к первому случаю)
       const cases = Object.entries(last);
+      for (let i = cases.length - 1; i >= 0; i--) {
+        const item = cases[i];
+        console.log("@ purpose = ", item);
+        //  item[0] (ключ)- попадание по кораблю
+        // item[1] (значение) - вариации ходов {number1:null...number4:null}
+        const variation = Object.entries(item[1]);
+        //variation = [[number1,null]...,[number4,null]]
+        for (const variant of variation) {
+          if (variant[1] === null) {
+            newPos = +variant[0];
+            lastPos = +item[0].slice(1);
+            console.log("@@ Стреляем по позиции =", newPos, lastPos);
+            break;
+          }
+        }
+        break;
+      }
       const pCases = cases[cases.length - 1];
-      lastPos = +pCases[0];
+      lastPos = +pCases[0].slice(1);
       lastCombi = Object.entries(pCases[1]);
       lastCombi;
       console.log("@@@ Entry = ", last, cases, pCases, lastPos, lastCombi);
@@ -542,54 +558,69 @@ function queensGambit() {
     run = repeat;
 
     // сохранение-формирование результата выстрела
-    if (!Object.keys(last).includes(curr + "") && typeof curr === "number") {
+    const keyLast = `a${curr}`;
+    // && typeof curr === "number"
+    console.log(
+      "@@@@****",
+      Object.keys(last),
+      !Object.keys(last).includes(keyLast),
+      typeof curr === "number"
+    );
+    console.log("@@@@****", curr, typeof curr);
+    if (!Object.keys(last).includes(keyLast) && typeof curr === "number") {
       // вариации
-      console.log("create");
-      last[curr] = {};
+      console.log(
+        "@@@@ create",
+        Object.keys(last),
+        !Object.keys(last).includes(keyLast),
+        typeof curr === "number"
+      );
+      console.log("@@@@", curr, typeof curr);
+      last[keyLast] = {};
       // вариации ходов
       const row = Math.trunc(curr / SIZE);
       // combi=[-1,1,-10,10]
       combi.forEach((val, idx) => {
         newPos = curr + val;
         // -1
-        if (idx===0 && (newPos<0 || newPos<(row+1)*SIZE)){
-          last[curr][newPos] = false;
+        if (val === -1 && (newPos < 0 || newPos < row * SIZE)) {
+          last[keyLast][newPos] = false;
         }
         // +1
-        if (idx===1 && (newPos>=(row+1)*SIZE)){
-          last[curr][newPos] = false;
+        else if (val === 1 && (newPos > 99 || newPos >= (row + 1) * SIZE)) {
+          last[keyLast][newPos] = false;
         }
         // -10
-        if (idx===2 && (newPos<0)){
-          last[curr][newPos] = false;
+        else if (val === -10 && newPos < 0) {
+          last[keyLast][newPos] = false;
         }
         // +10
-        if (idx===3 && (newPos>99)){
-          last[curr][newPos] = false;
-        }else{
+        else if (val === 10 && newPos > 99) {
+          last[keyLast][newPos] = false;
+        } else {
           if (pre === newPos) {
-            last[curr][newPos] = true;
-            last[pre][curr] = true;
+            last[keyLast][newPos] = true;
+            last[`a${pre}`][curr] = true;
           } else {
-            last[curr][newPos] = null;
+            last[keyLast][newPos] = null;
           }
+          console.log("@@@@ Попадание =", pre, curr);
         }
       });
     } else if (curr === "kill" || (pre === "" && curr === "")) {
       // корабли убит или мимо
-      console.log("kill or milk");
+      console.log("@@@@ kill or milk", pre, curr);
       last = {};
     } else {
       // мимо, но цель определена
-      console.log("push milk");
-      last[pre][newPos] = false;
+      console.log("@@@@ push milk", pre, curr);
+      last[`a${pre}`][newPos] = false;
     }
-    console.log("exit = ", last, repeat, pre, curr);
+    console.log("@@@@@ exit = ", last, repeat, pre, curr);
   }
   // перерисовка + передача хода
   initNextGame(screenField);
 }
-
 
 // []: исправить обводку корабля позиция 10,20
 // []: анализатор хода - одиночная игра
