@@ -146,7 +146,6 @@ h4 {
   flex-direction: column;
   gap: 0.25rem;
   font-size: 16px;
-
 }
 /* Игровая область */
 .game {
@@ -227,10 +226,10 @@ h4 {
 .btns {
   display: flex;
   flex-direction: column;
-  row-gap:10px;
+  row-gap: 10px;
   padding: 2%;
 }
-.btns-row{
+.btns-row {
   display: flex;
   gap: 5%;
 }
@@ -265,8 +264,8 @@ h4 {
   background-color: #ffffff;
   opacity: 1;
 }
-.off{
-  opacity:.5;
+.off {
+  opacity: 0.5;
   pointer-events: none;
 }
 .sum {
@@ -338,9 +337,9 @@ h4 {
   top: -10px;
   left: 15px;
 }
-.label[data-player='1']{
+.label[data-player="1"] {
   color: #82ef86;
 }
-.label[data-player='2']{
+.label[data-player="2"] {
   color: #f88d8d;
 }
