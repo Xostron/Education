@@ -1,49 +1,37 @@
-const express = require('express')
-const pug = require('pug');
-const path = require('path')
+const express = require("express")
+const pug = require("pug")
+const path = require("path")
+const handlers = require("./lib/handlers")
 
 const app = express()
 const port = process.env.PORT || 3000
 
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "pug");
+// механизм представления pug
+app.set("views", path.join(__dirname, "views"))
+app.set("view engine", "pug")
 
+// public - статические ресурсы
+app.use(express.static(__dirname + "/public"))
 
 // маршруты
-app.get('/',(req,res)=>{
-    res.render("home",{title:"Xostron8", text:"sdfasfsdfsdfsdf"})
-})
+app.get("/", handlers.home)
 
-app.get('/play',(req,res)=>{
-    res.render("play",{title:"xos", text:"PLAY"})
-})
+app.get("/play", handlers.play)
 
-// middlewares
-app.use((req,res)=>{
-    res.type('text/plain')
-    res.status(404)
-    res.send('404-Not found page')
-})
+// middlewares - 404, 500
+app.use(handlers.notFound)
 
-app.use((err,req,res,next)=>{
-    console.error("Message err = ",err.message)
-    res.type('text/plain')
-    res.status(500)
-    res.send('500-ERROR SERVER')
-})
+app.use(handlers.serverError)
 
-
-app.listen(port, ()=>{
-    console.log(`Сервер запущен на http://localhost:${port}` +
-    '\nCtrl+C для завершения.' )
-})
-
-
-
-
-
-
-
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(
+      `Сервер запущен на http://localhost:${port}` + "\nCtrl+C для завершения."
+    )
+  })
+} else {
+  module.exports = app
+}
 
 // Render a set of data
 // console.log(compiledFunction({

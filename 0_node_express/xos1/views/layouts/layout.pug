@@ -5,8 +5,16 @@ html(lang="ru")
         meta(charset="UTF-8")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title #{title}
-    body 
-        div#root
-            block layout-content 
+        link(rel="stylesheet", href="/style/reset.css")
+        link(rel="stylesheet", href="/style/style.css")
+        title Xostron
+    body
+        header.navbar 
+            div.right
+                img.logo(src="/img/logo.png", width ="100", alt="logo")
+            div.links
+                a(href="/" data-test-id="home") Home
+                a(href="/play" data-test-id="play") Play   
+        div#root.root
+            block content 
             
