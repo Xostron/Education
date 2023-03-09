@@ -1,27 +1,38 @@
 const express = require("express")
 const pug = require("pug")
 const path = require("path")
+const bodyParser = require("body-parser")
 const handlers = require("./lib/handlers")
 
 const app = express()
 const port = process.env.PORT || 3000
 
+
+
 // механизм представления pug
 app.set("views", path.join(__dirname, "views"))
 app.set("view engine", "pug")
 
-// public - статические ресурсы
+// middlewares
+// public - статические ресурсы (картинки, стили и т.д.)
 app.use(express.static(__dirname + "/public"))
+// для парсинга body
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+
+
+
 
 // маршруты
 app.get("/", handlers.home)
-
 app.get("/play", handlers.play)
-
-// middlewares - 404, 500
+app.get("/login", handlers.login)
+// api
+app.post("/api/login", handlers.api.create_login)
+// middlewares - 404, 500 - рендеринг страниц для ошибок
+app.use(handlers.serverError)
 app.use(handlers.notFound)
 
-app.use(handlers.serverError)
 
 if (require.main === module) {
   app.listen(port, () => {
@@ -32,9 +43,3 @@ if (require.main === module) {
 } else {
   module.exports = app
 }
-
-// Render a set of data
-// console.log(compiledFunction({
-//   name: 'Timothy'
-// }));
-// "<p>Timothy's Pug source code!</p>"

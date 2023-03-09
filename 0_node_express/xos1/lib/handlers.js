@@ -1,8 +1,8 @@
 const { getFortune } = require('./fortune');
+const mock = require("./mock")
 
 exports.home = (req,res)=>{
-    console.log(req.path)
-    res.render("home",{text:"HOME"})
+    res.render("home", {games: mock.games})
 }
 
 exports.play = (req,res)=>{
@@ -10,9 +10,23 @@ exports.play = (req,res)=>{
 }
 
 exports.notFound = (req,res)=>{
+    res.status(404)
     res.render("404")
 }
 
 exports.serverError = (err,req,res,next)=>{
-    res.render("500")
+    console.error('** ОШИБКА СЕРВЕРА: '+err.message)
+    res.status(500).render("500")
+}
+
+exports.login = (req,res)=>{
+    res.render("login")
+}
+
+exports.api = {
+    create_login: (req,res)=>{
+    console.log(req.body)
+    console.log(req.query.form)
+    res.send({result: 'success', name: req.body.email})
+}
 }

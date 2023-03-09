@@ -1,6 +1,10 @@
 extends layouts/layout 
-
+ 
 block content 
     div.view 
-        h1.banner #{text}
-        div.message Каталог
+        h3.banner Каталог игр
+        div.catalog
+            div.card #{games[0].name}
+            div.card #{games[1].name}
+    script(src="script/home.js")
+    link(rel="stylesheet", href="style/home.css")                
