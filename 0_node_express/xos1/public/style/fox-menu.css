@@ -1,0 +1,97 @@
+@import "setting.css";
+.bg-img {
+  position: absolute;
+  margin-top: 50px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 50px);
+  object-fit: cover;
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 1;
+  user-select: none;
+}
+.hide{
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Меню */
+.intro {
+  position: absolute;
+  left: 50px;
+  bottom: 100px;
+  width: 50%;
+  user-select: none;
+}
+.menu {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  align-items: start;
+  justify-content: flex-start;
+  /* width: 50%; */
+}
+.btn-text {
+  font-family: sans-serif;
+  font-size: 18px;
+  padding: 2px 8px;
+  cursor: pointer;
+  transition-property: font-size color;
+  transition-duration: 0.4s;
+  transition-timing-function: ease;
+  color: black;
+}
+.btn-text:hover {
+  font-size: 24px;
+}
+/* Модальное окно - Настройки */
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  background-color: rgba(0, 0, 0, 0.55);
+  color: white;
+  z-index: 100;
+  padding: 20px;
+  transition: opacity .4s ease-in;
+}
+.row{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.in-numb{
+width: 50px;
+}
+.fields{
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+/* Модальное окно - Игра по сети */
+/* Ссылка на игру */
+.copy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 5px;
+  border: 1px solid var(--color-secondary);
+  padding-left: 10px;
+  font-size: 16px;
+  gap: 20px;
+}
+.link {
+}
+.icon {
+  fill: white;
+  stroke: var(--color-fox);
+  cursor: pointer;
+}

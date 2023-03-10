@@ -1,0 +1,43 @@
+extends layouts/layout
+
+block content
+    
+    img.bg-img(src="/img/bg-fox.jpg", alt="")
+    div.intro
+        div.menu
+            button#1.btn-text Одиночная игра
+            button#2.btn-text(type="submit") Игра по сети
+            button#3.btn-text Настройки
+            button#4.btn-text Правила 
+
+    div#setting.modal.hide
+        div.row 
+            span Размер поля
+            div.fields
+                input.in-numb(min=1, max=20, type="number", name="col", value=10)
+                span x
+                input.in-numb(min=1, max=20, type="number", name="row", value=10)
+        div.row 
+            span Количество лис
+            input.in-numb(min=1, type="number", name="col", value=8)
+        div.row 
+            span Лимит по количеству ходов
+            input.in-numb(min=1, max=20, type="number", name="col", value=10)
+        div.row 
+            span Лимит по времени раунда, мин
+            input.in-numb(min=1, type="number", name="col", value=10)    
+
+    //- div#online.modal
+    //-     span Ссылка на игру
+    //-     div.copy 
+    //-         span.link #{uid}
+    //-         svg.icon(width="24px" height="24px" viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg')
+    //-           path(d='M5.11765 15.7059C3.9481 15.7059 3 14.7578 3 13.5882V5.11765C3 3.9481 3.9481 3 5.11765 3H13.5882C14.7578 3 15.7059 3.9481 15.7059 5.11765V5.64706' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
+    //-           rect(x='8.29413' y='8.29412' width='12.7059' height='12.7059' rx='2'  stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
+    
+    
+    
+    
+    
+    script(src="/script/fox-menu.js")
+    link(rel="stylesheet", href="/style/fox-menu.css")

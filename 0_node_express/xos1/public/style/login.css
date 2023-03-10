@@ -1,5 +1,6 @@
+@import "setting.css";
 .login{
-    background-color: rgb(39, 39, 39);
+    background-color: var(--color-bg-logo);
     display: flex;
     flex-direction: column;
     width: 50%;
@@ -22,7 +23,7 @@
     border: none;
 }
 .title{
-    background-color: rgb(215, 190, 47);
+    background-color: var(--color-logo);
     color: aliceblue;
     padding: 10px;
     /* border-radius: 10px; */
