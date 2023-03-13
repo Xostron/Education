@@ -1,29 +1,29 @@
-extends layouts/layout
+extends layouts/fox-layout
 
 block content
     
-    img.bg-img(src="/img/bg-fox.jpg", alt="")
+    //- img.bg-img(src="/img/bg-fox.jpg", alt="")
     div.intro
         div.menu
-            button#1.btn-text Одиночная игра
-            button#2.btn-text(type="submit") Игра по сети
-            button#3.btn-text Настройки
-            button#4.btn-text Правила 
+            button#1.btn-text.btn-text-hover Одиночная игра
+            button#2.btn-text.btn-text-hover(type="submit") Игра по сети
+            button#3.btn-text.btn-text-hover Настройки
+            button#4.btn-text.btn-text-hover Правила 
 
     div#setting.modal.hide
-        div.row 
+        div.modal-row 
             span Размер поля
             div.fields
                 input.in-numb(min=1, max=20, type="number", name="col", value=10)
                 span x
                 input.in-numb(min=1, max=20, type="number", name="row", value=10)
-        div.row 
+        div.modal-row 
             span Количество лис
             input.in-numb(min=1, type="number", name="col", value=8)
-        div.row 
+        div.modal-row 
             span Лимит по количеству ходов
             input.in-numb(min=1, max=20, type="number", name="col", value=10)
-        div.row 
+        div.modal-row 
             span Лимит по времени раунда, мин
             input.in-numb(min=1, type="number", name="col", value=10)    
 
@@ -40,4 +40,4 @@ block content
     
     
     script(src="/script/fox-menu.js")
-    link(rel="stylesheet", href="/style/fox-menu.css")
+    

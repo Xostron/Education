@@ -12,10 +12,9 @@
   --color-btn-hover: #f23434c4;
 
   --color-cell: rgba(255, 255, 255, 0.884);
-  --color-target: #497be7;
-  --color-away: #2c2c2c;
-  --color-catch: #ff004054;
-  --color-win: #ff0040;
+  --color-df: #497be7;
+  --color-away: #ff004054;
+  --color-hit: #ff0040dc;
 }
 /* сброс стилей браузера */
 html,

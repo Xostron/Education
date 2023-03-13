@@ -18,34 +18,30 @@ app.use(express.static(__dirname + "/public"))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-// маршруты
+// маршруты на страницы
+// Домашняя
 app.get("/", handlers.home)
-// app.get("/play", handlers.play)
+// авторизация
 app.get("/login", handlers.login)
+// игра - id games
 app.get("/:id", (req, res) => {
-  // id games
   const id = req.params.id
   res.redirect(303, `/game/${id}`)
 })
+// Начальный экран игры
 app.get("/game/:id", (req, res) => {
-  // console.log('req = ',req)
   res.render("fox-menu", {
     uid: `http://localhost:${port}/game/${req.params.id}`,
   })
 })
-app.get("/play/:id", (req, res) => {
-  // console.log('req = ',req)
-  console.log("online = ", req.params.id)
-  // {uid:`http://localhost:${port}/play/online/${req.params.id}`}
-  // res.redirect(303, `/online/${req.params.id}`)
-  res.render('fox-online')
+// экран - online
+app.get("/play/online/:id", (req, res) => {
+  res.render("fox-online",{uid:`http://localhost:${port}/play/online/${req.params.id}`})
 })
-app.get("/online/:id", (req, res) => {
-  console.log("render online")
-  // ,{uid:`http://localhost:${port}/game/${req.params.id}`
-  res.render("fox-online")
+// экран - single
+app.get("/play/single", (req, res) => {
+  res.render("fox-single")
 })
-
 
 // api
 app.post("/api/login", handlers.api.create_login)
@@ -53,6 +49,8 @@ app.post("/api/login", handlers.api.create_login)
 app.use(handlers.serverError)
 app.use(handlers.notFound)
 
+
+// модуль приложения
 if (require.main === module) {
   app.listen(port, () => {
     console.log(

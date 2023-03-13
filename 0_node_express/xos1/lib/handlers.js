@@ -5,10 +5,6 @@ exports.home = (req,res)=>{
     res.render("home", {games: mock.games})
 }
 
-exports.play = (req,res)=>{
-    res.render("play",{text:"PLAY", game:getFortune()})
-}
-
 exports.notFound = (req,res)=>{
     res.status(404)
     res.render("404")
