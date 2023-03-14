@@ -2,7 +2,7 @@ const { getFortune } = require('./fortune');
 const mock = require("./mock")
 
 exports.home = (req,res)=>{
-    res.render("home", {games: mock.games})
+    res.redirect(303,"/game")
 }
 
 exports.notFound = (req,res)=>{
