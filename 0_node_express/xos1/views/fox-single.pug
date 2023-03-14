@@ -5,9 +5,23 @@ block content
 
         div.header Одиночная игра
 
-        button.btn-text Test
-        span value = 
-        span#counter 0
+        div.stc
+            div.stc-row
+                div.stc-card-block
+                    span#countGo.stc-text 0
+                div.stc-card
+                    img(src="/img/fox32.png", width="24px")
+                    //- span.stc-text 0
+                div.stc-card
+                    img(src="/img/clock32.png", width="24px")
+                    //- span.stc-text 0
+            div.stc-row(data-state="no")
+                div.stc-card
+                    span.stc-text 
+                div.stc-card
+                    span#countFox.stc-text 0
+                div.stc-card
+                    span#elapsed.stc-text 0s
 
         //- игра
         div.field1 

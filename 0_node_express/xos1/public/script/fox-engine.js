@@ -1,15 +1,18 @@
-const SIZE = 10
-//
+// Настройки
+let setSize = 10
+let setCountFox = 8
+let setTimeRound = 0
+
 // отрисовка игрового поля
 function Field(where, arr = [0], show = false, render = true) {
   // отрисовка игрового поля
   where.innerHTML = ""
-  for (let i = 0; i < SIZE; i++) {
+  for (let i = 0; i < setSize; i++) {
     let row = document.createElement("div")
     row.classList.add("row")
-    for (let j = 0; j < SIZE; j++) {
+    for (let j = 0; j < setSize; j++) {
       let cell = document.createElement("div")
-      let x = i * 10 + j
+      let x = i * setSize + j
       // if (arr[x] === 1 || (show && typeof arr[x] === "object")) {
       //   cell.dataset.state = "ship";
       // } else if (arr[x] === 0) {
@@ -25,7 +28,7 @@ function Field(where, arr = [0], show = false, render = true) {
       // } else {
       //   cell.dataset.state = "cell";
       // }
-    //   cell.innerText = x
+      //   cell.innerText = x
       cell.dataset.state = "cell"
       cell.classList.add("cell")
       row.append(cell)
@@ -36,8 +39,8 @@ function Field(where, arr = [0], show = false, render = true) {
 }
 // пеленгатор позиции
 function dirFinder(numbCell) {
-  const row = Math.trunc(numbCell / SIZE)
-  const col = numbCell - SIZE * row
+  const row = Math.trunc(numbCell / setSize)
+  const col = numbCell - setSize * row
   const arrRow = []
   const arrCol = []
   const diagM = []
@@ -46,17 +49,17 @@ function dirFinder(numbCell) {
   let length, start
   let length2, start2
 
-  for (let i = 0; i < SIZE; i++) {
-    arrRow.push(row * SIZE + i)
-    arrCol.push(col + SIZE * i)
+  for (let i = 0; i < setSize; i++) {
+    arrRow.push(row * setSize + i)
+    arrCol.push(col + setSize * i)
   }
   // побочная диагональ - проведённая из лев ниж угла матрицы в прав верх
   if (row + col <= 9) {
     length = row + col + 1
-    start = SIZE * (row + col)
+    start = setSize * (row + col)
   } else if (row + col >= 10) {
     length = 20 - 1 - row - col
-    start = 90 + (row + col + 1) - SIZE
+    start = 90 + (row + col + 1) - setSize
   }
   for (let i = 0; i < length; i++) {
     diagS.push(start - i * 9)
@@ -64,10 +67,10 @@ function dirFinder(numbCell) {
   // главная диагональ - проведённая из лев верх угла матрицы в прав ниж
   if (row > col) {
     start2 = (row - col) * 10
-    length2 = SIZE - (row - col)
+    length2 = setSize - (row - col)
   } else if (col > row) {
     start2 = col - row
-    length2 = SIZE - (col - row)
+    length2 = setSize - (col - row)
   } else if (row === col) {
     start2 = 0
     length2 = 10
@@ -76,8 +79,24 @@ function dirFinder(numbCell) {
     diagM.push(start2 + i * 11)
   }
   totalDF = [...arrRow, ...arrCol, ...diagM, ...diagS]
-  return totalDF
+  console.log("axis = ", totalDF)
+  return { totalDF, arrRow, arrCol, diagM, diagS }
 }
+// определение  кол-ва лис на осях
+function detFoxOnAxis(arr, arrFox) {
+  let count = 0
+  arrFox.forEach((val, idx) => {
+    if (arr.includes(val.pos) && !val.catch) {
+      count += val.fox
+    }
+  })
+  return count
+}
+// отрисовка цифр пеленгатора
+function digitRender(cells, abs, num) {
+    eraseDF(cells)
+    cells[abs].innerText=num
+  }
 // отрисовка пеленгатора
 function dfRender(cells, arrDF) {
   eraseDF(cells)
@@ -87,19 +106,20 @@ function dfRender(cells, arrDF) {
     }
   })
 }
-// очистка от пеленгатора
+
+// очистка пеленгатора
 function eraseDF(cells) {
   cells.forEach((cell) => {
     if (cell.dataset.state === "df") {
       cell.dataset.state = "cell"
+      cell.innerText = ""
     }
   })
 }
-
 // генерация лис
 function generationP(fox = 8) {
   let arr = []
-  for (let i = 0; i < SIZE * SIZE; i++) {
+  for (let i = 0; i < setSize * setSize; i++) {
     arr.push(0)
   }
   for (let i = 0; i < fox; i++) {
@@ -108,9 +128,39 @@ function generationP(fox = 8) {
     if (typeof arr[newPos] === "object") {
       arr[newPos].fox += 1
     } else {
-      arr[newPos] = { fox: 1, catch: false }
+      arr[newPos] = { fox: 1, catch: false, pos: newPos }
     }
   }
-
-  return arr
+  const arrFox = arr.filter((val, idx) => typeof val === "object")
+  return { arr, arrFox }
+}
+// поймать лиса
+function catchFox(arr, pos) {
+  if (typeof arr[pos] === "object") {
+    arr[pos].catch = true
+  }
+}
+// подсчет пойманных лисов, кол-во ходов, прошедшее время
+function countCatch(arrFox) {
+  let catchFox = 0
+  arrFox.forEach((val, idx) => {
+    if (val.catch === true) {
+      catchFox += val.fox
+    }
+  })
+  return catchFox
+}
+// отрисовка лис
+function foxRender(cells, arrFox) {
+  arrFox.forEach((element) => {
+    if (element.catch === true) {
+      cells[element.pos].dataset.state = "hit"
+      cells[element.pos].innerText = element.fox
+    }
+  })
+}
+// callback timer
+function elapsed(){
+    elapsedTime = Math.trunc((new Date() - startTime)/1000)
+    elElapsedTime.innerText = elapsedTime+"s"
 }

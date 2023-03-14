@@ -6,3 +6,44 @@
     text-align: center;
     opacity: .5;
 }
+.stc-row{
+    display:flex;
+    width: 150px;
+    height: 40px;
+    background-color: var(--color-btn);
+    border-radius: 10px;
+    margin: auto;
+    justify-content:space-around;
+    align-items: center;
+    color: white;
+}
+.stc-row[data-state="no"] {
+    background-color: transparent;
+    color: rgb(69, 69, 69);
+    height: 28px;
+    font-weight: 600;
+    font-size: 20px;
+
+  }
+.stc-card{
+    width: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.stc-text{
+    font-size: 16px;
+    
+}
+.stc-card-block{
+    width: 32px;
+    height: 32px;
+    border: 2px solid rgb(86, 86, 86);
+    border-radius: 6px;
+    text-align: center;
+    line-height: 28px;
+    vertical-align: middle;
+    background-color: rgba(255, 239, 59, 0.976);
+    color: rgb(35, 35, 35);
+}
