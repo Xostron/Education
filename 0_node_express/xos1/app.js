@@ -3,14 +3,31 @@ const pug = require("pug")
 const path = require("path")
 const bodyParser = require("body-parser")
 const handlers = require("./lib/handlers")
+const authRouter = require('./routers/authRouter')
+
 const app = express()
 const port = process.env.PORT || 3000
 // Подключение БД
 require('./db')
 
+// механизм представления pug
+app.set("views", path.join(__dirname, "views"))
+app.set("view engine", "pug")
+
+// middlewares
+// public - статические ресурсы (картинки, стили и т.д.)
+app.use(express.static(__dirname + "/public"))
+// для парсинга body
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+
+// маршрутов обработки api
+app.use('/api-auth',authRouter)
+
 
 // модуль приложения
 if (require.main === module) {
+  // console.log("module = ",require.main)
   app.listen(port, () => {
     console.log(
       `Сервер запущен на http://localhost:${port}` + "\nCtrl+C для завершения."
@@ -20,15 +37,7 @@ if (require.main === module) {
   module.exports = app
 }
 
-// механизм представления pug
-app.set("views", path.join(__dirname, "views"))
-app.set("view engine", "pug")
-// middlewares
-// public - статические ресурсы (картинки, стили и т.д.)
-app.use(express.static(__dirname + "/public"))
-// для парсинга body
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
+
 
 // маршруты на страницы
 // Домашняя - перенаправление на /game
@@ -58,8 +67,7 @@ app.get("/login", handlers.login)
 //   res.redirect(303, `/game/${id}`)
 // })
 
-// api
-app.post("/api/login", handlers.api.create_login)
+
 
 // middlewares - 404, 500 - рендеринг страниц для ошибок
 app.use(handlers.serverError)

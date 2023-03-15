@@ -24,6 +24,8 @@ menu.addEventListener("click", (e) => {
       break
     // Правила
     case 4:
+      navlink.href = `/login`
+      navlink.click()
       break
     default:
       break

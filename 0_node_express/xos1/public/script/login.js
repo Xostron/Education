@@ -10,20 +10,32 @@ formL.addEventListener("submit", (e) => {
 
   const headers = { "Content-Type": "application/json" }
 
-  const container = document.querySelector("#login_container")
+  const elErr = document.querySelector(".err")
 
-  fetch("/api/login", { method: "POST", body, headers })
+  fetch("/api-auth/login", { method: "POST", body, headers })
     .then((res) => {
-      if (res.status < 200 || res.status >= 300) {
-        throw new Error("запрос отклонен со статусом, " + res.status)
-      }
+      // if (res.status < 200 || res.status >= 300) {
+      //   throw new Error("запрос отклонен со статусом, " + res.status)
+      // }
       return res.json()
     })
     .then((json) => {
-      console.log(json)
-      container.innerHTML = "Добро пожаловать! " + json.name
+      console.log("@ = ",json)
+      const token = json.token
+      localStorage.setItem("token",token)
+      elErr.classList.remove("hide")
+      elErr.innerText = json.msg
+      // ????? добавить только при валидном user
+      setTimeout(()=>{
+        elErr.classList.add("hide")
+        const link = document.createElement('a')
+        link.href="/game"
+        link.click()
+      },3000)
     })
     .catch((err) => {
-      container.innerHTML = "Извините, возникли проблемы при регистрации"
+      console.log("@@ = ",err)
     })
+
+  
 })

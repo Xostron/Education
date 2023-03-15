@@ -1,4 +1,4 @@
-extends layouts/layout 
+extends layouts/fox-layout
 
 block content 
     div#login_container    
@@ -7,5 +7,6 @@ block content
             input.in(type="email", name="email", placeholder="Почта, логин")
             input.in(type="password",name="password", placeholder="Пароль")
             button.btn(type="submit") Войти 
+        div.err.hide
     script(src="script/login.js")
     link(rel="stylesheet", href="/style/login.css") 

@@ -1,31 +1,39 @@
 @import "setting.css";
-.login{
-    background-color: var(--color-bg-logo);
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    margin: 20px auto;
-    border-radius: 10px;
-    overflow:hidden;
+.login {
+  position: relative;
+  z-index: 1;
+  background-color: var(--color-bg-logo);
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: 10% auto;
+  border-radius: 10px;
+  overflow: hidden;
 }
-.in{
-    padding: 10px;
-    margin: 10px;
-    border-radius: 10px;
-    outline: none;
-    border: none;
+.in {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  outline: none;
+  border: none;
 }
-.btn{
-    padding: 10px;
-    margin: 10px;
-    border-radius: 10px;
-    outline: none;
-    border: none;
+.btn {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  outline: none;
+  border: none;
 }
-.title{
-    background-color: var(--color-logo);
-    color: aliceblue;
-    padding: 10px;
-    /* border-radius: 10px; */
-    /* margin: 10px; */
+.title {
+  background-color: var(--color-logo);
+  color: aliceblue;
+  padding: 10px;
+  /* border-radius: 10px; */
+  /* margin: 10px; */
+}
+.err {
+  position: relative;
+  z-index: 1;
+  width: fit-content;
+  margin: 5% auto;
 }
