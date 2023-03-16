@@ -15,5 +15,5 @@ exports.connectRT = (req, res) => {
 exports.newMsg = (req, res) => {
   const message = req.body
   emitter.emit("newMessage",message)
-  res.status(200)
+  res.status(200).end()
 }

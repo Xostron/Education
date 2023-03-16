@@ -5,8 +5,36 @@ const divConnect = document.querySelector("#onlineConnect")
 const btnOk = document.querySelector("#ok")
 const btnStart = document.querySelector("#start")
 const btnCopy = document.querySelector("#btn-copy")
-subscribe()
-btnCopy.addEventListener("click", () => {})
+
+// subscribe()
+const online = new EventSource('http://localhost:3000/rt-connect')
+    online.onmessage=(event)=>{
+        const msg = event.data
+        console.log("onmessage = ",msg)
+    }
+
+btnStart.addEventListener("click", async() => {
+    await sendMessage()
+})
+
+async function subscribe(){
+    const online = new EventSource('http://localhost:3000/rt-connect')
+    online.onmessage=(event)=>{
+        const msg = event.data
+        console.log("onmessage = ",msg,event)
+    }
+}
+
+async function sendMessage() {
+  const body = JSON.stringify({
+    message: currUser,
+    id: Date.now(),
+  })
+  const headers = { "Content-Type": "application/json" }
+  await fetch("http://localhost:3000/rt-new", 
+  { method: "POST", body, headers })
+
+}
 
 btnCreate.addEventListener("click", () => {
   btnCreate.classList.add("btn-active")
@@ -24,27 +52,10 @@ btnConnect.addEventListener("click", () => {
 
 btnOk.addEventListener("click", () => {})
 
-btnStart.addEventListener("click", () => {
-    sendMessage()
-})
 
 
 
-async function subscribe(){
-    const online = new EventSource('http://localhost:3000/rt-connect')
-    online.onmessage=(event)=>{
-        const msg = event.data
-        console.log("onmessage = ",msg)
-    }
-}
 
-async function sendMessage() {
-  const body = JSON.stringify({
-    message: currUser,
-    id: Date.now(),
-  })
-  const headers = { "Content-Type": "application/json" }
-  await fetch("http://localhost:3000/rt-new", 
-  { method: "POST", body, headers })
+// btnCopy.addEventListener("click", () => {})
 
-}
+
