@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs")
 const User = require("../models/users")
 const jwt = require("jsonwebtoken")
 const { secret } = require("../config")
+const { validationResult } = require("express-validator")
 
 const generateAccessToken = (id) => {
   const payload = {
@@ -14,6 +15,20 @@ const auth = {
   registration: async (req, res) => {
     try {
       const { email, password } = req.body
+      const errors = validationResult(req)
+      let msg = ""
+      if (!errors.isEmpty()) {
+        console.log("registration valid = ", errors.array())
+        if (errors.array().length === 1) {
+          msg = `${errors.array()[0].param} - ${errors.array()[0].msg}`
+        } else if (errors.array().length === 2) {
+          msg = `${errors.array()[0].param} - ${errors.array()[0].msg}
+            ${errors.array()[1].param} - ${errors.array()[1].msg}`
+        }
+        return res.status(400).json({
+          msg: msg,
+        })
+      }
       const candidate = await User.findOne({ email })
       if (candidate) {
         return res
@@ -48,18 +63,30 @@ const auth = {
       const token = generateAccessToken(user._id)
       return res.status(200).json({ msg: "Вход выполнен!", token })
     } catch (error) {
-      console.log("@@@",error)
+      console.log("@@@", error)
       res.status(500).json({ msg: "server error" })
     }
   },
 
   getUsers: async (req, res) => {
     try {
+      console.log("@@@ = ", req.user)
       const users = await User.find()
       res.status(200).json({ users })
     } catch (error) {
       console.log(error)
       res.status(400).json({ msg: "Get users error" })
+    }
+  },
+
+  getAuth: (req, res) => {
+    try {
+      const token = req.headers.authorization.split(" ")[1]
+      console.log("getAuth = ", token)
+      const decode = jwt.verify(token,secret)
+      res.json({ isAuth: true })
+    } catch (error) {
+      res.json({ isAuth: false })
     }
   },
 }

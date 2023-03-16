@@ -1,3 +1,4 @@
+let currUser
 // Настройки
 let setSize = 10
 let setCountFox = 8
@@ -164,3 +165,4 @@ function elapsed(){
     elapsedTime = Math.trunc((new Date() - startTime)/1000)
     elElapsedTime.innerText = elapsedTime+"s"
 }
+

@@ -2,11 +2,13 @@ extends layouts/fox-layout
 
 block content 
     div#login_container    
-        form.login(role="form") 
+        div.login
             div.title Авторизация
-            input.in(type="email", name="email", placeholder="Почта, логин")
-            input.in(type="password",name="password", placeholder="Пароль")
-            button.btn(type="submit") Войти 
+            input#email.in(type="email", name="email", placeholder="Почта, логин")
+            input#password.in(type="password",name="password", placeholder="Пароль")
+            button#login.btn  Войти
+            button#registration.btn.hide Зарегистрироваться
+            span.reg Зарегистрироваться?  
         div.err.hide
     script(src="script/login.js")
     link(rel="stylesheet", href="/style/login.css") 

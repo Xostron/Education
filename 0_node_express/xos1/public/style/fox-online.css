@@ -1,4 +1,82 @@
 .online {
   position: relative;
   z-index: 100;
+  margin: 10% auto;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.btns{
+  display: flex;
+  
+  
+}
+.btn-text{
+  outline: none;
+  border: none;
+  font-family: noto sans;
+  font-size: 1rem;
+  font-weight: 400;
+  cursor: pointer;
+  padding: 10px 14px;
+  /* border-radius: 10px; */
+  background-color: var(--color-btn);
+  transition-property: color, background-color;
+  transition-duration:  0.3s;
+  transition-timing-function: ease-in;
+  width: 100%;
+  color: white;
+}
+
+.btn-text2{
+  outline: none;
+  border: none;
+  font-family: noto sans;
+  font-size: 1rem;
+  font-weight: 400;
+  cursor: pointer;
+  padding: 5px 14px;
+  border-radius: 10px;
+  background-color: var(--color-btn);
+  transition-property: color, background-color;
+  transition-duration:  0.3s;
+  transition-timing-function: ease-in;
+  width: fit-content;
+  color: white;
+}
+.btn-right{
+  margin: 0 100%;
+  transform: translateX(-100%);
+}
+.btn-text:hover {
+  background-color: rgb(215, 190, 47);
+  color: black;
+}
+.btn-text2:hover {
+  background-color: rgb(215, 190, 47);
+  color: black;
+}
+.btn-active{
+  background-color: var(--color-logo);
+
+}
+.card{
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  background-color: rgba(0, 0, 0, 0.55);
+  color: white;
+  z-index: 100;
+  padding: 20px;
+}
+
+.in-url{
+  border-radius: 5px;
+  border: 1px solid var(--color-secondary);
+  font-size: 16px;
+  gap: 20px;
+  padding:5px 10px;
+  outline: none;
+  font-size: 14px;
+  background-color: transparent;
+  color: white;
 }

@@ -3,12 +3,13 @@ const pug = require("pug")
 const path = require("path")
 const bodyParser = require("body-parser")
 const handlers = require("./lib/handlers")
-const authRouter = require('./routers/authRouter')
+const authRouter = require("./routers/authRouter")
+const eventSource = require("./lib/eventSource")
 
 const app = express()
 const port = process.env.PORT || 3000
 // Подключение БД
-require('./db')
+require("./db")
 
 // механизм представления pug
 app.set("views", path.join(__dirname, "views"))
@@ -21,9 +22,12 @@ app.use(express.static(__dirname + "/public"))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-// маршрутов обработки api
-app.use('/api-auth',authRouter)
+// api
+app.use("/api-auth", authRouter)
 
+// Real time
+app.get("/rt-connect", eventSource.connectRT)
+app.post("/rt-new", eventSource.newMsg)
 
 // модуль приложения
 if (require.main === module) {
@@ -37,11 +41,10 @@ if (require.main === module) {
   module.exports = app
 }
 
-
-
 // маршруты на страницы
 // Домашняя - перенаправление на /game
 app.get("/", handlers.home)
+
 // Начальный экран игры
 app.get("/game", (req, res) => {
   res.render("fox-main")
@@ -50,9 +53,10 @@ app.get("/game", (req, res) => {
 // экран - online
 app.get("/online/:id", (req, res) => {
   res.render("fox-online", {
-    uid: `http://localhost:${port}/play/online/${req.params.id}`,
+    uid: `http://localhost:${port}/online/${req.params.id}`,
   })
 })
+
 // экран - single
 app.get("/single", (req, res) => {
   res.render("fox-single")
@@ -60,14 +64,6 @@ app.get("/single", (req, res) => {
 
 // авторизация
 app.get("/login", handlers.login)
-
-// // игра - id games
-// app.get("/:id", (req, res) => {
-//   const id = req.params.id
-//   res.redirect(303, `/game/${id}`)
-// })
-
-
 
 // middlewares - 404, 500 - рендеринг страниц для ошибок
 app.use(handlers.serverError)

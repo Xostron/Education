@@ -15,6 +15,8 @@
 .hide{
   opacity: 0;
   pointer-events: none;
+  /* visibility: hidden; */
+  position: absolute;
 }
 
 /* Меню */
@@ -92,7 +94,7 @@ width: 50px;
 }
 .icon {
   fill: white;
-  stroke: var(--color-fox);
+  stroke: var(--color-logo);
   cursor: pointer;
 }
 
