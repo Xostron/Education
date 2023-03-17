@@ -16,7 +16,7 @@ menu.addEventListener("click", (e) => {
   const { id } = e.target
   const navlink = document.createElement("a")
   const isAuth = localStorage.getItem("isAuth")
-
+console.log("isAuth = ", isAuth, typeof isAuth, null===false, null===true)
   switch (Number(id)) {
     // одиночная игра
     case 1:
@@ -25,13 +25,13 @@ menu.addEventListener("click", (e) => {
       break
     // сетевая
     case 2:
-      if (isAuth === "false") {
+      if (isAuth === "false" || isAuth===null) {
         elMsg.classList.remove("hide")
         elMsg.innerText = "Для игры по сети необходимо войти или зарегистрироваться (*)(*)"
-        //автоматический переход на главную страницу через 3 сек
+        //скрыть сообщение через 2 сек
         setTimeout(() => {
             elMsg.classList.add("hide")
-        }, 3000)
+        }, 1500)
         break
       }
       const uid = +new Date()

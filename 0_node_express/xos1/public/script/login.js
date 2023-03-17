@@ -25,9 +25,10 @@ btnLogin.addEventListener("click", (e) => {
     })
     .then((json) => {
       console.log("@ = ", json)
-      const token = json.token
+      const {token,user} = json
       localStorage.setItem("token", token)
       localStorage.setItem("isAuth",true)
+      sessionStorage.setItem("user",user)
       elErr.classList.remove("hide")
       elErr.innerText = json.msg
       currUser = body.email
@@ -40,7 +41,7 @@ btnLogin.addEventListener("click", (e) => {
           link.href = "/game"
           link.click()
         }
-      }, 3000)
+      }, 2000)
     })
     .catch((err) => {
       console.log("@@ = ", err)

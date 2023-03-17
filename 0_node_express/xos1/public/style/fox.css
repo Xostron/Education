@@ -12,7 +12,7 @@
   z-index: 1;
   user-select: none;
 }
-.hide{
+.hide {
   opacity: 0;
   pointer-events: none;
   /* visibility: hidden; */
@@ -61,18 +61,18 @@
   color: white;
   z-index: 100;
   padding: 20px;
-  transition: opacity .4s ease-in;
+  transition: opacity 0.4s ease-in;
 }
-.modal-row{
+.modal-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
 }
-.in-numb{
-width: 50px;
+.in-numb {
+  width: 50px;
 }
-.fields{
+.fields {
   display: flex;
   gap: 5px;
   align-items: center;
@@ -96,6 +96,14 @@ width: 50px;
   fill: white;
   stroke: var(--color-logo);
   cursor: pointer;
+}
+.icon2 {
+  stroke: white;
+  cursor: pointer;
+  transition: stroke 0.3s ease-in;
+}
+.icon2:hover {
+  stroke: var(--color-logo);
 }
 
 /* Поле */
@@ -139,4 +147,20 @@ width: 50px;
 }
 .cell[data-state="phantom"] {
   background-color: white;
+}
+
+.auth-status {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  /* background-color: rgb(141, 141, 141); */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.auth-status[data-state="login"] {
+  background-color: rgb(117, 245, 94);
+}
+.auth-status[data-state="logout"] {
+  background-color: rgb(141, 141, 141);
 }

@@ -9,6 +9,7 @@ html(lang="ru")
         link(rel="stylesheet", href="/style/style.css")
         link(rel="stylesheet", href="/style/fox.css")
         script(src="/script/fox-engine.js") 
+        
         title Xostron
     body
         header.navbar 
@@ -16,9 +17,26 @@ html(lang="ru")
                 img.logo(src="/img/logo.png", width ="100", alt="logo")
             div.links
                 a(href="/game" data-test-id="home") Меню
-                //- a(href="/login" data-test-id="login") Login     
+                
+                //- login
+                svg#svg-login.icon2(width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg")
+                    path(d="M13 12L21 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round")
+                    path(d="M16 15L13.087 12.087V12.087C13.039 12.039 13.039 11.961 13.087 11.913V11.913L16 9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round")
+                    path(d="M16 5V4.5V4.5C16 3.67157 15.3284 3 14.5 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H14.5C15.3284 21 16 20.3284 16 19.5V19.5V19" stroke-width="2" stroke-linecap="round" stroke-linejoin="round")
+                //- logout
+                svg#svg-logout.icon2.hide(width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg")
+                    path(d="M21 12L13 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round")
+                    path(d="M18 15L20.913 12.087V12.087C20.961 12.039 20.961 11.961 20.913 11.913V11.913L18 9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round")
+                    path(d="M16 5V4.5V4.5C16 3.67157 15.3284 3 14.5 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H14.5C15.3284 21 16 20.3284 16 19.5V19.5V19" stroke-width="2" stroke-linecap="round" stroke-linejoin="round")
+                div.divider-v
+                //- online status
+                div.auth-status
+                //- имя пользователя
+                span.auth-name(style={"color":"white"})
+                                    
         div#root.root
             img.bg-img(src="/img/bg-fox.jpg", alt="")
             block content
-        
+            
+        script(src="/script/fox-layout.js")
             

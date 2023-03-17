@@ -61,7 +61,7 @@ const auth = {
           .json({ msg: "Вход не успешен: введен неверный пароль" })
       }
       const token = generateAccessToken(user._id)
-      return res.status(200).json({ msg: "Вход выполнен!", token })
+      return res.status(200).json({ msg: "Вход выполнен!", token, user: email })
     } catch (error) {
       console.log("@@@", error)
       res.status(500).json({ msg: "server error" })
@@ -83,7 +83,7 @@ const auth = {
     try {
       const token = req.headers.authorization.split(" ")[1]
       console.log("getAuth = ", token)
-      const decode = jwt.verify(token,secret)
+      const decode = jwt.verify(token, secret)
       res.json({ isAuth: true })
     } catch (error) {
       res.json({ isAuth: false })

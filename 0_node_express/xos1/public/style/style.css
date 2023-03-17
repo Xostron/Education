@@ -34,3 +34,15 @@ a{
     margin: 0 auto;
     width: 90%;
 }
+/* hr */
+.divider-h{
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.367);
+    margin: 10px 0;
+  }
+.divider-v{
+    height: 30px;
+    border-left: 1px solid rgb(190, 190, 190);
+    margin: 0px 5px;
+}

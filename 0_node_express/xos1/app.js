@@ -4,6 +4,7 @@ const path = require("path")
 const bodyParser = require("body-parser")
 const handlers = require("./lib/handlers")
 const authRouter = require("./routers/authRouter")
+const roomRouter = require("./routers/roomRouter")
 const eventSource = require("./lib/eventSource")
 
 const app = express()
@@ -23,7 +24,11 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 // api
+// авторизация
 app.use("/api-auth", authRouter)
+
+// создание комнаты
+app.use("/api-room", roomRouter)
 
 // Real time
 app.get("/rt-connect", eventSource.connectRT)

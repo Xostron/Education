@@ -1,61 +1,33 @@
-const btnCreate = document.querySelector("#create")
-const btnConnect = document.querySelector("#connect")
-const divCreate = document.querySelector("#onlineCreate")
-const divConnect = document.querySelector("#onlineConnect")
-const btnOk = document.querySelector("#ok")
-const btnStart = document.querySelector("#start")
-const btnCopy = document.querySelector("#btn-copy")
+const btnCreate = document.querySelector("#btn-create")
+const inCreate = document.querySelector("#in-create")
+const divList = document.querySelector(".list-item")
+let rooms = []
+// создать игру
+btnCreate.addEventListener("click", (e) => {
+  const user = sessionStorage.getItem("user")
+  const game = inCreate.value
+  console.log("click = ", user, game)
+  if (game === "") {
+    return
+  }
+  if (user === "" || user === null) {
+    return
+  }
 
-// subscribe()
-const online = new EventSource('http://localhost:3000/rt-connect')
-    online.onmessage=(event)=>{
-        const msg = event.data
-        console.log("onmessage = ",msg)
-    }
-
-btnStart.addEventListener("click", async() => {
-    await sendMessage()
-})
-
-async function subscribe(){
-    const online = new EventSource('http://localhost:3000/rt-connect')
-    online.onmessage=(event)=>{
-        const msg = event.data
-        console.log("onmessage = ",msg,event)
-    }
-}
-
-async function sendMessage() {
   const body = JSON.stringify({
-    message: currUser,
-    id: Date.now(),
+    user: user,
+    game: game,
   })
   const headers = { "Content-Type": "application/json" }
-  await fetch("http://localhost:3000/rt-new", 
-  { method: "POST", body, headers })
-
-}
-
-btnCreate.addEventListener("click", () => {
-  btnCreate.classList.add("btn-active")
-  btnConnect.classList.remove("btn-active")
-  divCreate.classList.remove("hide")
-  divConnect.classList.add("hide")
+  fetch("/api-room/create", { method: "POST", body, headers })
+  .then(res=>res.json())
+  .then(data=>{
+    rooms = data
+    console.log(rooms)
+  })
 })
 
-btnConnect.addEventListener("click", () => {
-  btnConnect.classList.add("btn-active")
-  btnCreate.classList.remove("btn-active")
-  divConnect.classList.remove("hide")
-  divCreate.classList.add("hide")
-})
-
-btnOk.addEventListener("click", () => {})
-
-
-
-
+// войти в игру
+divList.addEventListener("click", (e) => {})
 
 // btnCopy.addEventListener("click", () => {})
-
-

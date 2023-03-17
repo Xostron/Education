@@ -165,4 +165,31 @@ function elapsed(){
     elapsedTime = Math.trunc((new Date() - startTime)/1000)
     elElapsedTime.innerText = elapsedTime+"s"
 }
+// list rooms - список комнат
+function ItemRoom(where, obj){
+  const {game, user} = obj
+  let template = ``
+}
 
+
+ // RT: подписка на событие ответа от сервера
+async function subcribe(){
+const online = new EventSource('http://localhost:3000/rt-connect')
+// обработчик события от сервера
+    online.onmessage=(event)=>{
+        const msg = event.data
+        console.log("onmessage = ",msg)
+    }
+  }
+// RT: передача сообщения (действие в игре)
+async function sendMessage() { 
+  const body = JSON.stringify({
+    idGame:'',
+    idUser:'',
+    command:''
+  })
+  const headers = { "Content-Type": "application/json" }
+  await fetch("http://localhost:3000/rt-new", 
+  { method: "POST", body, headers })
+
+}
