@@ -55,12 +55,15 @@ app.get("/game", (req, res) => {
   res.render("fox-main")
 })
 
-// экран - online
-app.get("/online/:id", (req, res) => {
-  res.render("fox-online", {
-    uid: `http://localhost:${port}/online/${req.params.id}`,
-  })
+// экран - online: cоздать/войти в игру
+app.get("/online/create", (req, res) => {
+  res.render("fox-online")
 })
+// экран - online: ИГРА
+app.get("/online/:id", (req,res)=>{
+  res.render("fox-online-game")
+})
+
 
 // экран - single
 app.get("/single", (req, res) => {

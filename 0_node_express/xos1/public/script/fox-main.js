@@ -34,8 +34,8 @@ console.log("isAuth = ", isAuth, typeof isAuth, null===false, null===true)
         }, 1500)
         break
       }
-      const uid = +new Date()
-      navlink.href = `/online/${uid}`
+      // const uid = +new Date()
+      navlink.href = `/online/create`
       navlink.click()
       break
     // настройки

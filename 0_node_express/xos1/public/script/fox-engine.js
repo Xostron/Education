@@ -95,9 +95,9 @@ function detFoxOnAxis(arr, arrFox) {
 }
 // отрисовка цифр пеленгатора
 function digitRender(cells, abs, num) {
-    eraseDF(cells)
-    cells[abs].innerText=num
-  }
+  eraseDF(cells)
+  cells[abs].innerText = num
+}
 // отрисовка пеленгатора
 function dfRender(cells, arrDF) {
   eraseDF(cells)
@@ -136,10 +136,17 @@ function generationP(fox = 8) {
   return { arr, arrFox }
 }
 // поймать лиса
-function catchFox(arr, pos) {
+function catchFox(arr,arrFox, pos) {
   if (typeof arr[pos] === "object") {
     arr[pos].catch = true
   }
+  arrFox.forEach((val)=>{
+    if (val.pos===pos){
+      val.catch=true
+    }
+  })
+  obj={arr, arrFox}
+  return {arr, arrFox}
 }
 // подсчет пойманных лисов, кол-во ходов, прошедшее время
 function countCatch(arrFox) {
@@ -161,35 +168,26 @@ function foxRender(cells, arrFox) {
   })
 }
 // callback timer
-function elapsed(){
-    elapsedTime = Math.trunc((new Date() - startTime)/1000)
-    elElapsedTime.innerText = elapsedTime+"s"
+function elapsed(where,startTime) {
+  elapsedTime = Math.trunc((new Date() - startTime) / 1000)
+  where.innerText = elapsedTime + "s"
 }
 // list rooms - список комнат
-function ItemRoom(where, obj){
-  const {game, user} = obj
-  let template = ``
+function renderRooms(where, item, idx) {
+  const { game, user } = item
+  let template = `
+  <div class="item">
+    <div class="left">
+      <span class="number"> ${idx}. </span>
+      <span class="name"> ${game} </span>
+      <span class="user"> ${user} </span>
+      </div>
+    <div class="right">
+      <button id="${game}" name="connect" class="btn-text2"> Войти </button>
+    </div>
+  </div>
+  `
+  where.innerHTML += template
 }
 
 
- // RT: подписка на событие ответа от сервера
-async function subcribe(){
-const online = new EventSource('http://localhost:3000/rt-connect')
-// обработчик события от сервера
-    online.onmessage=(event)=>{
-        const msg = event.data
-        console.log("onmessage = ",msg)
-    }
-  }
-// RT: передача сообщения (действие в игре)
-async function sendMessage() { 
-  const body = JSON.stringify({
-    idGame:'',
-    idUser:'',
-    command:''
-  })
-  const headers = { "Content-Type": "application/json" }
-  await fetch("http://localhost:3000/rt-new", 
-  { method: "POST", body, headers })
-
-}

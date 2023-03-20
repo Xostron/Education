@@ -1,0 +1,55 @@
+extends layouts/fox-layout
+
+block content
+    div.online-game
+
+        div.game
+            div.header
+
+            div#stc1.stc
+                div.stc-row
+                    div.stc-card-block
+                        span#countGo.stc-text 0
+                    div.stc-card
+                        img(src="/img/fox32.png", width="24px")
+                        //- span.stc-text 0
+                    div.stc-card
+                        img(src="/img/clock32.png", width="24px")
+                        //- span.stc-text 0
+                div.stc-row(data-state="no")
+                    div.stc-card
+                        span.stc-text 
+                    div.stc-card
+                        span#countFox.stc-text 0
+                    div.stc-card
+                        span#elapsed.stc-text 0s
+            //- игра
+            div.field1 
+
+        div.game
+            div.header 
+
+            div#stc2.stc
+                div.stc-row
+                    div.stc-card-block
+                        span#countGo.stc-text 0
+                    div.stc-card
+                        img(src="/img/fox32.png", width="24px")
+                        //- span.stc-text 0
+                    div.stc-card
+                        img(src="/img/clock32.png", width="24px")
+                        //- span.stc-text 0
+                div.stc-row(data-state="no")
+                    div.stc-card
+                        span.stc-text 
+                    div.stc-card
+                        span#countFox.stc-text 0
+                    div.stc-card
+                        span#elapsed.stc-text 0s
+            //- игра
+            div.field2
+            
+
+    script(src="/script/fox-online-game.js")
+    link(rel="stylesheet", href="/style/fox-single.css")
+    link(rel="stylesheet", href="/style/fox-online-game.css")
