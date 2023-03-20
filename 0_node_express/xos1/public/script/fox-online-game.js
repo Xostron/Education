@@ -12,6 +12,9 @@ const elGo2 = stc2.querySelector("#countGo")
 const elFox2 = stc2.querySelector("#countFox")
 const elapsedTime2 = stc2.querySelector("#elapsed")
 
+const header1 = field1.querySelector('#header1')
+const header2 = field2.querySelector('#header2')
+
 // поле 1 игрока
 let fieldTemp1 = []
 let foxTemp1 = []
