@@ -12,8 +12,8 @@ const elGo2 = stc2.querySelector("#countGo")
 const elFox2 = stc2.querySelector("#countFox")
 const elapsedTime2 = stc2.querySelector("#elapsed")
 
-const header1 = field1.querySelector('#header1')
-const header2 = field2.querySelector('#header2')
+const header1 = document.querySelector('#header1')
+const header2 = document.querySelector('#header2')
 
 // поле 1 игрока
 let fieldTemp1 = []
@@ -41,15 +41,20 @@ let startTime2 = 0
 let timerId2 = {}
 let fieldTemp2 = []
 let foxTemp2=[]
+
+// подписка на события - нажатие на клетку
+field1.addEventListener("click", hndlCell)
+
 //после загрузки документа,
 // подписка на подключение online и получение ответа от сервера по подписке
 window.onload = async () => {
   await subcribe()
+  const idUser = sessionStorage.getItem("user")
+  header1.innerText = idUser
+  // await sendMessage({idUser,command:'user'})
 }
-// подписка на события
-field1.addEventListener("click", hndlCell)
-// обработчик события
-// нажатие на клетку
+
+// обработчик события - нажатие на клетку
 async function hndlCell(event) {
   if (event.target === event.currentTarget) {
     eraseDF(cells1)
@@ -72,54 +77,58 @@ async function hndlCell(event) {
   }
 }
 
-// RT: подписка на событие ответа от сервера
+// RT: подписка на событие ответа сервера
 async function subcribe() {
   const online = new EventSource("http://localhost:3000/rt-connect")
   // обработчик события от сервера: прием сообщения от сервера по подписке
   // расшифровка сообщения и если относится к нам, то делаем отрисовку
   online.onmessage = (event) => {
     const msg = JSON.parse(event.data)
-    // console.log("onmessage = ", msg)
+    // console.log("onmessage = ", msg.command)
+    // прием команды от сервера на отрисовку
     const nativeUser = sessionStorage.getItem("user")
     const nativeGame = sessionStorage.getItem("gameId")
-    if (nativeGame === msg.idGame) {
-      if (nativeUser === msg.idUser) {
-        // отрисовка себя
-        // console.log(msg.idUser, `нажал на ячейку`, msg)
-        renderOnline(
-          elFox1,
-          elGo1,
-          msg.countGo,
-          msg.countCatchFox,
-          msg.fieldTemp,
-          msg.foxTemp,
-          msg.command,
-          cells1,
-          elapsedTime1,
-          msg.startTime,
-          (who = 1)
-        )
-      } else {
-        // отрисовка другого игрока
-        // console.log("противник ", msg.idUser, `нажал на ячейку`, msg)
-        renderOnline(
-          elFox2,
-          elGo2,
-          msg.countGo,
-          msg.countCatchFox,
-          msg.fieldTemp,
-          msg.foxTemp,
-          msg.command,
-          cells2,
-          elapsedTime2,
-          msg.startTime,
-          (who = 2)
-        )
-      }
-    }
+        if (nativeGame === msg.idGame) {
+          if (nativeUser === msg.idUser) {
+            // отрисовка себя
+            // console.log(msg.idUser, `нажал на ячейку`, msg)
+            renderOnline(
+              elFox1,
+              elGo1,
+              msg.countGo,
+              msg.countCatchFox,
+              msg.fieldTemp,
+              msg.foxTemp,
+              msg.command,
+              cells1,
+              elapsedTime1,
+              msg.startTime,
+              (who = 1)
+            )
+          } else {
+            // отрисовка другого игрока
+            // console.log("противник ", msg.idUser, `нажал на ячейку`, msg)
+            renderOnline(
+              elFox2,
+              elGo2,
+              msg.countGo,
+              msg.countCatchFox,
+              msg.fieldTemp,
+              msg.foxTemp,
+              msg.command,
+              cells2,
+              elapsedTime2,
+              msg.startTime,
+              (who = 2),
+              msg.idUser
+            )
+          }
+        }
+
   }
 }
 
+// функция отрисовки
 function renderOnline(
   elFox,
   elGo,
@@ -131,7 +140,8 @@ function renderOnline(
   cells,
   elapsedTime,
   startTime,
-  who
+  who,
+  user
 ) {
   console.log('render = ', foxTemp)
   if (who === 1) {
@@ -165,6 +175,7 @@ function renderOnline(
     if (countGo === 0) {
       startTime = new Date()
       timerId2 = setInterval(() => elapsed(elapsedTime, startTime), 1000)
+      header2.innerText = user
     }
     const { arr, arrFox } = catchFox(fieldTemp, foxTemp, absId)
     fieldTemp2 = arr
@@ -188,7 +199,6 @@ function renderOnline(
     elGo.innerText = countGo
   }
 }
-
 // RT: передача сообщения (действие в игре)
 async function sendMessage(object) {
   const {
