@@ -27,12 +27,9 @@ btnSend1.addEventListener("click", (event) => {
   formData.set('msg1','Отработка кнопки 1')
   formData.set('msg2','Files - Duna')
   console.log("formData = ", formData);
-  fetch("/api/btn1", {
+  fetch("/api/form-file", {
     method: "POST",
-    // headers: { "content-type": "application/json" },
-    // headers: { "content-type": "multipart/form-data" },
     body: formData
-    // body: JSON.stringify({msg:'Xostron отработка кнопки 1',file}),
   })
     .then((res) => res.json())
     .then(console.log);
