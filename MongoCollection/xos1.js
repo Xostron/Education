@@ -463,33 +463,44 @@ const ind = {
 };
 
 // массив имен коллекций из xml
-const coll = [];
-for (let i = 0; i < tables.length; i++) {
-  const table = tables[i].attributes.name.nodeValue;
-  coll.push(table);
-}
-console.log("Исходный", coll, a);
+// const coll = [];
+// for (let i = 0; i < tables.length; i++) {
+//   const table = tables[i].attributes.name.nodeValue;
+//   coll.push(table);
+// }
+// console.log("Исходный", coll, a);
 
-// массив отличий и сходств
-const difC = coll.filter((val, idx) => !a.includes(val));
-const difA = a.filter((val, idx) => !coll.includes(val));
-console.log("отличия", difC, difA);
+// // массив отличий и сходств
+// const difC = coll.filter((val, idx) => !a.includes(val));
+// const difA = a.filter((val, idx) => !coll.includes(val));
+// console.log("отличия", difC, difA);
 
-const difCr = coll.filter((val, idx) => a.includes(val));
-const difAr = a.filter((val, idx) => coll.includes(val));
-console.log("сходства", difCr, difAr);
+// const difCr = coll.filter((val, idx) => a.includes(val));
+// const difAr = a.filter((val, idx) => coll.includes(val));
+// console.log("сходства", difCr, difAr);
 
-// удалить и найти дупликаты
-const cl = [];
-for (let i = 0; i < a.length; i++) {
-  if (!cl.includes(a[i])) {
-    cl.push(a[i]);
-  } else {
-    console.log("duplex", a[i]);
-  }
-}
+// // удалить и найти дупликаты
+// const cl = [];
+// for (let i = 0; i < a.length; i++) {
+//   if (!cl.includes(a[i])) {
+//     cl.push(a[i]);
+//   } else {
+//     console.log("duplex", a[i]);
+//   }
+// }
 
-// массив имен коллекций из ind
-const rInd = Object.keys(ind);
-const difInd = coll.filter((val, idx) => !rInd.includes(val));
-console.log("Ind", rInd, "Different", difInd);
+// // массив имен коллекций из ind
+// const rInd = Object.keys(ind);
+// const difInd = coll.filter((val, idx) => !rInd.includes(val));
+// console.log("Ind", rInd, "Different", difInd);
+
+const l1 = [2,4,3]
+const l2 = [5,6,4]
+
+var addTwoNumbers = function(l1, l2) {
+    return String(Number(l1.join('')) + Number(l2.join(''))).split('').reverse()
+    
+    
+};
+
+console.log(addTwoNumbers(l1,l2))
