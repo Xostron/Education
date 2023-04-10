@@ -17,7 +17,7 @@ console.log(fileDir);
 // Middlewares - промежуточные ПО
 // Подключение статических файлов к ним могут
 // обращаться клиенты через браузер,например,
-// http://localhost:3000/test.jpg
+// http://localhost:3010/test.jpg
 app.use(express.json("application/json"));
 app.use(express.static(__dirname + "/public"));
 app.use(cors());
@@ -66,3 +66,10 @@ function saveFile(files) {
     });
   });
 }
+
+
+/*
+Сервер1:
+
+Есть api  для сохранения файла, запрос от сервера2 отправляет данные на сервер1
+*/
