@@ -35,3 +35,6 @@ console.log(this)
 let q = [0,3,2,5,7,4,8,1,19,17,12,15,29,21]
 
 console.log(q.sort((a,b)=>{return a-b}))
+
+// IIFE - немедленно вызываемая функция
+const w = (function(val){console.log(val)}) ("IIFE функция")
