@@ -1,0 +1,13 @@
+extends layouts/layout
+
+block content
+
+    div.intro 
+        span.title Регистрация
+        label#label-file.input-file(for="file") Прикрепить файл
+        input#file.input-hide(type="file", name="file",multiple=true)
+        button#btn1.btn Отправить FormData
+        button#btn2.btn Отправить JSON
+
+    script(src="script/home.js") 
+    

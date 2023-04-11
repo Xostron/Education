@@ -1,0 +1,62 @@
+@import "setting.css";
+
+.hide {
+  opacity: 0;
+  pointer-events: none;
+  /* visibility: hidden; */
+  position: absolute;
+}
+
+/* Меню */
+.intro {
+  margin: 28px auto;
+  z-index: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  row-gap: 8px;
+}
+
+.btn {
+  padding: 8px;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  font-family: Montserrat;
+  font-size: 20px;
+  background-color: rgb(153, 78, 223);
+  transition: background-color .4s ease;
+  color: white;
+}
+.btn:hover{
+  background-color: rgb(130, 10, 241);
+}
+
+.in{
+  padding: 8px;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+}
+
+.input-hide{
+  display: none;
+}
+
+.input-file{
+  height: 100px;
+  width:100%;
+  border-radius: 10px;
+  opacity: .7;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: Montserrat;
+  font-size: 20px;
+  color: rgb(153, 78, 223);
+  overflow-y: auto;
+}
