@@ -1,3 +1,8 @@
+
+{
+    // включение строгого режима
+    // "use strict"
+// блочная область видимости {}
 console.log('test xostron3')
 const a = {
     name:'xos',
@@ -38,3 +43,38 @@ console.log(q.sort((a,b)=>{return a-b}))
 
 // IIFE - немедленно вызываемая функция
 const w = (function(val){console.log(val)}) ("IIFE функция")
+
+}
+
+    let q = 10
+    let w = 5
+    console.log('q,w = ',q,w)
+
+    function qw(q,w){
+        console.log('arg = ',arguments)
+        console.log('this = ',this)
+        return q+w
+    }
+
+   new qw(q,w)
+//    qw(1,1)
+// ***************************ЗАМЫКАНИЯ***************************
+let outerVal = "samurai"
+
+function outerF(x){
+    let innerVal = x
+    function innerF(y){
+        return innerVal +=y
+    }
+const later = innerF
+    return later
+}
+
+// console.log(outerF())
+// console.log(later())
+let x = outerF('+x3')
+console.log(x('+x5'))
+console.log(x('+x15'))
+console.log(x('+x25'))
+console.log(x('+x35'))
+console.log(x('+x45'))
