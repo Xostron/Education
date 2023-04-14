@@ -59,6 +59,7 @@ const w = (function(val){console.log(val)}) ("IIFE функция")
    new qw(q,w)
 //    qw(1,1)
 // ***************************ЗАМЫКАНИЯ***************************
+// 1 - закрытые переменные
 let outerVal = "samurai"
 
 function outerF(x){
@@ -78,3 +79,45 @@ console.log(x('+x15'))
 console.log(x('+x25'))
 console.log(x('+x35'))
 console.log(x('+x45'))
+
+// 2 - контекст выполнения функции - стек вызовов 
+/*
+JS однопоточный, в самом начале в стеке размещается глобальный контекст document. 
+При вызове функции интерпретатор js прерывает выполнение глобального кода и 
+переходит к выполнению функции. Для этого создается новый контекст выполнения
+функции, который размещается на вершине стека. стек работает по принципу FIFO-первый зашел
+первый вышел
+*/
+function emperor(x){
+    primarch(x+' legion')
+}
+function primarch(x){
+    console.log(x)
+}
+
+emperor(12)
+// 3 - функция конструктор
+function legion(){
+    let name='Alpha'
+    this.getAlpha=()=>{
+        return name
+    }
+    this.setName = ()=>{
+        name+=1
+    }
+}
+
+let l1 = new legion()
+l1.setName()
+console.log('@l1 = ',l1.getAlpha())
+
+let l2 = {}
+l2.setName = l1.setName
+l2.getAlpha= l1.getAlpha
+
+l2.setName()
+console.log('@l2 = ',l2.getAlpha())
+console.log('@l1 = ',l1.getAlpha())
+l1.setName()
+console.log('@@l1 = ',l1.getAlpha())
+console.log('@@l2 = ',l2.getAlpha())
