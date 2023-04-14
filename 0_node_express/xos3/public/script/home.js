@@ -126,16 +126,39 @@ console.log('@@l2 = ',l2.getAlpha())
 Функция генератор - создает объект итератор
 */
 
-function* GaussFoo(){
-    yield '1 залп'
-    yield '2 залп'
-    yield '3 залп'
+function* gaussFoo(){
+    let s = 'Залп-'
+    console.log("здесь начинается выполнение next -1")
+    yield s+1
+
+    console.log("здесь начинается выполнение next -2")
+    yield* bigGaussFoo()
+
+    console.log("здесь начинается выполнение next -3")
+    yield s+3
+
+    console.log("здесь начинается выполнение next -4 - конец генератора")
+    return true
+}
+// данный генератор выполняется в другом генераторе
+function* bigGaussFoo(){
+    let s = 'Эми-'
+    yield s+1
+    yield s+2
+    
 }
 const btn = document.querySelector("#btn3")
+// ссылка на итератор
+let s = gaussFoo()
 console.log(btn)
+
 btn.addEventListener('click',()=>{
-    for (const shoot of GaussFoo()) {
-        console.log("Gauss shoot = ", shoot)
-    }
-    
+    // обработка объекта итератора - который создает наша функция-генератор GaussFoo 
+    // for (const shoot of gaussFoo()) {
+    //     console.log("Gauss shoot = ", shoot)
+    // }
+
+    // метод next функции генератора
+    let s1 = s.next()
+    console.log(s1)
 })
