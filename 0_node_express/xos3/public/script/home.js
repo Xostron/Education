@@ -121,3 +121,21 @@ console.log('@l1 = ',l1.getAlpha())
 l1.setName()
 console.log('@@l1 = ',l1.getAlpha())
 console.log('@@l2 = ',l2.getAlpha())
+
+/* 
+Функция генератор - создает объект итератор
+*/
+
+function* GaussFoo(){
+    yield '1 залп'
+    yield '2 залп'
+    yield '3 залп'
+}
+const btn = document.querySelector("#btn3")
+console.log(btn)
+btn.addEventListener('click',()=>{
+    for (const shoot of GaussFoo()) {
+        console.log("Gauss shoot = ", shoot)
+    }
+    
+})

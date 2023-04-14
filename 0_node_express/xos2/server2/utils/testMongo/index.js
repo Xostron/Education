@@ -9,6 +9,15 @@ const alpha = db.collection("alpha");
 db.on("error", (err) => console.log("Отсутствует связь с MongoDB"));
 db.on("connect", () => console.log("Связь с MongoDB установлена"));
 
+
+try{
+    
+}catch(e){
+
+}
+
+
+
 // создание документа в коллекции  alpha***************************
 // db.alpha.save({created: 'just now'})
 // db.alpha.save({
@@ -140,55 +149,55 @@ data - событие вызывается при каждом нахожден�
 если then() возвращает что-то, оно автоматически является промисом, и обрабатывается 
 также через then (следующий по очереди), так образуется цепочка промисов.
 */
-
-function comLoken() {
-    return new Promise((resolve, reject) => {
-        const q = { author: { $ne: 'xostron' } }
-        const cur = db.alpha.find(q)
-
-        let count = 0
-        let end = false
-
-        cur.on('error', err => reject(err))
-        cur.on('end', _ => {
-            end = true
-            if (count) return
-            resolve(true)
-        })
-        cur.on('data', doc => {
-            // ++count
-            // const agentId = doc.agentId
-            // doc.owner = {
-            //     type: 'agent',
-            //     id: agentId
-            // }
-            // db.promo.updateOne({ _id: doc._id }, { $set: doc })
-            // if (--count) return
-            // if (!end) return
-            console.log('doc = ', doc)
-            resolve(true)
-        })
-    })
-}
-
-// function update(q, un, m) {
+//****************************************************************************** */
+// function comLoken() {
 //     return new Promise((resolve, reject) => {
-//         db.promo.update(q, un, m, (err, docs) => {
-//             if (err) return reject(err)
-//             resolve(docs)
+//         const q = { author: { $ne: 'xostron' } }
+//         const cur = db.alpha.find(q)
+
+//         let count = 0
+//         let end = false
+
+//         cur.on('error', err => reject(err))
+//         cur.on('end', _ => {
+//             end = true
+//             if (count) return
+//             resolve(true)
+//         })
+//         cur.on('data', doc => {
+//             // ++count
+//             // const agentId = doc.agentId
+//             // doc.owner = {
+//             //     type: 'agent',
+//             //     id: agentId
+//             // }
+//             // db.promo.updateOne({ _id: doc._id }, { $set: doc })
+//             // if (--count) return
+//             // if (!end) return
+//             console.log('doc = ', doc)
+//             resolve(true)
 //         })
 //     })
 // }
 
-comLoken()
-    // .then(_ => {
-    //     // const q = { agentId: { $ne: null } }
-    //     // const un = { $unset: { agentId: 1 } }
-    //     // const m = { multi: true }
-    //     // return update(q, un, m)
-    // })
-    .then(_ => {
-        db.close()    
-        console.log('БД обновлена')
-    })
-    .catch(err => console.log(err))
+// // function update(q, un, m) {
+// //     return new Promise((resolve, reject) => {
+// //         db.promo.update(q, un, m, (err, docs) => {
+// //             if (err) return reject(err)
+// //             resolve(docs)
+// //         })
+// //     })
+// // }
+
+// comLoken()
+//     // .then(_ => {
+//     //     // const q = { agentId: { $ne: null } }
+//     //     // const un = { $unset: { agentId: 1 } }
+//     //     // const m = { multi: true }
+//     //     // return update(q, un, m)
+//     // })
+//     .then(_ => {
+//         db.close()    
+//         console.log('БД обновлена')
+//     })
+//     .catch(err => console.log(err))
