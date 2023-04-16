@@ -16,11 +16,12 @@ btnLogin.addEventListener("click", (e) => {
 
   const elErr = document.querySelector(".err")
 
-  fetch("/api-auth/login", { method: "POST", body, headers })
-    .then((res) => {
+  const promise = fetch("/api-auth/login", { method: "POST", body, headers })
+    promise.then((res) => {
       // if (res.status < 200 || res.status >= 300) {
       //   throw new Error("запрос отклонен со статусом, " + res.status)
       // }
+      console.log('@@@=', res)
       return res.json()
     })
     .then((json) => {
