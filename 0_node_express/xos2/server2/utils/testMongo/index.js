@@ -1,5 +1,5 @@
 const mongojs = require("mongojs");
-
+const { ObjectId } = require('mongojs');
 // подключение к БД xos1
 const db = mongojs("127.0.0.1:27017/xos1");
 // коллекция в нашей БД xos1 - alpha
@@ -19,13 +19,25 @@ try{
 
 
 // создание документа в коллекции  alpha***************************
-// db.alpha.save({created: 'just now'})
-// db.alpha.save({
+// db.alpha.save({ companyId:ObjectId('624c06332591b720c09842d3'), max:12, phone:'098765' })
+// db["alpha"].save({
 //     time1:'10:00',
 //     delta:'00:30',
-//     author:'beta',
+//     author:'betttta',
 //     distance:''
 // })
+
+db.alpha.update(
+  {companyId:ObjectId('624c06332591b720c09842d3')},
+  {
+    $set: { companyId:ObjectId('624c06332591b720c09842d3'), max:42, phone:'12' },
+    
+  },
+  { upsert: true },
+  function () {
+    console.log("БД обновлена");
+  }
+);
 
 // find everything***********************************
 // db.alpha.find(function (err, docs) {
