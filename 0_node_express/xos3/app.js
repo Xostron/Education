@@ -6,18 +6,17 @@ require('dotenv').config()
 
 const app = express();
 const port = process.env.PORT || 8000
-console.log(process.env)
+
 // определение папки для статических файлов
 app.use(express.static(__dirname + "/public"));
 // объявление движка pug
 app.set("views", path.join(__dirname, "public/views"));
 app.set("view engine", "pug");
-// app.use(express.json("application/json"));
+app.use(express.json("application/json"));
 
 // api
-
-app.get("/api/ninja", (req,res)=>{
-    // console.log(req)
+app.post("/api/btn2", (req,res)=>{
+    console.log(req.body)
   res.status(200).json({ninja:"Hattori"})
 })
 
@@ -26,8 +25,8 @@ app.get("/", (req, res) => {
     res.render("home");
 });
 
-app.get("/reg", (req, res) => {
-    res.render("home");
+app.get("/form", (req, res) => {
+    res.render("form");
 });
 
 app.get("/login", (req, res) => {

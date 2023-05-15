@@ -10,11 +10,7 @@ db.on("error", (err) => console.log("Отсутствует связь с MongoD
 db.on("connect", () => console.log("Связь с MongoDB установлена"));
 
 
-try{
-    
-}catch(e){
 
-}
 
 
 
@@ -27,17 +23,17 @@ try{
 //     distance:''
 // })
 
-db.alpha.update(
-  {companyId:ObjectId('624c06332591b720c09842d3')},
-  {
-    $set: { companyId:ObjectId('624c06332591b720c09842d3'), max:42, phone:'12' },
+// db.alpha.update(
+//   {companyId:ObjectId('624c06332591b720c09842d3')},
+//   {
+//     $set: { companyId:ObjectId('624c06332591b720c09842d3'), max:42, phone:'12' },
     
-  },
-  { upsert: true },
-  function () {
-    console.log("БД обновлена");
-  }
-);
+//   },
+//   { upsert: true },
+//   function () {
+//     console.log("БД обновлена");
+//   }
+// );
 
 // find everything***********************************
 // db.alpha.find(function (err, docs) {
