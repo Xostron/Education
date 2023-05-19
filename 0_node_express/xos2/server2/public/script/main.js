@@ -18,7 +18,7 @@ inFile.addEventListener("change", (event) => {
   });
 
 for (const file of event.target.files) {
-    formData.append('image', file)
+    formData.append('xostron',file)
 }
 
 });
@@ -36,7 +36,6 @@ btnSend1.addEventListener("click", (event) => {
 });
 
 btnSend2.addEventListener("click", (event) => {
-
     fetch("/api/btn2", {
       method: "POST",
       headers: { "content-type": "application/json" },
