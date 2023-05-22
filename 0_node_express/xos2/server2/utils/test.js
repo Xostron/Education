@@ -1,33 +1,118 @@
 const mongojs = require("mongojs");
-const { ObjectId } = require('mongojs');
-// подключение к БД xos1
-const db = mongojs("127.0.0.1:27017/xos1");
-// коллекция в нашей БД xos1 - alpha
-const alpha = db.collection("alpha");
+const { ObjectId } = require("mongojs");
 
-// события ***************************
+// подключение к БД xostron
+const db = mongojs("127.0.0.1:27017/xostron");
+
+// коллекции в нашей БД xostron
+const img = db.collection("img");
+const db1 = db.collection("db1");
+const db2 = db.collection("db2");
+const db3 = db.collection("db3");
+const db4 = db.collection("db4");
+const db5 = db.collection("db5");
+
+//прослушиватели событий ***************************
 db.on("error", (err) => console.log("Отсутствует связь с MongoDB"));
 db.on("connect", () => console.log("Связь с MongoDB установлена"));
 
+// collections
+const data = [
+    {
+        parent: "db1",
+        collection: "db1",
+        fld: ["img"],
+    },
+    {
+        parent: "db2",
+        collection: "db2",
+        fld: ["img"],
+    },
+    {
+        parent: "db3",
+        collection: "db3",
+        fld: ["img"],
+    },
+    {
+        parent: "db4",
+        collection: "db4",
+        fld: ["img"],
+    },
+    {
+        parent: "db5",
+        collection: "db5",
+        fld: ["img"],
+    },
+];
 
+function dbConv(parent) {
+    return new Promise((resolve, reject) => {
+        let count = 0;
+        let end = false;
+        const cur = db[parent].find({ img: { $exists: true } });
+        cur.on("error", (error) => reject(error));
+        cur.on("end", (_) => {
+            end = true;
+            if (!count) resolve();
+        });
+        cur.on("data", (doc) => {
+            ++count;
+            const d = {
+                "owner.id": doc._id,
+                "owner.type": parent,
+                name: doc.img,
+            };
+            db.img.insertOne(d, (err, doc) => {
+                if (err) reject(err);
+                --count;
+                if (end && !count) resolve();
+            });
+        });
+    });
+}
 
+dbConv(db1).then((_)=>{
+    console.log('rewrite is done')
+}).catch((err)=>console.log('Error rewrite', err))
 
+function dbRead(parent) {
+    return new Promise((resolve, reject) => {
+        db[parent].find({}, (err, doc) => {
+            if (err) reject(err);
+            resolve({ doc, parent });
+        });
+    });
+}
 
-
-// создание документа в коллекции  alpha***************************
-// db.alpha.save({ companyId:ObjectId('624c06332591b720c09842d3'), max:12, phone:'098765' })
-// db["alpha"].save({
-//     time1:'10:00',
-//     delta:'00:30',
-//     author:'betttta',
-//     distance:''
-// })
+// *запускать 1 раз**********Для создания db1-5 и 1000док в каждом****************
+// const t = new Array(1000).fill(0);
+// function dbCreate(db) {
+//     return new Promise((resolve, reject) => {
+//         for (const def of data) {
+//             for (const key in t) {
+//                 db[def.parent].insertOne({ img: `${key}.png` }, (err, doc) => {
+//                     if (err) reject(err);
+//                     resolve(doc);
+//                 });
+//             }
+//         }
+//     });
+// }
+// start
+// dbCreate(db)
+//     .then((doc) => {
+//         console.log("save ", doc);
+//     })
+//     .catch((err) => {
+//         console.log("error = " + err);
+//         db.close();
+//     });
 
 // db.alpha.update(
 //   {companyId:ObjectId('624c06332591b720c09842d3')},
 //   {
 //     $set: { companyId:ObjectId('624c06332591b720c09842d3'), max:42, phone:'12' },
-    
+
 //   },
 //   { upsert: true },
 //   function () {
@@ -205,7 +290,7 @@ data - событие вызывается при каждом нахожден�
 //     //     // return update(q, un, m)
 //     // })
 //     .then(_ => {
-//         db.close()    
+//         db.close()
 //         console.log('БД обновлена')
 //     })
 //     .catch(err => console.log(err))
