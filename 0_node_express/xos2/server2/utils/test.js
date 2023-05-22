@@ -63,7 +63,7 @@ function dbConv(parent) {
         'owner.type': parent,
         name: doc.img,
       };
-      db["img"].insertOne(d, (err, doc) => {
+      db["img"].updateOne({'owner.id':doc._id}, {$set:d}, {upsert:true}, (err, doc) => {
         if (err) reject(err);
         --count;
         if (end && !count) resolve();
