@@ -4,14 +4,6 @@ const { ObjectId } = require("mongojs");
 // подключение к БД xostron
 const db = mongojs("127.0.0.1:27017/xostron");
 
-// коллекции в нашей БД xostron
-const img = db.collection("img");
-const db1 = db.collection("db1");
-const db2 = db.collection("db2");
-const db3 = db.collection("db3");
-const db4 = db.collection("db4");
-const db5 = db.collection("db5");
-
 //прослушиватели событий ***************************
 db.on("error", (err) => console.log("Отсутствует связь с MongoDB"));
 db.on("connect", () => console.log("Связь с MongoDB установлена"));
@@ -20,8 +12,8 @@ db.on("connect", () => console.log("Связь с MongoDB установлена
 const data = [
     {
         parent: "db1",
-        collection: "db1",
-        fld: ["img","img1"],
+        collection: "old_img",
+        fld: ["img", "img1"],
     },
     {
         parent: "db2",
@@ -45,6 +37,7 @@ const data = [
     },
 ];
 
+// start
 let idx = 0;
 for (const def of data) {
     dbConv(def)
@@ -62,7 +55,7 @@ for (const def of data) {
         });
 }
 
-// перебираем документы в коллекции и перезаписываем в коллекцию img
+// *****перебираем документы в коллекциях и перезаписываем в коллекцию img********
 function dbConv(def) {
     return new Promise((resolve, reject) => {
         let count = 0;
@@ -77,15 +70,19 @@ function dbConv(def) {
             ++count;
             // Сохраняем все указанные в def.fld картинки в отдельные документы в коллекции img
             def.fld.forEach((fld, idx) => {
-                if (Object.keys(doc).includes(fld)) {
+                if (
+                    Object.keys(doc).includes(fld) &&
+                    !["", "new"].includes(doc[fld])
+                ) {
+                    // делаем конвертацию и пересохранение в img
                     const s = {
                         "owner.id": doc._id,
                         "owner.type": def.parent,
-                        "fld.name":fld,
+                        "fld.name": fld,
                         name: doc[fld],
                     };
                     db["img"].updateOne(
-                        { "owner.id": doc._id, "fld.name":fld },
+                        { "owner.id": doc._id, "fld.name": fld },
                         { $set: s },
                         { upsert: true },
                         (err, doc) => {
@@ -102,8 +99,34 @@ function dbConv(def) {
         });
     });
 }
+// ***************************************************
 
-// // *запускать 1 раз**********Для создания db1-5 и 1000док в каждом****************
+// коллекции в нашей БД xostron
+// const img = db.collection("img");
+// const db1 = db.collection("db1");
+// const db2 = db.collection("db2");
+// const db3 = db.collection("db3");
+// const db4 = db.collection("db4");
+// const db5 = db.collection("db5");
+
+// ***************************************************
+// dict(db,'old_img','646b656194c18b4edc03b8e4','owner.id').then(console.log).catch(err=>console.log('ERRROR: ',err))
+// найти документы в коллекции
+function dict(db, name, val, key = "code") {
+    return new Promise((resolve, reject) => {
+        if (!val) return resolve(null);
+        if (["_id", "owner.id"].includes(key)) val = ObjectId(val);
+        const q = {};
+        q[key] = val;
+        db[name].find(q, (error, doc) => {
+            if (error) reject(error);
+            resolve(doc);
+        });
+    });
+}
+// ***************************************************
+
+// // **********Для создания db1-5 и 1000док в каждом (1раз)****************
 function dbCreate(db) {
     return new Promise((resolve, reject) => {
         for (const def of data) {
@@ -174,6 +197,30 @@ function dbCreate(db) {
 //     count+=1
 //     console.log(doc)
 // })
+// ***************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* Задание 1 *****************************************
 Doc{
