@@ -18,94 +18,106 @@ db.on("connect", () => console.log("Связь с MongoDB установлена
 
 // collections
 const data = [
-  {
-    parent: "db1",
-    collection: "db1",
-    fld: ["img"],
-  },
-  {
-    parent: "db2",
-    collection: "db2",
-    fld: ["img"],
-  },
-  {
-    parent: "db3",
-    collection: "db3",
-    fld: ["img"],
-  },
-  {
-    parent: "db4",
-    collection: "db4",
-    fld: ["img"],
-  },
-  {
-    parent: "db5",
-    collection: "db5",
-    fld: ["img"],
-  },
+    {
+        parent: "db1",
+        collection: "db1",
+        fld: ["img","img1"],
+    },
+    {
+        parent: "db2",
+        collection: "db2",
+        fld: ["img"],
+    },
+    {
+        parent: "db3",
+        collection: "db3",
+        fld: ["img"],
+    },
+    {
+        parent: "db4",
+        collection: "db4",
+        fld: ["img"],
+    },
+    {
+        parent: "db5",
+        collection: "db5",
+        fld: ["img"],
+    },
 ];
 
-function dbConv(parent) {
-  return new Promise((resolve, reject) => {
-    let count = 0;
-    let end = false;
-    const cur = db[parent].find({ img: { $exists: true } });
-    cur.on("error", (error) => reject(error));
-    cur.on("end", (_) => {
-      end = true;
-      if (!count) resolve();
-    });
-    cur.on("data", (doc) => {
-      ++count;
-      console.log("doc", doc);
-      const d = {
-        'owner.id': doc._id,
-        'owner.type': parent,
-        name: doc.img,
-      };
-      db["img"].updateOne({'owner.id':doc._id}, {$set:d}, {upsert:true}, (err, doc) => {
-        if (err) reject(err);
-        --count;
-        if (end && !count) resolve();
-      });
-    });
-  });
+let idx = 0;
+for (const def of data) {
+    dbConv(def)
+        .then((_) => {
+            ++idx;
+            console.log(`Rewrite ${def.parent} is done`);
+            if (idx === data.length) {
+                console.log("Finish");
+                db.close();
+            }
+        })
+        .catch((err) => {
+            console.log("Error rewrite", err);
+            db.close();
+        });
 }
 
-dbConv(data[0].parent)
-  .then((_) => {
-    console.log("rewrite is done");
-    db.close();
-  })
-  .catch((err) => {
-    console.log("Error rewrite", err);
-    db.close();
-  });
-
-function dbRead(parent) {
-  return new Promise((resolve, reject) => {
-    db[parent].find({}, (err, doc) => {
-      if (err) reject(err);
-      resolve({ doc, parent });
+// перебираем документы в коллекции и перезаписываем в коллекцию img
+function dbConv(def) {
+    return new Promise((resolve, reject) => {
+        let count = 0;
+        let end = false;
+        const cur = db[def.parent].find();
+        cur.on("error", (error) => reject(error));
+        cur.on("end", (_) => {
+            end = true;
+            if (!count) resolve();
+        });
+        cur.on("data", (doc) => {
+            ++count;
+            // Сохраняем все указанные в def.fld картинки в отдельные документы в коллекции img
+            def.fld.forEach((fld, idx) => {
+                if (Object.keys(doc).includes(fld)) {
+                    const s = {
+                        "owner.id": doc._id,
+                        "owner.type": def.parent,
+                        "fld.name":fld,
+                        name: doc[fld],
+                    };
+                    db["img"].updateOne(
+                        { "owner.id": doc._id, "fld.name":fld },
+                        { $set: s },
+                        { upsert: true },
+                        (err, doc) => {
+                            if (err) reject(err);
+                            if (idx + 1 === def.fld.length) --count;
+                            if (end && !count) resolve();
+                        }
+                    );
+                } else {
+                    if (idx + 1 === def.fld.length) --count;
+                    if (end && !count) resolve();
+                }
+            });
+        });
     });
-  });
 }
 
 // // *запускать 1 раз**********Для создания db1-5 и 1000док в каждом****************
-// const t = new Array(1000).fill(0);
-// function dbCreate(db) {
-//     return new Promise((resolve, reject) => {
-//         for (const def of data) {
-//             for (const key in t) {
-//                 db[def.parent].insertOne({ img: `${key}.png` }, (err, doc) => {
-//                     if (err) reject(err);
-//                     resolve(doc);
-//                 });
-//             }
-//         }
-//     });
-// }
+function dbCreate(db) {
+    return new Promise((resolve, reject) => {
+        for (const def of data) {
+            for (const key in t) {
+                db[def.parent].insertOne({ img: `${key}.png` }, (err, doc) => {
+                    if (err) reject(err);
+                    resolve(doc);
+                });
+            }
+        }
+    });
+}
 // // start
+// const t = new Array(1000).fill(0);
 // dbCreate(db)
 //     .then((doc) => {
 //         console.log("save ", doc);
