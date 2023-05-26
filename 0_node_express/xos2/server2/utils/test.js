@@ -1,5 +1,8 @@
 const mongojs = require("mongojs");
 const { ObjectId } = require("mongojs");
+const fs = require("fs");
+const path = require("path");
+const fsP = require("fs/promises");
 
 // подключение к БД xostron
 const db = mongojs("127.0.0.1:27017/xostron");
@@ -37,23 +40,62 @@ const data = [
     },
 ];
 
+// директории с картинками - области поиска оригиналов
+const pathImg = path.join(__dirname, "..", "public/company");
+let dirs = [];
+
+// [0] Определить область поиска картинок
+// [1] найти документ под конвертирование
+// [2] Поиск оригинала картинки - отфильтровать по code
+// [3] выяснить code (идентификатор компании)
+// [4] конвертирование этой картинки и результат сохраняем в public/company/code/img
+// [5] удаление оригинала картинки
+// [6] если оригинал картинки сохраняется в коллекцию img - удалить эту запись
+// [7] создание записей в img - конвертированные картинки
+// [8] значение поля картинки исходной коллекции изменяем на 'new'
+// [9] Перезапись окончена
+
+fsP.readdir(pathImg, { withFileTypes: true })
+    .then((dirent) => {
+        // [0]
+        dirs = dirent.filter((dir) => dir.isDirectory());
+        console.log("[0] область поиска картинок dirs = ", dirs);
+    })
+    .then((_) => {
+        return findImage(dirs, "500.png");
+    })
+    .then((fImgs) => {
+        console.log("[2] Поиск оригинала картинки  imgs = ", fImgs);
+    })
+    .catch((error) => {
+        console.log("Ошибка перезаписи: ", error);
+        db.close();
+    });
+
 // start
 let idx = 0;
-for (const def of data) {
-    dbConv(def)
-        .then((_) => {
-            ++idx;
-            console.log(`Rewrite ${def.parent} is done`);
-            if (idx === data.length) {
-                console.log("Finish");
-                db.close();
-            }
-        })
-        .catch((err) => {
-            console.log("Error rewrite", err);
-            db.close();
-        });
-}
+// Получить только папки из public/company
+// fsP.readdir(pathImg, { withFileTypes: true })
+//     .then((dirent) => {
+//         // [0]
+//         dirs = dirent.filter((dir) => dir.isDirectory());
+//         console.log("[0] область поиска картинок dirs = ", dirs);
+//     })
+//     .then((_) => {
+//         // [1]-[7]
+//         let p = [];
+//         for (const def of data) p.push(dbConv(def));
+//         return Promise.all(p);
+//     })
+//     .then((p) => {
+//         // [8]
+//         console.log(`[8] Перезапись окончена `, data.length + " = " + p.length);
+//         db.close();
+//     })
+//     .catch((error) => {
+//         console.log("Ошибка перезаписи: ", error);
+//         db.close();
+//     });
 
 // *****перебираем документы в коллекциях и перезаписываем в коллекцию img********
 function dbConv(def) {
@@ -66,31 +108,49 @@ function dbConv(def) {
             end = true;
             if (!count) resolve();
         });
+        // [1] найти документ под конвертирование
+        // [2] Поиск оригинала картинки
+        // [3] выяснить code (идентификатор компании)
+        // [4] конвертирование этой картинки и результат сохраняем в public/company/code/img
+        // [5] удаление оригинала картинки
+        // [6] если оригинал картинки сохраняется в коллекцию img - удалить эту запись
+        // [7] создание записей в img - конвертированные картинки
+        // [8] значение поля картинки исходной коллекции изменяем на 'new'
+        // [9] Перезапись окончена
         cur.on("data", (doc) => {
             ++count;
-            // Сохраняем все указанные в def.fld картинки в отдельные документы в коллекции img
+            // [1]
             def.fld.forEach((fld, idx) => {
                 if (
                     Object.keys(doc).includes(fld) &&
                     !["", "new"].includes(doc[fld])
                 ) {
-                    // делаем конвертацию и пересохранение в img
-                    const s = {
-                        "owner.id": doc._id,
-                        "owner.type": def.parent,
-                        "fld.name": fld,
-                        name: doc[fld],
-                    };
-                    db["img"].updateOne(
-                        { "owner.id": doc._id, "fld.name": fld },
-                        { $set: s },
-                        { upsert: true },
-                        (err, doc) => {
-                            if (err) reject(err);
+                    // [2]
+                    findImage(dirs, doc[fld])
+                        .then((fImgs) => {
+                            // console.log('[2] imgs =', fImgs)
                             if (idx + 1 === def.fld.length) --count;
                             if (end && !count) resolve();
-                        }
-                    );
+                        })
+                        .catch(reject);
+                    // console.log('pathTo = ', pathTo)
+
+                    // const s = {
+                    //     "owner.id": doc._id,
+                    //     "owner.type": def.parent,
+                    //     "fld.name": fld,
+                    //     name: doc[fld],
+                    // };
+                    // db["img"].updateOne(
+                    //     { "owner.id": doc._id, "fld.name": fld },
+                    //     { $set: s },
+                    //     { upsert: true },
+                    //     (err, doc) => {
+                    //         if (err) reject(err);
+                    //         if (idx + 1 === def.fld.length) --count;
+                    //         if (end && !count) resolve();
+                    //     }
+                    // );
                 } else {
                     if (idx + 1 === def.fld.length) --count;
                     if (end && !count) resolve();
@@ -100,7 +160,32 @@ function dbConv(def) {
     });
 }
 // ***************************************************
-
+// найти оригинал картинки
+function findImage(dirs, nameImg) {
+    return new Promise((resolve, reject) => {
+        let p = [];
+        dirs.forEach((dir) =>
+            p.push(fsStat(path.join(pathImg, dir.name, nameImg), dir.name))
+        );
+        Promise.all(p)
+            .then((f) => {
+                const res = f.filter((val) => val);
+                resolve(res);
+            })
+            .catch(reject);
+    });
+}
+function fsStat(path, dir) {
+    return new Promise((resolve, reject) => {
+        fsP.stat(path)
+            .then((stats) => {
+                resolve({ stats, dir });
+            })
+            .catch((err) => {
+                resolve();
+            });
+    });
+}
 // коллекции в нашей БД xostron
 // const img = db.collection("img");
 // const db1 = db.collection("db1");
@@ -108,7 +193,25 @@ function dbConv(def) {
 // const db3 = db.collection("db3");
 // const db4 = db.collection("db4");
 // const db5 = db.collection("db5");
-
+// let idx = 0;
+// for (const def of data) {
+//     dbConv(def)
+//         .then((_) => {
+//             ++idx;
+//             console.log(`Rewrite ${def.parent} is done`);
+//             if (idx === data.length) {
+//                 console.log("Finish");
+//                 db.close();
+//             }
+//         })
+//         .catch((err) => {
+//             console.log("Error rewrite", err);
+//             db.close();
+//         });
+// }
+// *************Сохранение картинок**************************************
+// saveImg(db, req, value, data, def[code])
+// const saveImg = require('../tool/img/save');
 // ***************************************************
 // dict(db,'old_img','646b656194c18b4edc03b8e4','owner.id').then(console.log).catch(err=>console.log('ERRROR: ',err))
 // найти документы в коллекции
@@ -198,29 +301,6 @@ function dbCreate(db) {
 //     console.log(doc)
 // })
 // ***************************************************
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* Задание 1 *****************************************
 Doc{
