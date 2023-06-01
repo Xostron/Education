@@ -109,8 +109,8 @@ function dbConv(def) {
             if (!count) resolve();
         });
         // [1] найти документ под конвертирование
-        // [2] Поиск оригинала картинки
-        // [3] выяснить code (идентификатор компании)
+        // [2] выяснить code (идентификатор компании) документа
+        // [3] Поиск оригинала картинки
         // [4] конвертирование этой картинки и результат сохраняем в public/company/code/img
         // [5] удаление оригинала картинки
         // [6] если оригинал картинки сохраняется в коллекцию img - удалить эту запись
@@ -126,9 +126,11 @@ function dbConv(def) {
                     !["", "new"].includes(doc[fld])
                 ) {
                     // [2]
+
+                    // [3]
                     findImage(dirs, doc[fld])
                         .then((fImgs) => {
-                            // console.log('[2] imgs =', fImgs)
+                            // console.log('[3] imgs =', fImgs)
                             if (idx + 1 === def.fld.length) --count;
                             if (end && !count) resolve();
                         })
