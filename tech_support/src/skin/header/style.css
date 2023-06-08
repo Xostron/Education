@@ -1,0 +1,22 @@
+.header {
+    padding-top: 20px;
+  }
+  .header-inner {
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-width: 400px;
+    gap: 1rem;
+    /* font-size: 25px; */
+    background-color: lightgreen;
+    margin: 0 auto;
+    padding: 10px 0px;
+    
+    /* border-radius: 1rem; */
+  }
+  .link{
+    text-decoration: none;
+    color:black
+  }
