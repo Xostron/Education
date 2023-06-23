@@ -1,0 +1,122 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* height: fit-content; */
+    padding: 16px;
+}
+
+.container {
+    display: flex;
+    width: 550px;
+    height: 200px;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.window {
+    width: 70%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.children {
+    height: 100%;
+    display: flex;
+    user-select: none;
+}
+
+/* стрелки прокрутки */
+.prev,
+.next {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background-color: rgb(185, 185, 185);
+    color: rgb(119, 119, 119);
+    transition-property: background-color, color;
+    transition-duration: .5s;
+
+}
+
+.prev:hover,
+.next:hover {
+    background-color: rgb(87, 87, 87);
+    color: antiquewhite;
+}
+
+ion-icon {
+    font-size: 24px;
+}
+
+/* Точки прокрутки */
+.point {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.point_item {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid gray;
+    background-color: whitesmoke;
+    transition-property: background-color;
+    transition-duration: .5s;
+    cursor: pointer;
+}
+
+.point_item:hover {
+    background-color: rgb(247, 165, 13);
+    border-color: black;
+    /* border-width: 2px; */
+}
+
+.point_item.active {
+    background-color: rgb(247, 165, 13);
+}
+
+/* дочерние компоненты - слайды */
+.item {
+    min-width: 100%;
+    max-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.item1 {
+    background-color: rgb(74, 174, 255);
+}
+
+.item2 {
+    background-color: rgb(195, 106, 255);
+}
+
+.item3 {
+    background-color: rgb(255, 101, 204);
+}
+
+.item4 {
+    background-color: rgb(252, 98, 98);
+}
+
+.item5 {
+    background-color: rgb(255, 214, 101);
+}
+
+.item6 {
+    background-color: rgb(188, 255, 101);
+}
