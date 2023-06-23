@@ -1,3 +1,11 @@
+:root {
+	--flet-green: #5aba0c;
+	--flet-green-pale:#e6f5db;
+	--flet-green-p:rgba(90, 186, 12, 0.15);
+	--flet-gray: #d5d5d5;
+	--flet-gray-hover:#e5e5e5;
+	--flet-red:#ee5130;
+  }
 * {
 	margin: 0;
 	padding: 0;
@@ -222,7 +230,6 @@ hr {
 	border-radius: 16px;
 	cursor: pointer;
 	border: 2px solid black;
-
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-start;
