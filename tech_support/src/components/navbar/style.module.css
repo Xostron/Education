@@ -2,11 +2,14 @@
 
 .header {
     display: flex;
-    width: 100%;
-    min-width: 400px;
+    /* width: 100%; */
     background-color: #fff;
-    padding: 10px 10px;
+    padding-top: 15px;
     align-items: center;
+    min-width: 776px;
+}
+.hr{
+    min-width: 776px;
 }
 /*  */
 .left {
@@ -48,7 +51,7 @@
 }
 .link {
     text-decoration: none;
-    color: black;
+    color: var(--flet-gray-base);
     cursor: pointer;
     line-height: 16px;
     /* background-color: #fff; */
@@ -56,4 +59,13 @@
 .moment {
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+.btn {
+	padding: 0 10px;
+	height: 30px;
+	line-height: 26px;
+	border-radius: 16px;
+	/* background-color: grey; */
+	cursor: pointer;
+	border: 1px solid var(--flet-gray-base); 
 }

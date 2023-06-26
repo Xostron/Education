@@ -1,7 +1,8 @@
-import React, { useState, useRef, useMemo, useEffect } from "react";
-import { CKEditor, useCKEditor } from "ckeditor4-react";
+import React, { useRef,useEffect } from "react";
+import { CKEditor } from "ckeditor4-react";
 
-export const Cke = ({ value, set }) => {
+const Cke = ({ value, set ,size={width:10,height:10}}) => {
+    const {width,height} = size
     let edi = useRef(null);
     useEffect(() => {
         value ? edi.current.setData(value) : console.log();
@@ -32,8 +33,8 @@ export const Cke = ({ value, set }) => {
             <CKEditor
                 style={{ margin: "auto" }}
                 config={{
-                    height: "500px",
-                    width: "90%",
+                    height: width ?? "640px",
+                    width: height ?? "776px",
                     uiColor: "#FFFFFF",
                     toolbarGroups: toolbarGroups,
                     extraPlugins: "editorplaceholder,colorbutton, justify,font",
@@ -52,3 +53,4 @@ export const Cke = ({ value, set }) => {
         </>
     );
 };
+export default Cke

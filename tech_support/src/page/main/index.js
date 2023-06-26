@@ -1,29 +1,39 @@
-import React, { useState, useRef, useMemo,useEffect } from "react";
-import JoditEditor from "jodit-react";
+import React, { useRef } from "react";
+import style from "./style.module.css";
+import { Cke, Navbar } from "../../components";
 
-export const Main = () => {
-    const editor = useRef(null);
-    const [content, setContent] = useState("");
-    useEffect(()=>{console.log('==',content)},[content])
-    const config = useMemo(()=>(
-		{
-			readonly: false,
-			placeholder: '...',
-            height:400,
-		}),
-		[]
-	);
+const cards = [
+    { component: <Cke />, size: 800 },
+    { component: <Navbar />, size: 800 },
+    { component: <Cke />, size: 800 },
+    { component: <Navbar />, size: 800 },
+    { component: <Cke />, size: 800 },
+    { component: <Navbar />, size: 800 },
+    { component: <Cke />, size: 800 },
+    { component: <Navbar />, size: 800 },
+];
+const cardSize = 370;
 
+const Main = () => {
     return (
-        <div>
-            <JoditEditor 
-			ref={editor}
-			value={content}
-			config={config}
-			tabIndex={1} // tabIndex of textarea
-			onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
-			onChange={newContent => {}}
-		/>
+        <div className="container">
+            <span className={style.title}>Компоненты</span>
+            <div className={style.cards}>
+                {cards.map((el, idx) => {
+                    const scale = cardSize / el.size;
+                    return (
+                        <div key={idx} className={style.card}>
+                            <div
+                                style={{ scale: `${scale}` }}
+                                className={style.component}
+                            >
+                                {el.component}
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
         </div>
     );
 };
+export default Main;
