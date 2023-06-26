@@ -1,8 +1,7 @@
 import React, { useRef,useEffect } from "react";
 import { CKEditor } from "ckeditor4-react";
 
-const Cke = ({ value, set ,size={width:10,height:10}}) => {
-    const {width,height} = size
+const Cke = ({ value, set ,height='700px', width='100%'}) => {
     let edi = useRef(null);
     useEffect(() => {
         value ? edi.current.setData(value) : console.log();
@@ -33,8 +32,8 @@ const Cke = ({ value, set ,size={width:10,height:10}}) => {
             <CKEditor
                 style={{ margin: "auto" }}
                 config={{
-                    height: width ?? "640px",
-                    width: height ?? "776px",
+                    height: height,
+                    width: width,
                     uiColor: "#FFFFFF",
                     toolbarGroups: toolbarGroups,
                     extraPlugins: "editorplaceholder,colorbutton, justify,font",

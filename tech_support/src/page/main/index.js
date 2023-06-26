@@ -3,16 +3,16 @@ import style from "./style.module.css";
 import { Cke, Navbar } from "../../components";
 
 const cards = [
-    { component: <Cke />, size: 800 },
+    { component: <Cke width='730px' height='600px'/>, size: 600 },
+    { component: <Navbar />, size: 700 },
     { component: <Navbar />, size: 800 },
-    { component: <Cke />, size: 800 },
-    { component: <Navbar />, size: 800 },
+    { component: <Cke width='100vw' height='100vw'/>, size: 1700 },
     { component: <Cke />, size: 800 },
     { component: <Navbar />, size: 800 },
     { component: <Cke />, size: 800 },
     { component: <Navbar />, size: 800 },
 ];
-const cardSize = 370;
+const cardSize = 300;
 
 const Main = () => {
     return (
