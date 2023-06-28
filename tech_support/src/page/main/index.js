@@ -1,16 +1,14 @@
 import React, { useRef } from "react";
 import style from "./style.module.css";
 import { Cke, Navbar } from "../../components";
-
+// width='730px' height='600px'
 const cards = [
-    { component: <Cke width='730px' height='600px'/>, size: 600 },
-    { component: <Navbar />, size: 700 },
-    { component: <Navbar />, size: 800 },
-    { component: <Cke width='100vw' height='100vw'/>, size: 1700 },
-    { component: <Cke />, size: 800 },
-    { component: <Navbar />, size: 800 },
-    { component: <Cke />, size: 800 },
-    { component: <Navbar />, size: 800 },
+    { component: <Cke /> },
+    { component: <Navbar /> },
+    { component: <Navbar /> },
+    { component: <Cke /> },
+    { component: null },
+    { component: null },
 ];
 const cardSize = 300;
 
@@ -23,12 +21,9 @@ const Main = () => {
                     const scale = cardSize / el.size;
                     return (
                         <div key={idx} className={style.card}>
-                            <div
-                                style={{ scale: `${scale}` }}
-                                className={style.component}
-                            >
+                            <object className={style.component}>
                                 {el.component}
-                            </div>
+                            </object>
                         </div>
                     );
                 })}

@@ -1,11 +1,10 @@
 import React, { useRef,useEffect } from "react";
 import { CKEditor } from "ckeditor4-react";
 
-const Cke = ({ value, set ,height='700px', width='100%'}) => {
+const Cke = ({ value, set ,height='600px', width='100%'}) => {
     let edi = useRef(null);
     useEffect(() => {
         value ? edi.current.setData(value) : console.log();
-        console.log("@", value, edi);
     }, [value]);
     const toolbarGroups = [
         { name: "clipboard", groups: ["undo", "clipboard"] },
