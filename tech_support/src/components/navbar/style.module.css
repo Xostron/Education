@@ -6,7 +6,6 @@
     background-color: #fff;
     padding-top: 15px;
     align-items: center;
-    min-width: 776px;
 }
 .hr{
     min-width: 776px;
@@ -15,7 +14,7 @@
 /*  */
 .left {
     display: flex;
-    width: 50%;
+    width: 35%;
     gap: 1rem;
     align-items: center;
 }
@@ -37,10 +36,9 @@
 /*  */
 .right {
     display: flex;
-    width: 50%;
+    width: 65%;
     gap: 1rem;
     align-items: center;
-    /* background-color: antiquewhite; */
 }
 .nav {
     display: flex;
@@ -48,14 +46,15 @@
     gap: 1rem;
     justify-content: end;
     margin-top: auto;
-    /* background-color: aqua; */
 }
 .link {
     text-decoration: none;
     color: var(--flet-gray-base);
     cursor: pointer;
     line-height: 16px;
-    /* background-color: #fff; */
+}
+.link.link_a{
+    color: var(--flet-green);
 }
 .moment {
     white-space: nowrap;
@@ -66,7 +65,69 @@
 	height: 30px;
 	line-height: 26px;
 	border-radius: 16px;
-	/* background-color: grey; */
 	cursor: pointer;
 	border: 1px solid var(--flet-gray-base); 
+}
+
+/* кнопка меню */
+.bar_w{
+    display: flex;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.bar{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width:30px;
+    height:5px;
+    background-color: var(--flet-green);
+    transition: background-color 1.75s ease;
+    border-radius: 5px;
+}
+.bar::after{
+    content: '';
+    position: absolute;
+    top:-10px;
+    width:30px;
+    height:5px;
+    background-color: var(--flet-green);
+    opacity:1;
+    transform-origin: left;
+    transform: rotate(0deg);
+    transition: transform 1s ease;
+    border-radius: 5px;
+}
+.bar::before{
+    content: '';
+    position: absolute;
+    top:10px;
+    width:30px;
+    height:5px;
+    background-color: var(--flet-green);
+    opacity:1;
+    transform-origin: left;
+    transform: rotate(0deg);
+    transition: transform 1s ease;
+    border-radius: 5px;
+}
+.bar.bar_a{
+    background-color: rgb(255, 255, 255);
+    transition: background-color .25s ease
+}
+.bar.bar_a::after{
+    transform-origin: left;
+    transform: rotate(42deg);
+    transition: transform 1s ease;
+}
+.bar.bar_a::before{
+    transform-origin: left;
+    transform: rotate(-42deg);
+    transition: transform 1s ease;
+}
+@media screen AND (max-width=680px) {
+    
 }

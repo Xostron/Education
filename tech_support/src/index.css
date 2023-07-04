@@ -7,6 +7,8 @@
     --flet-gray-base: #6a6a6a;
     --flet-red: #ee5130;
 }
+
+/************ очистка стилей браузера по-умолчанию ***********/
 * {
     margin: 0;
     padding: 0;
@@ -16,11 +18,6 @@
 a:focus {
     outline: none !important;
 }
-html,
-body {
-    min-width: 100vw;
-    min-height: 100vh;
-}
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
         "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
@@ -28,6 +25,46 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+/* MOBILE - убрать горизонтальный скролл */
+html,
+body {
+  overflow-x: hidden;
+  max-height: 100vh;
+}
+
+body {
+  position: relative;
+  overflow-y: scroll;
+}
+
+/**************VIEW ROUTES DESKTOP****************/
+main {
+  padding-top: 10px;
+  max-width: 100vw;
+  margin: 0 auto;
+}
+
+/***************VIEW ROUTES TABLET*****************/
+@media screen and (max-width:1050px) {
+  main {
+    max-width: 100vw;
+  }
+
+  html {
+    font-size: 17px;
+  }
+}
+
+/***************VIEW ROUTES MOBILE*****************/
+@media screen and (max-width:580px) {
+  main {
+    max-width: 96vw;
+  }
+
+  html {
+    font-size: 16px;
+  }
+}
 /* ===== Scrollbar CSS ===== */
 /* Firefox */
 * {
@@ -71,7 +108,7 @@ code {
 }
 #root {
     min-height: 100vh;
-    padding: 0 15px;
+    padding: 0 10px;
 }
 
 /* Base Flex class */
@@ -344,6 +381,4 @@ hr {
     margin-top: 10px;
 
 }
-.container {
-    padding-top: 10px;
-}
+

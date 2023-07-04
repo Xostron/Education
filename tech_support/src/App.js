@@ -6,12 +6,14 @@ function App() {
     return (
         <BrowserRouter>
         <Navbar/>
+        <main>
         <Routes>
           <Route path="/" element={<Main/>}/>
           <Route path="/about" element={<About/>}/>
           <Route path="/cke" element={<CKE/>}/>
           <Route path="*" element={<Navigate replace to='/about' />}/>
         </Routes>
+        </main>
         </BrowserRouter>
     );
 }

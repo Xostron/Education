@@ -16,6 +16,7 @@
     gap: 10px;
     justify-items: center;
     padding: 10px 0;
+    background-color: antiquewhite;
 }
 
 .card {
@@ -54,5 +55,15 @@
 @media screen AND (max-width:680px) {
     .cards{
         grid-template-columns: repeat(2,1fr);
+    }
+}
+@media screen AND (max-width:680px) {
+    .cards{
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+@media screen AND (max-width:450px) {
+    .cards{
+        grid-template-columns: auto
     }
 }
