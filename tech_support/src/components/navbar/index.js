@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import style from "./style.module.css";
 import Moment from "react-moment";
+import {Mbtn} from '../../components/index'
 
 const links = [
     { name: "Главная", to: "/" },
@@ -15,20 +16,12 @@ function activeStyle({ isActive }) {
 
 const Navbar = () => {
     const [menu, setMenu] = useState(false);
-    console.log("@ = menu", menu);
-    const styleBar = menu ? style.bar + " " + style.bar_a : style.bar;
+    console.log('menu',menu)
     return (
         <>
             <div className={style.header}>
                 <div className={style.left}>
-                    <div className={style.bar_w} onClick={() => {
-                                setMenu((prev) => !prev);
-                            }}>
-                        <div
-                            className={styleBar}
-                            
-                        />
-                    </div>
+                    <Mbtn/>
                     <div className={style.logo} />
                     <div className={style.title}>QWERTY</div>
                 </div>

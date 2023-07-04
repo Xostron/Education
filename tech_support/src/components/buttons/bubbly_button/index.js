@@ -1,22 +1,28 @@
-import style from './style.module.css'
+import style from "./style.module.css";
 
-const animateButton = function(e) {
+function animateButton(e) {
     e.preventDefault();
     //reset animation
     e.target.classList.remove(style.animate);
-    
+
     e.target.classList.add(style.animate);
-    setTimeout(function(){
-      e.target.classList.remove(style.animate);
-    },700);
-  };
-  
-
-
-const Bbtn = ()=>{
-    return(
-        <button onClick={animateButton} className={style.bubbly_button}>Click me!</button>
-    )
+    setTimeout(function () {
+        e.target.classList.remove(style.animate);
+    }, 700);
 }
 
-export default Bbtn
+const Bbtn = ({ setActive }) => {
+    return (
+        <button
+            onClick={(e) => {
+                animateButton(e);
+                setActive?.((prev)=>!prev)
+            }}
+            className={style.bubbly_button}
+        >
+            Click me!
+        </button>
+    );
+};
+
+export default Bbtn;

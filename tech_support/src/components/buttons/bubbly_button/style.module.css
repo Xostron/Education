@@ -1,5 +1,5 @@
 :root {
-  --bg: #ff0081;
+  --bg: var(--flet-green);
   --text-color: #fff;
 }
 /* кнопка */
@@ -19,7 +19,7 @@
   cursor: pointer;
   position: relative;
   transition: transform ease-in 0.1s, box-shadow ease-in 0.25s;
-  box-shadow: 0 2px 25px rgba(255, 0, 130, 0.5);
+  box-shadow: 0 2px 25px rgba(0, 255, 8, 0.5);
 }
 .bubbly_button:focus {
   outline: 0;

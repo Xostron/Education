@@ -1,13 +1,12 @@
 import React, { useRef } from "react";
 import style from "./style.module.css";
-import  {Navbar,Cke}  from "../../components";
-
+import { Navbar, Cke, Bbtn, Mbtn } from "../../components";
 
 const cards = [
-    { component: <Cke /> },
-    { component: <Navbar /> },
-    { component: <Navbar /> },
-    { component: <Cke /> },
+    { component: <Cke />, scale: 0.225, pointerEvents: "none" },
+    { component: <Navbar />, scale: 0.225, pointerEvents: "none" },
+    { component: <Bbtn />, scale: 0.7 },
+    { component: <Mbtn />, scale: 1 },
     { component: null },
     { component: null },
 ];
@@ -21,7 +20,13 @@ const Main = () => {
                 {cards.map((el, idx) => {
                     return (
                         <div key={idx} className={style.card}>
-                            <object className={style.component}>
+                            <object
+                                className={style.component}
+                                style={{
+                                    scale: el.scale + "",
+                                    pointerEvents: el.pointerEvents,
+                                }}
+                            >
                                 {el.component}
                             </object>
                         </div>
