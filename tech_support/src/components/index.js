@@ -1,5 +1,4 @@
-import Navbar from "./navbar/index";
-import Cke from "./ckeditor/index";
-const data = { Navbar, Cke };
+import Navbar from './navbar/index'
+import Cke from './ckeditor/index'
 
-export { Navbar, Cke };
+export {Navbar,Cke,Bbtn}
