@@ -16,12 +16,11 @@ function activeStyle({ isActive }) {
 
 const Navbar = () => {
     const [menu, setMenu] = useState(false);
-    console.log('menu',menu)
     return (
         <>
             <div className={style.header}>
                 <div className={style.left}>
-                    <Mbtn/>
+                    <Mbtn setActive={setMenu}/>
                     <div className={style.logo} />
                     <div className={style.title}>QWERTY</div>
                 </div>

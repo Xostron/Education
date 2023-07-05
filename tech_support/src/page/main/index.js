@@ -12,6 +12,10 @@ const cards = [
 ];
 
 
+console.log('web-worker', 'Worker' in window)
+console.log('service-worker','serviceWorker' in navigator)
+console.log('pushManager', 'PushManager' in window)
+
 const Main = () => {
     return (
         <>
