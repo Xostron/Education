@@ -1,8 +1,8 @@
-import exe from './exe/index'
+
 
 function init() {
   if ("Worker" in window) {
-    let worker = new Worker(exe);
+    let worker = new Worker('../../../public/testWorker.js');
     worker.onmessage=(e) => {
       console.log("Данные от Worker ", e.data);
     }
