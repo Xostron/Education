@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import style from "./style.module.css";
-import { Navbar, Cke, Bbtn, Mbtn } from "../../components";
+import { Navbar, Cke, Bbtn, Mbtn } from "../../component";
 
 const cards = [
     { component: <Cke />, scale: 0.225, pointerEvents: "none" },

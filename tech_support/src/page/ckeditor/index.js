@@ -1,6 +1,6 @@
 import React, { useState, useRef, useMemo, useEffect } from "react";
 import { CKEditor, useCKEditor } from "ckeditor4-react";
-import { Cke } from "../../components";
+import { Cke } from "../../component";
 
 const CKE = () => {
     const [content, setContent] = useState("");

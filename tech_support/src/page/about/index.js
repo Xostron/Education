@@ -1,5 +1,5 @@
 import React, { useState, useRef, useMemo, useEffect } from "react";
-import {Bbtn} from '../../components';
+import {Bbtn} from '../../component';
 
 const About = () => {
   return (

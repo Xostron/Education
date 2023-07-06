@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import {Navbar} from './components'
+import {Navbar} from './component'
 import {CKE,Main,About} from './page'
 function App() {
 

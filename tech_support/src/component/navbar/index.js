@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import style from "./style.module.css";
 import Moment from "react-moment";
-import {Mbtn} from '../../components/index'
+import {Mbtn} from '../../component'
 
 const links = [
     { name: "Главная", to: "/" },
