@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import style from "./style.module.css";
 import { Navbar, Cke, Bbtn, Mbtn } from "../../component";
+import {tw} from "../../worker";
 
 const cards = [
     { component: <Cke />, scale: 0.225, pointerEvents: "none" },
@@ -12,11 +13,15 @@ const cards = [
 ];
 
 
+
 console.log('web-worker', 'Worker' in window)
 console.log('service-worker','serviceWorker' in navigator)
 console.log('pushManager', 'PushManager' in window)
 
+let testWorker = tw.init()
+
 const Main = () => {
+    
     return (
         <>
             <span className={style.title}>Компоненты</span>
