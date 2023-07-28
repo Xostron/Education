@@ -1,7 +1,7 @@
 import React, { useRef,useEffect } from "react";
 import { CKEditor } from "ckeditor4-react";
 
-const Cke = ({ value, set ,height='600px', width='100%'}) => {
+const Cke = ({ value, set ,height='600px', width='70%'}) => {
     let edi = useRef(null);
     useEffect(() => {
         value ? edi.current.setData(value) : console.log();
@@ -47,6 +47,7 @@ const Cke = ({ value, set ,height='600px', width='100%'}) => {
                 onInstanceReady={({ editor }) => {
                     edi.current = editor;
                 }}
+                
             />
         </>
     );
