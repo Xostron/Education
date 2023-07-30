@@ -300,11 +300,24 @@ function setFire(arrEnemy, pos, stP, shipPBattle) {
   }
 }
 
+
+const user = {
+  test(){
+    const a = 123
+    const b = ()=>{console.log('b')}
+    console.log('@ test = ', this)
+  }
+  }
+  
+  const a = ()=>{
+    console.log('@ a =',this)
+  }
+  a()
+
 // ==============вызов программы==============
 init();
 Login(login);
-
+user.test()
 tools.map((val, idx) => DragEl(val, idx, phantom));
-
 
 

@@ -9,8 +9,8 @@ const CKE = () => {
         console.log("==", content);
     }, [content]);
     setTimeout(() => {
-        setText("<p>Hello its me</p>");
-    }, 2000);
+        setText("<p>Api text</p>");
+    }, 0);
     return (
         <div className="container">
             <Cke value={text} set={setContent} />
