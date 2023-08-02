@@ -207,3 +207,21 @@ const loop = value =>
   })
 
 // loop(1).then(() => console.log('all done!'))
+let i = false, accum =0, value = 12
+
+accum = !i ? value : accum
+console.log('step 1 = ', accum) //12
+
+accum = !i ? value : accum
+console.log('step 2 = ', accum) //12
+
+accum = !i ? value : accum
+console.log('step 2 = ', accum) //12
+
+
+console.log('@@@@@@@@', [false].includes(false))
+
+const o1 = {remainder:null}
+const o = {remainder:{p:1}}
+console.log('@ o = ', o1.remainder ? 'true':'false')
+console.log('@ o = ', o.remainder ? 'true':'false')
