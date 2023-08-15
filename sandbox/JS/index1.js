@@ -40,7 +40,24 @@ console.log('arr = ')
 // insert date in mongo by gui
 // { "$date": "2021-07-15T10:30:48.021Z" }
 // *****************************************************
+console.log('filter: ', [1,2,3,4,5].filter(val=>val>3))
+
+const p = [
+	{id:1, valid:true},{id:2, valid:false},{id:3, valid:false}
+]
+function filter(arr){
+	return arr.filter(el=>
+		el.valid
+	)
+}
+console.log('filter 2: ', filter(p))
 // *****************************************************
+const obj2 = {
+	name:'qwe',
+	psw:'123'
+}
+const a1 = Object.entries(obj2)
+console.log('entries = ', a1)
 // *****************************************************
 // *****************************************************
 // *****************************************************
