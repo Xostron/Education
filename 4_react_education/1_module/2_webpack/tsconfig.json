@@ -10,6 +10,8 @@
 		"jsx": "react",
 		"allowJs": true,
 		"moduleResolution": "node",
+		// для абсолютного импорта
+		"baseUrl": ".",
 		//некоторые библиотеки не имее default import
 		// Вместо такого импорта import * as React from 'react'
 		// можно писать такой import React from 'react'
