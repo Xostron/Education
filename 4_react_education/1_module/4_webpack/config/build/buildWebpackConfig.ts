@@ -25,7 +25,7 @@ export function buildWebpackConfig(
 		plugins: buildPlugins(options),
 		// загрузчики: преобразуют файлы
 		module: {
-			rules: buildLoaders(),
+			rules: buildLoaders(options),
 		},
 
 		resolve: buildResolvers(),

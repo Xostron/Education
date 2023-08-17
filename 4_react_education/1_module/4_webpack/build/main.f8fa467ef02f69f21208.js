@@ -1,1 +1,0 @@
-(()=>{"use strict";console.log("test",25),document.body.innerHTML='<div style="background: yellow"> Webpack </div>'})();
