@@ -1,0 +1,28 @@
+{
+	"compilerOptions": {
+		// путь куда производится сборка, в нашем случае она не важна, т.к. используем webpack
+		"outDir": "./dist/",
+		// подсвечивает все места где не указан тип (typescript)
+		"noImplicitAny": true,
+		"module": "ESNext",
+		// в какую спецификацию компилируем (es5): для поддержки большинства браузеров
+		"target": "es5",
+		"jsx": "react-jsx",
+		"allowJs": true,
+		"moduleResolution": "node",
+		// для абсолютного импорта
+		"baseUrl": ".",
+		//некоторые библиотеки не имее default import
+		// Вместо такого импорта import * as React from 'react'
+		// можно писать такой import React from 'react'
+		"allowSyntheticDefaultImports": true,
+		// esModuleInterop позволяет работать с пакетами, которые используют
+		// commonjs, как с обычными пакетами с помощью import (require() module.exports) = commonjs
+		"esModuleInterop": true
+	},
+	"ts-node": {
+		"compilerOptions": {
+			"module": "CommonJS"
+		}
+	}
+}
