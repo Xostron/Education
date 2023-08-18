@@ -1,12 +1,13 @@
 import React, { useState, useRef, useMemo, useEffect } from "react";
-import {Bbtn} from '../../component';
+import { Bbtn, Clock } from "../../component";
 
 const About = () => {
-  return (
-    <>
-    <Bbtn/>
-      <div>About</div>
-    </>
-  );
+	return (
+		<div>
+			<div>About</div>
+			<Bbtn />
+			<Clock />
+		</div>
+	);
 };
 export default About;

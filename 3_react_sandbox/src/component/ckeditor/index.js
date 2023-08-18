@@ -1,19 +1,17 @@
-import React, { useRef, useEffect } from "react";
-import { CKEditor } from "ckeditor4-react";
+import { useState, useRef, useEffect } from "react";
+import {CKEditor} from 'ckeditor4-react';
 import { config } from "./fn";
 
-let flag = "";
 
 const Cke = ({ value, set, height = "600px", width = "100%" }) => {
 	let edi = useRef(null);
-	
-	console.log("render = ", value, flag);
+	const [ready, setReady] = useState();
+	// console.log("render = ", value, ready);
 
-    // init content
 	useEffect(() => {
-		console.log("effect = ", value, flag);
-		value && flag ? edi.current.edi.setData(value) : console.log();
-	}, [value,flag]);
+		// console.log("effect = ", value, ready);
+		if (value && ready) edi.current.setData(value);
+	}, [value, ready]);
 
 	return (
 		<>
@@ -29,10 +27,9 @@ const Cke = ({ value, set, height = "600px", width = "100%" }) => {
 					set(editor.getData());
 				}}
 				onInstanceReady={({ editor }) => {
-					edi.current = { flag: true };
-					edi.current.edi = editor;
-					flag = JSON.stringify(edi, ["current", "flag"]);
-					console.log("Ready = ", flag);
+					edi.current = editor;
+					setReady(true);
+					// console.log('instance = ', edi)
 				}}
 			/>
 		</>

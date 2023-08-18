@@ -1,7 +1,7 @@
-// import исполняемый код worker
+// worker - код исполняемый браузером в отдельном потоке
 import worker_script from "./exe/index.js";
 
-// инициализация и перехватчик worker на клиенте React
+// инициализация worker на клиенте React
 function create(data) {
   if ("Worker" in window) {
     let worker = new Worker(worker_script);
