@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 
 function Clock() {
-    // запуск интервала, при удалении компонента - интервал отменяем
+	// запуск интервала, при удалении компонента - интервал отменяем
 	useEffect(() => {
 		const t = setInterval(() => {
 			timer.update();
@@ -12,7 +12,11 @@ function Clock() {
 			clearInterval(t);
 		};
 	}, []);
-	return <button onClick={() => timer.reset()}>{timer.sec}</button>;
+	return (
+		<>
+			<button onClick={() => timer.reset()}>{timer.sec}</button>
+		</>
+	);
 }
 
 // для того чтобы mobx понимал нужно ли отрендеривать компонент

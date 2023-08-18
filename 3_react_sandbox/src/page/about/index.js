@@ -1,5 +1,5 @@
 import React, { useState, useRef, useMemo, useEffect } from "react";
-import { Bbtn, Clock } from "../../component";
+import { Bbtn, Bear, Clock } from "../../component";
 
 const About = () => {
 	return (
@@ -7,6 +7,7 @@ const About = () => {
 			<div>About</div>
 			<Bbtn />
 			<Clock />
+      <Bear/>
 		</div>
 	);
 };

@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import style from "./style.module.css";
-import { Navbar, Cke, Bbtn, Mbtn, Clock } from "../../component";
+import { Navbar, Cke, Bbtn, Mbtn, Clock, Bear } from "../../component";
 import { TestWorker } from "../../worker";
 
 const cards = [
@@ -23,6 +23,7 @@ const Main = () => {
 	return (
 		<>
 			<Clock />
+			<Bear />
 			<span className={style.title}>Компоненты</span>
 			<div className={style.cards}>
 				{cards.map((el, idx) => {
