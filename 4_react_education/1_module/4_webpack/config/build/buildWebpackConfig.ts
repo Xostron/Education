@@ -27,13 +27,13 @@ export function buildWebpackConfig(
 		module: {
 			rules: buildLoaders(options),
 		},
-
+		// расширерения файлов
 		resolve: buildResolvers(),
 		// source maps - при сборке проекта, трассировщик стека
 		// сможет отслеживать ошибку/предупреждение до исходного файла
 		// по - умолчанию трассировщик при ошибке ссылается на общую сборку bundle.js
 		devtool: isDev ? "inline-source-map" : undefined,
 		// webpack-dev-server - автоматически перезапускает сборку
-		devServer: isDev ? buildDevServer(options):undefined,
+		devServer: isDev ? buildDevServer(options) : undefined,
 	};
 }
