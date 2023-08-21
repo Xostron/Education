@@ -132,4 +132,4 @@ dist
 # My Folders
 download/
 .vscode
-# build/
+build
