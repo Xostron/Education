@@ -8,7 +8,9 @@
 		"allowJs": true,
 		"moduleResolution": "node",
 		"allowSyntheticDefaultImports": true,
-		"esModuleInterop": true
+		"esModuleInterop": true,
+		// для абсолютного импорта
+		"baseUrl": ".",
 	},
 	"ts-node": {
 		"compilerOptions": {

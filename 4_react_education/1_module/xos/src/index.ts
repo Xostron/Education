@@ -1,1 +1,1 @@
-document.body.innerHTML = '<h1>Xostron</h1>'
+document.body.innerHTML = '<h1>Xostron+</h1>'
