@@ -7,6 +7,7 @@
 		"jsx": "react",
 		"allowJs": true,
 		"moduleResolution": "node",
+		//вкл import-export es6
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
 		// для абсолютного импорта
