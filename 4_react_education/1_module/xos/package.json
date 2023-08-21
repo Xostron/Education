@@ -1,0 +1,21 @@
+{
+  "name": "xos",
+  "version": "1.0.0",
+  "description": "guide: webpack & fsd - todo app",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.5.1",
+    "@types/webpack": "^5.28.1",
+    "html-webpack-plugin": "^5.5.3",
+    "ts-loader": "^9.4.4",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  }
+}

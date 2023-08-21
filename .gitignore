@@ -132,4 +132,7 @@ dist
 # My Folders
 download/
 .vscode
-build
+.idea
+# build/
+/*/*/*/build/
+.gitignore
