@@ -40,17 +40,17 @@
 // // insert date in mongo by gui
 // // { "$date": "2021-07-15T10:30:48.021Z" }
 // // *****************************************************
-// console.log('filter: ', [1,2,3,4,5].filter(val=>val>3))
+console.log('filter: ', [1,2,3,4,5].filter(val=>val>3))
 
-// const p = [
-// 	{id:1, valid:true},{id:2, valid:false},{id:3, valid:false}
-// ]
-// function filter(arr){
-// 	return arr.filter(el=>
-// 		el.valid
-// 	)
-// }
-// console.log('filter 2: ', filter(p))
+const p = [
+	{id:1, valid:true},{id:2, valid:false},{id:3, valid:false}
+]
+function filter(arr){
+	return arr.filter(el=>
+		el.valid
+	)
+}
+console.log('filter 2: ', filter(p))
 // // *****************************************************
 // const obj2 = {
 // 	name:'qwe',
@@ -77,12 +77,12 @@
 // console.log('NULL = ', null, typeof null, !!null, null || 'null+||', null ?? 'null??')
 // *****************************************************
 // event loop: очередь макрозадач (события, таймауты, скрипт) и микрозадач (промисы)
-console.log('start')
-setTimeout(()=>console.log('time 1'))
-Promise.resolve().then(()=>console.log('promise 1'))
-setTimeout(()=>console.log('time 2'))
-Promise.resolve().then(()=>console.log('promise 2'))
-console.log('end')
+// console.log('start')
+// setTimeout(()=>console.log('time 1'))
+// Promise.resolve().then(()=>console.log('promise 1'))
+// setTimeout(()=>console.log('time 2'))
+// Promise.resolve().then(()=>console.log('promise 2'))
+// console.log('end')
 /* Алгоритм работы
  - синхронный код - исполнение сразу же start
  (сначала проверка очереди микрозадач = 0, их нет переход к выполнению макрозадач = 0)
