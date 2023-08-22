@@ -119,6 +119,18 @@ open - модификатор - окно открыто
 
 */
 // *****************************************************
+function withRouter(component){
+	return ()=>(component)
+}
+function compose(func){
+	console.log('func = ',func)
+	return func
+}
+
+const q1 = withRouter(10)
+const q2 = compose(q1)
+console.log(q2)
+
 // *****************************************************
 // *****************************************************
 // *****************************************************

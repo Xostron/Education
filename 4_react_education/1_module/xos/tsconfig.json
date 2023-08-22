@@ -11,7 +11,7 @@
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
 		// для абсолютного импорта
-		"baseUrl": ".",
+		"baseUrl": "./src",
 	},
 	"ts-node": {
 		"compilerOptions": {

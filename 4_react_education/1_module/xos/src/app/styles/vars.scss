@@ -1,0 +1,18 @@
+:root{
+	--font-family-main: Consolas, "Times New Roman";
+
+	--font-size-m: 16px;
+	--font-line-m: 24px;
+	--font-m: var(--font-size-m) / var(--font-line-m) var(--font-family-main);
+
+	--font-size-l: 24px;
+	--font-line-l: 32px;
+	--font-m: var(--font-size-m) / var(--font-line-m) var(--font-family-main);
+
+    // DARK
+    --font-color-dark: chartreuse;
+    --bg-color-dark:black;
+    // LIGHT
+    --font-color-light: rgb(34, 34, 34);
+    --bg-color-light:rgb(238, 238, 238);
+}
