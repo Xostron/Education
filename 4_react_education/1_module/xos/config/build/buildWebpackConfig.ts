@@ -19,11 +19,12 @@ export function buildWebpackConfig(
 		},
 		plugins: buildPlugins(options),
 		module: {
-			rules: buildLoaders(),
+			rules: buildLoaders(options),
 		},
 		resolve: buildResolvers(),
 		// включение трассировщика ошибок в mode development
 		devtool: isDev ? "inline-source-map" : false,
+		// webpack-dev-server - автоматически перезапускает сборку
 		devServer: isDev ? buildDevServer(options):undefined,
 	};
 }
