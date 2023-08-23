@@ -4,7 +4,7 @@ import { withProviders } from './providers';
 
 function App() {
 	return (
-		<div className='app dark'>
+		<div className='app'>
 			<Routing/>
 		</div>
 	);

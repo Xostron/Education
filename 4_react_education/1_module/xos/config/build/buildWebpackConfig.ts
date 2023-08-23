@@ -26,5 +26,7 @@ export function buildWebpackConfig(
 		devtool: isDev ? "inline-source-map" : false,
 		// webpack-dev-server - автоматически перезапускает сборку
 		devServer: isDev ? buildDevServer(options):undefined,
+		
+
 	};
 }
