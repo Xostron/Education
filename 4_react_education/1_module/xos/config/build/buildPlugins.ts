@@ -2,7 +2,7 @@ import webpack from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { BuildOptions } from "./types/config";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-
+import Dotenv from "dotenv-webpack";
 export function buildPlugins({
 	paths,
 }: BuildOptions): webpack.WebpackPluginInstance[] {
@@ -18,6 +18,11 @@ export function buildPlugins({
 		new MiniCssExtractPlugin({
 			filename: "css/[name].[contenthash].css",
 			chunkFilename: "css/[name].[contenthash].css",
+		}),
+		new Dotenv({
+			path: "./.env",
+			defaults: true,
+			systemvars: true
 		}),
 	];
 }

@@ -1,16 +1,11 @@
 import { Row } from 'antd'
 import {Link} from 'react-router-dom'
 import style from './styles.module.scss'
+import { Task } from 'shared/api/typicode/models'
 
-export type DataTask = {
-    title:string,
-    id:number,
-    done:boolean,
-    dateCreate:Date,
-    dateUpd:Date
-}
+
 export type TaskRowProps = {
-    data:DataTask,
+    data:Task,
     titleHref:string
 }
 

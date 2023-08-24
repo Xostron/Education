@@ -28,7 +28,7 @@ export function buildWebpackConfig(
 			rules: buildLoaders(options),
 		},
 		// расширерения файлов
-		resolve: buildResolvers(),
+		resolve: buildResolvers(options),
 		// source maps - при сборке проекта, трассировщик стека
 		// сможет отслеживать ошибку/предупреждение до исходного файла
 		// по - умолчанию трассировщик при ошибке ссылается на общую сборку bundle.js

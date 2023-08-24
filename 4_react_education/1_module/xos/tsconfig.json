@@ -11,14 +11,11 @@
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
 		// для абсолютного импорта
-		"baseUrl": ".",
-		"paths": {
-			"*": ["src/*"]
-		  },
+		"baseUrl": "./src"
 	},
 	"ts-node": {
 		"compilerOptions": {
 			"module": "CommonJS"
 		}
-	},
+	}
 }
