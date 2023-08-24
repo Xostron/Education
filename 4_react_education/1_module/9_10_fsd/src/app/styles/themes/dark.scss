@@ -1,4 +1,6 @@
-.dark{
-    background-color: black;
-    color: chartreuse;
+.dark {
+	--bg-color: rgb(24, 24, 24);
+    --inverted-bg-color: rgb(226, 226, 226);
+	--primary-color: chartreuse;
+	--secondary-color: rgb(89, 179, 0);
 }
