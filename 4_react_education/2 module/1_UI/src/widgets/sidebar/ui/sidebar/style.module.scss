@@ -1,0 +1,18 @@
+.main{
+    // display:inline-flex;
+    // flex-direction: column;
+    height: calc(100vh - var(--navbar-height));
+    width:var(--width-sidebar);
+    background-color: var(--inverted-bg-color);
+    color: var(--inverted-primary-color);
+    transition: width .3s ease-in;
+    padding: 20px;
+}
+.collapsed{
+    width:var(--width-sidebar-collapse)
+}
+
+.switcher{
+    position: absolute;
+    bottom: 20px;
+}
