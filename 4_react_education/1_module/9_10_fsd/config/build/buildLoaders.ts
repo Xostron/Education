@@ -1,8 +1,20 @@
-import webpack from "webpack";
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import { BuildOptions } from "./types/config";
+import webpack from "webpack"
+import MiniCssExtractPlugin from "mini-css-extract-plugin"
+import { BuildOptions } from "./types/config"
 
 export function buildLoaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
+	const svgLoader = {
+		test: /\.svg$/i,
+		use: ["@svgr/webpack"],
+	}
+	const fileLoader = {
+		test: /\.(png|jpe?g|gif)$/i,
+		use: [
+			{
+				loader: "file-loader",
+			},
+		],
+	}
 	// порядок loaders имеет значение, поэтому выносим каждый лоадер в отдельную переменную
 	// - преобразует typescript файлы в js понятный браузеру
 	// - если не исполльзуем typescript (а пишем на нативном js) - нужен babel-loader
@@ -11,7 +23,7 @@ export function buildLoaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
 		test: /\.tsx?$/,
 		use: "ts-loader",
 		exclude: /node_modules/,
-	};
+	}
 
 	// преобразует scss, sass файлы в css
 	const cssLoader = {
@@ -35,7 +47,7 @@ export function buildLoaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
 			// Compiles Sass to CSS
 			"sass-loader",
 		],
-	};
+	}
 
-	return [typescriptLoader, cssLoader];
+	return [typescriptLoader, cssLoader, svgLoader, fileLoader]
 }

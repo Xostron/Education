@@ -40,17 +40,20 @@
 // // insert date in mongo by gui
 // // { "$date": "2021-07-15T10:30:48.021Z" }
 // // *****************************************************
-console.log('filter: ', [1,2,3,4,5].filter(val=>val>3))
+console.log(
+	"filter: ",
+	[1, 2, 3, 4, 5].filter((val) => val > 3)
+)
 
 const p = [
-	{id:1, valid:true},{id:2, valid:false},{id:3, valid:false}
+	{ id: 1, valid: true },
+	{ id: 2, valid: false },
+	{ id: 3, valid: false },
 ]
-function filter(arr){
-	return arr.filter(el=>
-		el.valid
-	)
+function filter(arr) {
+	return arr.filter((el) => el.valid)
 }
-console.log('filter 2: ', filter(p))
+console.log("filter 2: ", filter(p))
 // // *****************************************************
 // const obj2 = {
 // 	name:'qwe',
@@ -58,7 +61,6 @@ console.log('filter 2: ', filter(p))
 // }
 // const a1 = Object.entries(obj2)
 // console.log('entries = ', a1)
-
 
 // // **JSON циклические ссылки***************************************************
 // const obj3 = {
@@ -119,11 +121,11 @@ open - модификатор - окно открыто
 
 */
 // *****************************************************
-function withRouter(component){
-	return ()=>(component)
+function withRouter(component) {
+	return () => component
 }
-function compose(func){
-	console.log('func = ',func)
+function compose(func) {
+	console.log("func = ", func)
 	return func
 }
 
@@ -132,7 +134,15 @@ const q2 = compose(q1)
 console.log(q2)
 
 // *****************************************************
+console.log("Array.isArray = ", Array.isArray([1, 2]))
 // *****************************************************
+const myIn = document.querySelector("#input1")
+console.log(myIn)
+myIn.addEventListener("change", (v) => {
+	console.log("@@@ change = ", v, v.target.value, v.selectionStart)
+	myIn.setSelectionRange(10,0)
+})
+
 // *****************************************************
 // *****************************************************
 // *****************************************************

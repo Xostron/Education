@@ -1,24 +1,24 @@
-import { FC, ReactChild, ReactChildren, ReactNode } from "react"
 import cls from "./style.module.scss"
-import { Link } from "react-router-dom"
 import { classname } from "shared/lib/classname/classname"
-import { useTheme } from "app/providers/theme_providers"
+import { AppLink, AppLinkTheme } from "shared/ui/link"
+import { ThemeSwitcher } from "shared/ui/theme_switcher"
 
 interface NavbarProps {
 	className?: string
 }
 
 const Navbar = ({ className }: NavbarProps) => {
-	const { toggleTheme } = useTheme()
 	return (
 		<div className={classname(cls.navbar, {}, [className])}>
-            <button onClick={toggleTheme}>TOGGLE</button>
+			<ThemeSwitcher />
 			<div className={cls.links}>
-				<Link to={"/"}>Main</Link>
-				<Link to={"/about"}>About</Link>
+				<AppLink to={"/"} theme={AppLinkTheme.SECONDARY}>
+					Main
+				</AppLink>
+				<AppLink to={"/about"} theme={AppLinkTheme.SECONDARY}>
+					About
+				</AppLink>
 			</div>
-
-			
 		</div>
 	)
 }

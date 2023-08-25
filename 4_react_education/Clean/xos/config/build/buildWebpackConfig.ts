@@ -21,7 +21,7 @@ export function buildWebpackConfig(
 		module: {
 			rules: buildLoaders(options),
 		},
-		resolve: buildResolvers(),
+		resolve: buildResolvers(options),
 		// включение трассировщика ошибок в mode development
 		devtool: isDev ? "inline-source-map" : false,
 		// webpack-dev-server - автоматически перезапускает сборку
