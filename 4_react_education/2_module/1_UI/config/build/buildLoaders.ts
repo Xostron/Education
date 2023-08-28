@@ -7,8 +7,9 @@ export function buildLoaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
 		test: /\.svg$/i,
 		use: ["@svgr/webpack"],
 	}
+	// поддержка картинок и шрифтов
 	const fileLoader = {
-		test: /\.(png|jpe?g|gif)$/i,
+		test: /\.(png|jpe?g|gif|webp|ico|woff2?|eot|ttf|otf)$/i,
 		use: [
 			{
 				loader: "file-loader",

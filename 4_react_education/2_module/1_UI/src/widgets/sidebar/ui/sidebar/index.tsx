@@ -2,18 +2,29 @@ import { classname } from "shared/lib/classname/classname"
 import cls from "./style.module.scss"
 import { useState } from "react"
 import { ThemeSwitcher } from "shared/ui/theme_switcher"
+import { LangSwitcher } from "shared/ui/lang_switcher"
+import { useTranslation } from "react-i18next"
+import { Button, ThemeButton } from "shared/ui/btn"
 
 export const Sidebar = () => {
 	const [collapse, setCollapse] = useState(false)
+	const { t } = useTranslation()
 	function hndlCollapse() {
 		setCollapse((prev) => !prev)
 	}
 	return (
 		<div className={classname(cls.main, { [cls.collapsed]: collapse }, [])}>
-			<button onClick={hndlCollapse}>collapse</button>
-			Test collapse
-			<div className={cls.switcher}>
+			<Button
+				className={cls.toggle}
+				theme={ThemeButton.CLEAR}
+				onClick={hndlCollapse}
+			>
+				{t("...Скрыть")}
+			</Button>
+
+			<div className={classname(cls.switchers, { [cls.switchers_collapsed]: collapse }, [])}>
 				<ThemeSwitcher />
+				<LangSwitcher className={cls.lang} />
 			</div>
 		</div>
 	)

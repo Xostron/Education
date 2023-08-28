@@ -1,5 +1,5 @@
-import { BuildOptions } from "./types/config";
-import type { Configuration as DevServerConfiguration } from "webpack-dev-server";
+import { BuildOptions } from "./types/config"
+import type { Configuration as DevServerConfiguration } from "webpack-dev-server"
 
 // webpack-dev-server - это простой веб-сервер,
 // который автоматически перезапускает сборку проекта
@@ -9,5 +9,6 @@ export function buildDevServer(options: BuildOptions): DevServerConfiguration {
 		open: true,
 		// доступ к dev-server с произвольного url
 		historyApiFallback: true,
-	};
+		hot: true,
+	}
 }
