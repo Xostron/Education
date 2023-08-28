@@ -1,5 +1,6 @@
-import Card from "./components/card";
-import "./index.scss";
+
+import Card from 'shared/ui/card';
+import "./styles/index.scss";
 
 export default function App() {
 	return (
