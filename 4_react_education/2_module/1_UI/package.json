@@ -6,7 +6,8 @@
 	"scripts": {
 		"start": "webpack serve --env port=3000",
 		"build:prod": "webpack --env mode=production",
-		"build:dev": "webpack --env mode=development"
+		"build:dev": "webpack --env mode=development",
+		"unit":"jest --config ./config/jest/jest.config.ts"
 	},
 	"keywords": [],
 	"author": "",
@@ -23,8 +24,9 @@
 		"css-loader": "^6.6.0",
 		"file-loader": "^6.2.0",
 		"html-webpack-plugin": "^5.5.0",
+		"jest": "^27.5.1",
 		"mini-css-extract-plugin": "^2.5.3",
-		"react-refresh": "^0.12.0",
+		"react-refresh": "^0.12.0", 
 		"sass": "^1.49.9",
 		"sass-loader": "^12.6.0",
 		"style-loader": "^3.3.1",
