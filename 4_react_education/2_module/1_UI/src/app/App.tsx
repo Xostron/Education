@@ -10,6 +10,8 @@ export default function App() {
 	const { theme } = useTheme()
 	return (
 		<div className={classname("app", {}, [theme])}>
+			{/* i18n translations который используется в компонентах подгружает 
+			переводы асинхронно, поэтому глобально оборачиваем все приложение в suspense */}
 			<Suspense fallback={""}>
 				<Navbar />
 				<div className='content-page'>
