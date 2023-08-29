@@ -10,7 +10,7 @@ export default function App() {
 	const { theme } = useTheme()
 	return (
 		<div className={classname("app", {}, [theme])}>
-			<Suspense fallback={"...Загрузка"}>
+			<Suspense fallback={""}>
 				<Navbar />
 				<div className='content-page'>
 					<Sidebar />
@@ -20,5 +20,3 @@ export default function App() {
 		</div>
 	)
 }
-
-
