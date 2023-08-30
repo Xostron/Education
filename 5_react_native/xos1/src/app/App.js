@@ -14,17 +14,25 @@ export default function App() {
 		<SafeAreaProvider>
 			<SafeAreaView style={app.container}>
 				<NavigationContainer>
-					<StatusBar style='auto' />
 					<Stack.Navigator
 						initialRouteName='Home'
+
 						screenOptions={{
-							headerStyle: {backgroundColor:'#1ff'},
+							header: (props) => {
+                console.log(props)
+								return (
+									<View
+										style={{
+											backgroundColor: "#1ff",
+											height: 50,
+										}}
+									></View>
+								)},
+              headerStyle:{backgroundColor:'#1ff'},
 							headerTintColor: "#000",
 							headerTitleStyle: {
 								fontWeight: "bold",
 							},
-              headerTitle:()=>(<Text style={{backgroundColor:"#fff", height:40}}>...</Text>),
-              
 						}}
 					>
 						<Stack.Screen
@@ -43,17 +51,25 @@ export default function App() {
 						/>
 					</Stack.Navigator>
 				</NavigationContainer>
+				<StatusBar rstyle='auto' />
 			</SafeAreaView>
 		</SafeAreaProvider>
 	)
 }
 
-
 function LogoTitle() {
-  return (
-    <Image
-      style={{ width: 50, height: 50 }}
-      source={'src/shared/assets'}
-    />
-  );
+	return (
+		<Image style={{ width: 50, height: 50 }} source={"src/shared/assets"} />
+	)
 }
+
+// (props) => {
+//   console.log(props)
+//   return (
+//     <View
+//       style={{
+//         backgroundColor: "#1ff",
+//         height: 25,
+//       }}
+//     ></View>
+//   )
