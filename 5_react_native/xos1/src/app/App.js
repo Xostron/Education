@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar"
-import { Text, View } from "react-native"
+import { Text, View, Image } from "react-native"
+import { Button } from "react-native-paper"
 import { app } from "./styles"
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context"
 import { NavigationContainer } from "@react-navigation/native"
@@ -16,23 +17,8 @@ export default function App() {
 				<NavigationContainer>
 					<Stack.Navigator
 						initialRouteName='Home'
-
 						screenOptions={{
-							header: (props) => {
-                console.log(props)
-								return (
-									<View
-										style={{
-											backgroundColor: "#1ff",
-											height: 50,
-										}}
-									></View>
-								)},
-              headerStyle:{backgroundColor:'#1ff'},
-							headerTintColor: "#000",
-							headerTitleStyle: {
-								fontWeight: "bold",
-							},
+							header: (props) => <Header props={props} />,
 						}}
 					>
 						<Stack.Screen
@@ -57,19 +43,39 @@ export default function App() {
 	)
 }
 
-function LogoTitle() {
+function Header({ props }) {
+	const { back, options, route, navigation } = props
 	return (
-		<Image style={{ width: 50, height: 50 }} source={"src/shared/assets"} />
+		<View
+			style={{
+				backgroundColor: "#eee",
+				height: 40,
+				alignItems: "center",
+				flexDirection: "row",
+				paddingHorizontal: 10,
+				// gap: 20,
+			}}
+		>
+			{back?.title ? (
+				<Button
+					onPress={() => {
+						navigation.goBack()
+					}}
+					icon={{source:"arrow-left", direction: 'auto', color:"ff1"}}
+          style={{color:"#1ff"}}
+				></Button>
+			) : (
+				<View></View>
+			)}
+			<Text
+				style={{
+					color: "#444",
+					fontWeight: "bold",
+					fontSize: 18,
+				}}
+			>
+				{options?.title ?? ""}
+			</Text>
+		</View>
 	)
 }
-
-// (props) => {
-//   console.log(props)
-//   return (
-//     <View
-//       style={{
-//         backgroundColor: "#1ff",
-//         height: 25,
-//       }}
-//     ></View>
-//   )

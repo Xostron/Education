@@ -3,7 +3,6 @@ import { cls } from "./style.js"
 
 export const Catalog = ({ navigation, route }) => {
 	const t = route?.params?.data ?? "default"
-	console.log(route)
 	return (
 		<View style={cls.container}>
 			<Text style={cls.text}>CATALOG SCREEN {t}</Text>
