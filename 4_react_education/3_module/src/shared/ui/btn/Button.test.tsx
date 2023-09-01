@@ -6,7 +6,7 @@ import { Button } from 'shared/ui/btn/'
 describe("classnames", () => {
 	test("Проверка основного стиля", () => {
 		render(<Button>Test</Button>)
-        expect(screen.getByText('Test') )
+        expect(screen.getByText('Test')).toBeInTheDocument()
 	})
 
 })
