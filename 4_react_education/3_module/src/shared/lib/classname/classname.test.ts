@@ -1,4 +1,6 @@
-import { classname } from "./classname"
+// import { classname } from "./classname"
+
+import { classname } from 'shared/lib/classname/classname'
 
 // Unit test
 describe("classnames", () => {

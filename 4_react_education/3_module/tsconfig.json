@@ -19,13 +19,14 @@
 		"esModuleInterop": true,
 		// для абсолютного импорта
 		"baseUrl": ".",
-		"paths":{
-			"*":["./src/*"]
-		},
+		"paths": {
+			"*": ["./src/*"]
+		}
 	},
 	"ts-node": {
 		"compilerOptions": {
 			"module": "CommonJS"
 		}
-	}
+	},
+	"include": ["./src/", "./config/jest/setupTest.ts"]
 }

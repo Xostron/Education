@@ -12,7 +12,7 @@ export default {
 
 	// The directory where Jest should store its cached dependency information
 	// cacheDirectory: "C:\\Users\\Xostron\\AppData\\Local\\Temp\\jest",
-
+	
 	// Automatically clear mock calls, instances and results before every test
 	clearMocks: true,
 	testEnvironment: "jsdom",
@@ -21,6 +21,7 @@ export default {
 	coveragePathIgnorePatterns: ["\\\\node_modules\\\\"],
 	// An array of directory names to be searched recursively up from the requiring module's location
 	moduleDirectories: ["node_modules"],
+	modulePaths: ["<rootDir>src"],
 	// An array of file extensions your modules use
 	moduleFileExtensions: ["js", "jsx", "ts", "tsx", "json", "node"],
 	// The root directory that Jest should scan for tests and modules within
@@ -28,6 +29,7 @@ export default {
 
 	// The glob patterns Jest uses to detect test files
 	testMatch: ["<rootDir>src/**/*(*.)@(spec|test).[tj]s?(x)"],
+	setupFilesAfterEnv: ['<rootDir>config/jest/setupTest.ts'],
 	// Indicates whether the coverage information should be collected while executing the test
 	// collectCoverage: false,
 
