@@ -1,3 +1,4 @@
+// Entry point
 const login = document.querySelector(".login");
 const field = document.querySelector(".field1");
 const field2 = document.querySelector(".field2");
