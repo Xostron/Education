@@ -2,6 +2,7 @@ import { classname } from "shared/lib/classname/classname"
 import cls from "./style.module.scss"
 import { ButtonHTMLAttributes, FC } from "react"
 
+
 export enum ThemeButton {
 	CLEAR = "clear",
 }

@@ -1,12 +1,15 @@
 import {render, screen} from '@testing-library/react'
-import { Button } from 'shared/ui/btn/'
+import { Button, ThemeButton } from 'shared/ui/btn/'
 
 //  test component
 
 describe("classnames", () => {
-	test("Проверка основного стиля", () => {
+	test("Проверка кнопки", () => {
 		render(<Button>Test</Button>)
         expect(screen.getByText('Test')).toBeInTheDocument()
 	})
-
+	test("Проверка кнопки CLEAR", () => {
+		render(<Button theme={ThemeButton.CLEAR}>Test</Button>)
+        expect(screen.getByText('Test')).toBeInTheDocument()
+	})
 })
