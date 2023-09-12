@@ -13,7 +13,7 @@ export const Sidebar = () => {
 		setCollapse((prev) => !prev)
 	}
 	return (
-		<div className={classname(cls.main, { [cls.collapsed]: collapse }, [])}>
+		<div className={classname(cls.main, { [cls.collapsed]: collapse }, [])} data-testid="sidebar">
 			<Button
 				className={cls.toggle}
 				theme={ThemeButton.CLEAR}
