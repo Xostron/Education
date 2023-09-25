@@ -1,13 +1,14 @@
 // console.log("index1.js");
 // // *****************************************************
-// const obj1 = {
-// 	name: "xostron",
-// 	q: 1,
-// 	abc: "123",
-// };
-// let q = Object.getOwnPropertyNames(obj1);
+const obj1 = {
+	name: "xostron",
+	q: 1,
+	abc: "123",
+}
+let q = Object.getOwnPropertyNames(obj1)
+let w = Object.keys(obj1)
 // // let r = Object.getOwnPropertySymbols(obj)
-// console.log("getOwnPropertyNames = ", q);
+console.log("getOwnPropertyNames = ", q, w)
 // // console.log('getOwnPropertySymbols = ',r)
 // // *****************************************************
 // const obj = { name: { f: 123, m: 456 } };
@@ -15,11 +16,18 @@
 // delete obj.owner;
 // console.log("delete property = ", obj);
 // // *****************************************************
-// const doc = null;
-// console.log("obj ? ", !!doc);
-// const doc1 = {};
-// console.log("obj ? ", !!doc1);
+// const doc = null
+// console.log("obj ? ", !!doc)
+// const doc1 = {}
+// console.log("obj ? ", !!doc1)
 // // *****************************************************
+console.log("PUSH obj")
+const result = []
+const doc = { name: "xos" }
+result.push(doc)
+console.log("@1 = ", result)
+doc.type = "x"
+console.log("@2 = ", result)
 // // *****************************************************
 // switch (false) {
 // 	case !!null:
@@ -32,6 +40,18 @@
 // 		break;
 // }
 // // *****************************************************
+const arr = Array(15).fill(0)
+console.log("@@@ create arr = ", arr)
+const arr1 = Array(15)
+	.fill(0)
+	.map((_, i) => ({
+		id: i + 1,
+		code: "proList",
+		key: "screen" + (i + 1),
+	}))
+	arr1.unshift({ id: 0, code: "proList", key: "img" })
+console.log("@@@ create screen = ", arr1)
+// // *****************************************************
 // const id = {}
 // const i = []
 // console.log('object = ', id instanceof Array)
@@ -40,20 +60,20 @@
 // // insert date in mongo by gui
 // // { "$date": "2021-07-15T10:30:48.021Z" }
 // // *****************************************************
-console.log(
-	"filter: ",
-	[1, 2, 3, 4, 5].filter((val) => val > 3)
-)
+// console.log(
+// 	"filter: ",
+// 	[1, 2, 3, 4, 5].filter((val) => val > 3)
+// )
 
-const p = [
-	{ id: 1, valid: true },
-	{ id: 2, valid: false },
-	{ id: 3, valid: false },
-]
-function filter(arr) {
-	return arr.filter((el) => el.valid)
-}
-console.log("filter 2: ", filter(p))
+// const p = [
+// 	{ id: 1, valid: true },
+// 	{ id: 2, valid: false },
+// 	{ id: 3, valid: false },
+// ]
+// function filter(arr) {
+// 	return arr.filter((el) => el.valid)
+// }
+// console.log("filter 2: ", filter(p))
 // // *****************************************************
 // const obj2 = {
 // 	name:'qwe',
@@ -121,27 +141,27 @@ open - модификатор - окно открыто
 
 */
 // *****************************************************
-function withRouter(component) {
-	return () => component
-}
-function compose(func) {
-	console.log("func = ", func)
-	return func
-}
+// function withRouter(component) {
+// 	return () => component
+// }
+// function compose(func) {
+// 	console.log("func = ", func)
+// 	return func
+// }
 
-const q1 = withRouter(10)
-const q2 = compose(q1)
-console.log(q2)
+// const q1 = withRouter(10)
+// const q2 = compose(q1)
+// console.log(q2)
 
-// *****************************************************
-console.log("Array.isArray = ", Array.isArray([1, 2]))
-// *****************************************************
-const myIn = document.querySelector("#input1")
-console.log(myIn)
-myIn.addEventListener("change", (v) => {
-	console.log("@@@ change = ", v, v.target.value, v.selectionStart)
-	myIn.setSelectionRange(10,0)
-})
+// // *****************************************************
+// console.log("Array.isArray = ", Array.isArray([1, 2]))
+// // *****************************************************
+// const myIn = document.querySelector("#input1")
+// console.log(myIn)
+// myIn.addEventListener("change", (v) => {
+// 	console.log("@@@ change = ", v, v.target.value, v.selectionStart)
+// 	myIn.setSelectionRange(10,0)
+// })
 
 // *****************************************************
 // *****************************************************
