@@ -1,0 +1,22 @@
+{
+	"manifest_version": 3,
+	"name": "My Extension",
+	"version": "0.0",
+	"description": "Тестовое расширение для изучения основ",
+	"permissions": [
+		"activeTab"
+	],
+	"action": {
+		"default_popup": "src/widget/popup/index.html",
+		"default_icon": {
+			"16": "src/images/icon16.png",
+			"48": "src/images/icon48.png",
+			"128": "src/images/icon128.png"
+		}
+	},
+	"icons": {
+		"16": "src/images/icon16.png",
+		"48": "src/images/icon48.png",
+		"128": "src/images/icon128.png"
+	}
+}
