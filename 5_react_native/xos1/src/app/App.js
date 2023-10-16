@@ -1,20 +1,27 @@
-import { StatusBar } from "expo-status-bar"
-import { Text, View, Image } from "react-native"
-import { Button } from "react-native-paper"
-import { app } from "./styles"
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context"
-import { NavigationContainer } from "@react-navigation/native"
-import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { Home } from "src/screen/home/ui"
-import { Catalog } from "src/screen/catalog/ui"
+import { StatusBar } from 'expo-status-bar'
+import { Text, View } from 'react-native'
+import { Button } from 'react-native-paper'
+import { app } from './styles'
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { Home } from 'src/screen/home/ui'
+import { Catalog } from 'src/screen/catalog/ui'
+import * as Linking from 'expo-linking'
 
 const Stack = createNativeStackNavigator()
+const prefix = Linking.createURL('/');
 
-export default function App() {
+ function App() {
+	const linking = {
+		prefixes: [prefix,],
+	  };
+
 	return (
 		<SafeAreaProvider>
 			<SafeAreaView style={app.container}>
-				<NavigationContainer>
+				<NavigationContainer linking={linking}>
+				{/* <NavigationContainer> */}
 					<Stack.Navigator
 						initialRouteName='Home'
 						screenOptions={{
@@ -25,16 +32,17 @@ export default function App() {
 							name='Home'
 							component={Home}
 							options={{
-								title: "Главная",
+								title: 'Главная',
 							}}
 						/>
 						<Stack.Screen
 							name='Catalog'
 							component={Catalog}
 							options={{
-								title: "Каталог",
+								title: 'Каталог',
 							}}
 						/>
+
 					</Stack.Navigator>
 				</NavigationContainer>
 				<StatusBar rstyle='auto' />
@@ -42,16 +50,17 @@ export default function App() {
 		</SafeAreaProvider>
 	)
 }
+export default App
 
 function Header({ props }) {
 	const { back, options, route, navigation } = props
 	return (
 		<View
 			style={{
-				backgroundColor: "#eee",
+				backgroundColor: '#eee',
 				height: 40,
-				alignItems: "center",
-				flexDirection: "row",
+				alignItems: 'center',
+				flexDirection: 'row',
 				paddingHorizontal: 10,
 				// gap: 20,
 			}}
@@ -61,20 +70,24 @@ function Header({ props }) {
 					onPress={() => {
 						navigation.goBack()
 					}}
-					icon={{source:"arrow-left", direction: 'auto', color:"ff1"}}
-          style={{color:"#1ff"}}
+					icon={{
+						source: 'arrow-left',
+						direction: 'auto',
+						color: 'ff1',
+					}}
+					style={{ color: '#1ff' }}
 				></Button>
 			) : (
 				<View></View>
 			)}
 			<Text
 				style={{
-					color: "#444",
-					fontWeight: "bold",
+					color: '#444',
+					fontWeight: 'bold',
 					fontSize: 18,
 				}}
 			>
-				{options?.title ?? ""}
+				{options?.title ?? ''}
 			</Text>
 		</View>
 	)

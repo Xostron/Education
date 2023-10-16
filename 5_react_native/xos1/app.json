@@ -3,6 +3,11 @@
     "name": "xos1",
     "slug": "xos1",
     "version": "1.0.0",
+    "scheme": "xos", 
+    "deepLink": {
+      "pathPrefix": "/path",
+      "queryString": true
+    },
     "orientation": "portrait",
     "icon": "./src/shared/assets/icon.png",
     "userInterfaceStyle": "light",
