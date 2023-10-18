@@ -3,12 +3,12 @@ import { View, Text } from 'react-native'
 import { cls } from './style.js'
 
 
-export const Home = ({ navigation }) => {
+export const User = ({ navigation }) => {
 	const [value, setValue] = useState('')
 
 	return (
 		<View style={cls.container}>
-			<Text>Главная</Text>
+			<Text>Профиль</Text>
 		</View>
 	)
 }
