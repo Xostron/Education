@@ -1,22 +1,22 @@
-console.log("Index 3");
+console.log('Index 3')
 // event loop - микротаски и макротаски
-console.log("start");
-setTimeout(() => console.log(2), 0);
+console.log('start')
+setTimeout(() => console.log(2), 0)
 Promise.resolve().then((_) => {
 	setTimeout(() => {
-		console.log(0);
-	}, 0);
-});
-Promise.resolve().then((_) => console.log("promise1"));
-console.log("mid");
+		console.log(0)
+	}, 0)
+})
+Promise.resolve().then((_) => console.log('promise1'))
+console.log('mid')
 const p = new Promise((resolve) => {
-	console.log("p");
-	resolve();
-});
-setTimeout(() => console.log(3), 0);
-Promise.resolve().then((_) => console.log("promise2"));
-p.then((_) => console.log("promise3"));
-console.log("end");
+	console.log('p')
+	resolve()
+})
+setTimeout(() => console.log(3), 0)
+Promise.resolve().then((_) => console.log('promise2'))
+p.then((_) => console.log('promise3'))
+console.log('end')
 /* 
 ответ:
 start
@@ -37,7 +37,16 @@ promise3
 начинается выполнение макротаска (setTimeout0), проверка микротасков - она пуста, макротаски - пусты - Ожтдание макрозадач (события мыши и т.д.)
 */
 
+const today = new Date()
+const min = 1
+const max = 100
+const rdm = Math.floor(Math.random() * (max - min + 1)) + min
+const day = new Date()
+day.setDate(today.getDate() - rdm)
+console.log(today.toLocaleString())
+console.log(day)
 
+console.log('NULL = ', !!null, !!undefined)
 // async function main(){
 //     console.log('a')
 //     await sleep(2000)
@@ -104,3 +113,30 @@ promise3
 // 	}
 // }
 // d()
+
+// test
+// router.get('/client/test/:id', (req, res) => {
+// 	console.log('req.params', req.params)
+// 	console.log('req.query', req.query)
+// 	console.log('req.body', req.body)
+// 	// console.log('req.url', req.url)
+// 	// console.log('req.headers', req.headers)
+// 	// console.log('req.info',req.info)
+
+// 	// const result = { status: 'ok' }
+// 	// res.status(200).json({ result })
+
+// 	// const img = path.join(
+// 	// 	__dirname,
+// 	// 	'../../..',
+// 	// 	'public/images',
+// 	// 	'receipts.png'
+// 	// 	)
+// 	// res.status(200).download(img)
+
+// 	const pug = 'index'
+// 	const data = {
+// 		title: 'Xostron',
+// 	}
+// 	res.render(pug, data)
+// })

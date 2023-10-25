@@ -11,7 +11,7 @@ export default function SearchStack() {
 	return (
 		<Stack.Navigator initialRouteName='Home'>
 			<Stack.Screen
-				name='Search'
+				name='SearchScreen'
 				component={Search}
 				options={{
 					headerShown: false,

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { View } from 'react-native'
+import { View, Dimensions } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { NavigationContainer } from '@react-navigation/native'
 import * as Font from 'expo-font'
@@ -32,6 +32,13 @@ function App() {
 		}
 		prepare()
 	}, [])
+
+	console.log('widthS', Dimensions.get('screen').width)
+	console.log('heightS', Dimensions.get('screen').height)
+
+	const {width, height} = Dimensions.get('window')
+	console.log('width', width)
+	console.log('height', height)
 	// const onLayoutRootView = useCallback(async () => {
 	// 	if (appIsReady) await SplashScreen.hideAsync()
 	// }, [appIsReady])

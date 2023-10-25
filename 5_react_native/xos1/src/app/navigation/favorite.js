@@ -11,7 +11,7 @@ export default function FavoriteStack() {
 	return (
 		<Stack.Navigator initialRouteName='Favorite'>
 			<Stack.Screen
-				name='Favorite'
+				name='FavoriteScreen'
 				component={Favorite}
 				options={{
 					headerShown: false,

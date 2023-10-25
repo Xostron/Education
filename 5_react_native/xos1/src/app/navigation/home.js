@@ -11,7 +11,7 @@ export default function HomeStack() {
 	return (
 		<Stack.Navigator initialRouteName='Home'>
 			<Stack.Screen
-				name='Home'
+				name='HomeScreen'
 				component={Home}
 				options={{
 					headerShown: false,
