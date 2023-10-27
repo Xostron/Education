@@ -21,25 +21,24 @@ const styles = StyleSheet.create({
 	container: {
 		backgroundColor: 'white',
 		width: '48%',
-		height: 300,
+		height: 280,
 		borderRadius: 16,
-        overflow:'hidden'
+		overflow: 'hidden',
 	},
 	wrapper: {
 		width: '100%',
 		height: '100%',
-        position:'absolute',
-        right:0,
+		position: 'absolute',
 
-        0:{bottom:-100},
-        1:{bottom:-10},
-        2:{bottom:-20},
-        3:{bottom:-20}
+		0: { bottom: -70, right: -25 },
+		1: { bottom: -25 },
+		2: { right: -30 },
+		3: { bottom: -50, right: -42, width:'110%' },
 	},
-    
+
 	image: {
 		flex: 1,
-        width:'100%'
+		// resizeMode:'contain'
 	},
 })
 
@@ -51,7 +50,7 @@ export default function Welcome({ navigation }) {
 			{q.map((el, idx) => (
 				<View key={idx} style={styles.container}>
 					<View style={[styles.wrapper, styles.wrapper[`${idx}`]]}>
-						<Image contentFit='contain' style={styles.image} source={el} />
+						<Image style={styles.image} source={el} />
 					</View>
 				</View>
 			))}
