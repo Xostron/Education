@@ -6,6 +6,7 @@ const q1 = require('src/shared/assets/25.png')
 const q2 = require('src/shared/assets/24.png')
 const q3 = require('src/shared/assets/23.png')
 const q4 = require('src/shared/assets/26.png')
+const q = [q1, q2, q3, q4]
 
 const styles = StyleSheet.create({
 	screen: {
@@ -22,14 +23,23 @@ const styles = StyleSheet.create({
 		width: '48%',
 		height: 300,
 		borderRadius: 16,
+        overflow:'hidden'
 	},
+	wrapper: {
+		width: '100%',
+		height: '100%',
+        position:'absolute',
+        right:0,
+
+        0:{bottom:-100},
+        1:{bottom:-10},
+        2:{bottom:-20},
+        3:{bottom:-20}
+	},
+    
 	image: {
 		flex: 1,
-
-		// width:'100%',
-		// position:'absolute',
-		// bottom:'50',
-		// right:100
+        width:'100%'
 	},
 })
 
@@ -38,18 +48,13 @@ export default function Welcome({ navigation }) {
 		<SafeAreaView style={styles.screen}>
 			{/* список приветсвий */}
 
-			<View style={styles.container}>
-				<Image style={styles.image} contentFit='contain' source={q1} />
-			</View>
-			<View style={styles.container}>
-				<Image style={styles.image} contentFit='contain' source={q2} />
-			</View>
-			<View style={styles.container}>
-				<Image style={styles.image} contentFit='contain' source={q3} />
-			</View>
-			<View style={styles.container}>
-				<Image style={styles.image} contentFit='contain' source={q4} />
-			</View>
+			{q.map((el, idx) => (
+				<View key={idx} style={styles.container}>
+					<View style={[styles.wrapper, styles.wrapper[`${idx}`]]}>
+						<Image contentFit='contain' style={styles.image} source={el} />
+					</View>
+				</View>
+			))}
 		</SafeAreaView>
 	)
 }
