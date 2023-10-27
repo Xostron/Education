@@ -11,7 +11,7 @@ export default function UserStack() {
 	return (
 		<Stack.Navigator initialRouteName='User'>
 			<Stack.Screen
-				name='UserScreen'
+				name='User'
 				component={User}
 				options={{
 					headerShown: false,

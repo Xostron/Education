@@ -1,11 +1,35 @@
-import { useCallback, useEffect, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { View, Dimensions } from 'react-native'
+// splachScreen - предоставляет инструменты для
+// создания красивых и информативных экранов загрузки
+// в ваших приложениях React Native.
+import * as SplashScreen from 'expo-splash-screen'
+import * as Font from 'expo-font'
+import { useCallback, useEffect, useState } from 'react'
+import { View } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { NavigationContainer } from '@react-navigation/native'
-import * as Font from 'expo-font'
-import Navigator from 'nav/tab.js'
+import { useColorScheme } from 'react-native'
+import {
+	MD3DarkTheme,
+	MD3LightTheme,
+	PaperProvider,
+	adaptNavigationTheme,
+} from 'react-native-paper'
+import {
+	DarkTheme as NavigationDarkTheme,
+	DefaultTheme as NavigationDefaultTheme,
+} from '@react-navigation/native'
 
+// тема
+import { light, dark } from './styles/colors'
+const { LightTheme, DarkTheme } = adaptNavigationTheme({
+	reactNavigationLight: NavigationDefaultTheme,
+	reactNavigationDark: NavigationDarkTheme,
+})
+import Icon from 'src/shared/ui/icon'
+import Navigator from './navigation/tab'
+
+// шрифты и иконки
 const fonts = {
 	Regular: require('src/shared/assets/fonts/Inter-Regular.ttf'),
 	Medium: require('src/shared/assets/fonts/Inter-Medium.ttf'),
@@ -20,10 +44,12 @@ function App() {
 	useEffect(() => {
 		async function prepare() {
 			try {
-				// await SplashScreen.preventAutoHideAsync()
+				// отключить автоскрытие экрана загрузки
+				await SplashScreen.preventAutoHideAsync()
+
+				// выполняем предварительную загрузку данных:
 				// начальная загрузка шрифтов, данных(API) и тд
 				await Font.loadAsync(fonts)
-				// await initial()
 			} catch (e) {
 				console.warn(e)
 			} finally {
@@ -33,67 +59,58 @@ function App() {
 		prepare()
 	}, [])
 
-	console.log('widthS', Dimensions.get('screen').width)
-	console.log('heightS', Dimensions.get('screen').height)
+	// включаем скрытие экрана загрузки, после того как все данные готовы
+	const onLayoutRootView = useCallback(async () => {
+		if (appIsReady) await SplashScreen.hideAsync()
+	}, [appIsReady])
 
-	const {width, height} = Dimensions.get('window')
-	console.log('width', width)
-	console.log('height', height)
-	// const onLayoutRootView = useCallback(async () => {
-	// 	if (appIsReady) await SplashScreen.hideAsync()
-	// }, [appIsReady])
+	// const scheme = 'dark'
+	const scheme = useColorScheme()
+
 	if (!appIsReady) return null
+
+	const theme = {
+		...(scheme === 'light' ? MD3LightTheme : MD3DarkTheme),
+		colors: scheme === 'light' ? light : dark,
+	}
+
+	LightTheme.colors.card = light.elevation.level2
+	LightTheme.colors.background = light.background
+	LightTheme.colors.primary = light.primary
+
 	return (
-		<NavigationContainer>
-			<SafeAreaProvider>
-				<Navigator />
-			</SafeAreaProvider>
+		// обертка для навигации, предоставляет контекст
+		// (стек навигации, конфигурацию, и навигационные потоки)
+		// для навигационных компонентов
+		<NavigationContainer
+			theme={scheme === 'light' ? LightTheme : DarkTheme}
+		>
+			{/* оболочка для темизации и стилизации в стиле Material Design от Google
+			<PaperProvider> - устанавливает Material-UI контекст в вашем приложении, 
+			что позволяет другим компонентам из Material-UI использовать 
+			темы и стили, определенные в PaperProvider. */}
+			<PaperProvider
+				theme={theme}
+				settings={{
+					icon: (props) => <Icon {...props} />,
+				}}
+			>
+				{/* SafeAreaProvider определяет безопасные области 
+				(область экрана которая не перекрывается элементами ОС)
+				 для верхней и нижней частей экрана и позволяет вам настраивать 
+				 отступы и позицию компонентов внутри безопасных областей. */}
+				<SafeAreaProvider>
+					{/* splash screen - экран загрузки */}
+					<View onLayout={onLayoutRootView} />
+					{/* Навигация - NavigationTab + NavigationScreen */}
+					<Navigator />
+				</SafeAreaProvider>
+			</PaperProvider>
 			<StatusBar rstyle='auto' />
 		</NavigationContainer>
 	)
 }
 export default App
-
-// function Header({ props }) {
-// 	const { back, options, route, navigation } = props
-// 	return (
-// 		<View
-// 			style={{
-// 				backgroundColor: '#eee',
-// 				height: 40,
-// 				alignItems: 'center',
-// 				flexDirection: 'row',
-// 				paddingHorizontal: 10,
-// 				// gap: 20,
-// 			}}
-// 		>
-// 			{back?.title ? (
-// 				<Button
-// 					onPress={() => {
-// 						navigation.goBack()
-// 					}}
-// 					icon={{
-// 						source: 'arrow-left',
-// 						direction: 'auto',
-// 						color: 'ff1',
-// 					}}
-// 					style={{ color: '#1ff' }}
-// 				></Button>
-// 			) : (
-// 				<View></View>
-// 			)}
-// 			<Text
-// 				style={{
-// 					color: '#444',
-// 					fontWeight: 'bold',
-// 					fontSize: 18,
-// 				}}
-// 			>
-// 				{options?.title ?? ''}
-// 			</Text>
-// 		</View>
-// 	)
-// }
 
 {
 	// const linking = {

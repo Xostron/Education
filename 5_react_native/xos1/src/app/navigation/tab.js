@@ -1,4 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+
 import Icon from 'src/shared/ui/icon'
 import HomeStack from './home'
 import SearchStack from './search'
@@ -8,10 +9,11 @@ import UserStack from './user'
 const Tab = createBottomTabNavigator()
 
 export default function TabNav() {
+	const isAuth = false
 	return (
-		<Tab.Navigator initialRouteName={'Catalog'} screenOptions={{}}>
+		<Tab.Navigator initialRouteName={'HomeTab'} screenOptions={{}}>
 			<Tab.Screen
-				name='Home'
+				name='HomeTab'
 				component={HomeStack}
 				options={{
 					title: 'Главная',
@@ -22,10 +24,14 @@ export default function TabNav() {
 							color={color}
 						/>
 					),
+					// При показе экрана приветсвия откл. нижние табы и заголовок
+					// также заголовок необходимо отключить в Stack.Navigation
+					tabBarStyle: isAuth ? {} : { display: 'none' },
+					headerShown: isAuth 
 				}}
 			/>
 			<Tab.Screen
-				name='Search'
+				name='SearchTab'
 				component={SearchStack}
 				options={{
 					title: 'Поиск',
@@ -39,7 +45,7 @@ export default function TabNav() {
 				}}
 			/>
 			<Tab.Screen
-				name='Favorite'
+				name='FavoriteTab'
 				component={FavoriteStack}
 				options={{
 					title: 'Избранное',
@@ -53,10 +59,10 @@ export default function TabNav() {
 				}}
 			/>
 			<Tab.Screen
-				name='User'
+				name='UserTab'
 				component={UserStack}
 				options={{
-					title: 'Поиск',
+					title: 'Профиль',
 					tabBarIcon: ({ color, size, focused }) => (
 						<Icon
 							name={focused ? 'profilon' : 'profiloff'}
@@ -66,6 +72,16 @@ export default function TabNav() {
 					),
 				}}
 			/>
+			{/* <Tab.Screen
+				name='WelcomeTab'
+				component={WelcomeStack}
+				
+				options={{
+					headerShown:false,
+					tabBarStyle:{display:'none'},
+					tabBarIconStyle:{display:'none'}
+				}}
+			/> */}
 		</Tab.Navigator>
 	)
 }

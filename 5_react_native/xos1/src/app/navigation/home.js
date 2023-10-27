@@ -3,15 +3,25 @@ import {
 	TransitionPresets,
 } from '@react-navigation/stack'
 
-import {Home} from 'src/screen/home'
+import { Home } from 'src/screen/home'
+import Welcome from 'src/screen/welcome'
 
 const Stack = createStackNavigator()
 
 export default function HomeStack() {
+	const initScreen = false ? 'Home' : 'Welcome'
 	return (
-		<Stack.Navigator initialRouteName='Home'>
+		<Stack.Navigator initialRouteName={initScreen}>
+			{/* Экран приветсвия с отключенным заголовком*/}
 			<Stack.Screen
-				name='HomeScreen'
+				name='Welcome'
+				component={Welcome}
+				options={{
+					headerShown: false,
+				}}
+			/>
+			<Stack.Screen
+				name='Home'
 				component={Home}
 				options={{
 					headerShown: false,
