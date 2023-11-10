@@ -9,7 +9,7 @@ computed - вычисляемые свойства (get - геттеры, set - 
 class dTimer {
     type = 'ru'
 	sec = new Date().toLocaleString(this.type);
-    todo=''
+    todo=12
 	constructor() {
 		makeAutoObservable(this);
 	}
@@ -18,7 +18,7 @@ class dTimer {
 	update() {
 		this.sec = new Date().toLocaleString(this.type);
 	}
-	reset() {
+	lang() {
 		this.type ==='ru' ? this.type='en' : this.type='ru'
 	}
     get inf(){return this.type}

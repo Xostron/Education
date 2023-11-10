@@ -9,7 +9,7 @@ import UserStack from './user'
 const Tab = createBottomTabNavigator()
 
 export default function TabNav() {
-	const isAuth = false
+	const isAuth = true
 	return (
 		<Tab.Navigator initialRouteName={'HomeTab'} screenOptions={{}}>
 			<Tab.Screen

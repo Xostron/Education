@@ -7,6 +7,7 @@ function Clock() {
 	useEffect(() => {
 		const t = setInterval(() => {
 			timer.update();
+			timer.todo++
 		}, 1000);
 		return () => {
 			clearInterval(t);
@@ -14,7 +15,8 @@ function Clock() {
 	}, []);
 	return (
 		<>
-			<button onClick={() => timer.reset()}>{timer.sec}</button>
+		TEXT lang {timer.todo }
+			<button onClick={() => timer.lang()}>{timer.sec}</button>
 		</>
 	);
 }

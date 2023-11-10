@@ -108,3 +108,18 @@ isPrime = new Proxy(
 )
 
 isPrime(129, 12)
+
+// ************************************************************************************
+console.log(
+	'%c map - возврат функций и разложение в одноранговый массив',
+	'color:yellow; background:black'
+)
+data = [{ _id: 1 }, { _id: 2 }, { _id: 3 }]
+function foo1(id) {
+	return 'foo1'
+}
+function foo2(id) {
+	return 'foo2'
+}
+const p = data.map((el) => [foo1(el._id), foo2(el._id)]).flat()
+console.log('Результат: ',p)

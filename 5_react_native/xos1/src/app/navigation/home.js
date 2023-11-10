@@ -9,7 +9,7 @@ import Welcome from 'src/screen/welcome'
 const Stack = createStackNavigator()
 
 export default function HomeStack() {
-	const initScreen = false ? 'Home' : 'Welcome'
+	const initScreen = true ? 'Home' : 'Welcome'
 	return (
 		<Stack.Navigator initialRouteName={initScreen}>
 			{/* Экран приветсвия с отключенным заголовком*/}
