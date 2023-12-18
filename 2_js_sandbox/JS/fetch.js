@@ -81,7 +81,7 @@ const ref = ["A", "B", "AA", "AB"];
 for (const key in obj) {
 	const n = isN(key);
 	if (n < 2) continue;
-	console.log("@", key, obj[key]);
+	console.log("@", key, n, obj[key]);
 }
 
 function isN(k) {
