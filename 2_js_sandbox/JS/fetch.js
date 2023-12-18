@@ -61,7 +61,7 @@
 // console.log("f", f);
 // console.log("g", g);
 
-// reduce
+// isNun, number
 const obj = {
 	A1: 1,
 	B1: 2,
