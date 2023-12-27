@@ -1,0 +1,1427 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- SQL XML created by WWW SQL Designer, https://github.com/ondras/wwwsqldesigner/ -->
+<!-- Active URL: https://sql.toad.cz/? -->
+<sql>
+<datatypes db="mysql">
+	<group label="Numeric" color="rgb(238,238,170)">
+		<type label="Integer" length="0" sql="INTEGER" quote=""/>
+	 	<type label="TINYINT" length="0" sql="TINYINT" quote=""/>
+	 	<type label="SMALLINT" length="0" sql="SMALLINT" quote=""/>
+	 	<type label="MEDIUMINT" length="0" sql="MEDIUMINT" quote=""/>
+	 	<type label="INT" length="0" sql="INT" quote=""/>
+		<type label="BIGINT" length="0" sql="BIGINT" quote=""/>
+		<type label="Decimal" length="1" sql="DECIMAL" re="DEC" quote=""/>
+		<type label="Single precision" length="0" sql="FLOAT" quote=""/>
+		<type label="Double precision" length="0" sql="DOUBLE" re="DOUBLE" quote=""/>
+	</group>
+
+	<group label="Character" color="rgb(255,200,200)">
+		<type label="Char" length="1" sql="CHAR" quote="'"/>
+		<type label="Varchar" length="1" sql="VARCHAR" quote="'"/>
+		<type label="Text" length="0" sql="MEDIUMTEXT" re="TEXT" quote="'"/>
+		<type label="Binary" length="1" sql="BINARY" quote="'"/>
+		<type label="Varbinary" length="1" sql="VARBINARY" quote="'"/>
+		<type label="BLOB" length="0" sql="BLOB" re="BLOB" quote="'"/>
+	</group>
+
+	<group label="Date &amp; Time" color="rgb(200,255,200)">
+		<type label="Date" length="0" sql="DATE" quote="'"/>
+		<type label="Time" length="0" sql="TIME" quote="'"/>
+		<type label="Datetime" length="0" sql="DATETIME" quote="'"/>
+		<type label="Year" length="0" sql="YEAR" quote=""/>
+		<type label="Timestamp" length="0" sql="TIMESTAMP" quote="'"/>
+	</group>
+	
+	<group label="Miscellaneous" color="rgb(200,200,255)">
+		<type label="ENUM" length="1" sql="ENUM" quote=""/>
+		<type label="SET" length="1" sql="SET" quote=""/>
+		<type label="Bit" length="0" sql="bit" quote=""/>
+	</group>
+</datatypes><table x="672" y="170" name="market">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="date" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Зарегистрирован</comment>
+</row>
+<row name="code" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Код</comment>
+</row>
+<row name="name" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Наименование</comment>
+</row>
+<row name="delivery.beg" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Начало работы</comment>
+</row>
+<row name="delivery.end" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Конец работы</comment>
+</row>
+<row name="delivery.time" null="1" autoincrement="0">
+<datatype>TIME</datatype>
+<default>NULL</default><comment>Время на сбор заказа (время отсечки до заказа)</comment>
+</row>
+<row name="delivery.schedule" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>График работы</comment>
+</row>
+<row name="trade.off" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Остановить торговлю (Да/Нет)</comment>
+</row>
+<row name="trade.comment" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Коментарий</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Торговая площадка</comment>
+</table>
+<table x="203" y="19" name="point">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="date" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Зарегистрирован</comment>
+</row>
+<row name="code" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Код</comment>
+</row>
+<row name="name" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Наименование</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Пункт выдачи</comment>
+</table>
+<table x="423" y="18" name="poiList">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="pointId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="point" row="id" />
+<comment>Ссылка на пункт выдачи</comment>
+</row>
+<row name="marketId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="market" row="id" />
+<comment>Ссылка на торговую площадку</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Список пунктов выдачи</comment>
+</table>
+<table x="912" y="168" name="company">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="code" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Код</comment>
+</row>
+<row name="name" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Наименование</comment>
+</row>
+<row name="delivery.beg" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Начало работы (прием заказов)</comment>
+</row>
+<row name="delivery.end" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Конец работы</comment>
+</row>
+<row name="delivery.time" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Время на сбор заказа (время отсечки до заказа)</comment>
+</row>
+<row name="delivery.schedule" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>График работы</comment>
+</row>
+<row name="trade.off" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Остановить торговлю (Да/Нет)</comment>
+</row>
+<row name="trade.comment" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Коментарий</comment>
+</row>
+<row name="marketId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="market" row="id" />
+<comment>Ссылка на торговую площадку</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Организация</comment>
+</table>
+<table x="914" y="23" name="cmpList">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="floorId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="floor" row="id" />
+<comment>Ссылка на этаж</comment>
+</row>
+<row name="companyId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="company" row="id" />
+<comment>Ссылка на организацию</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Список компаний на этаже</comment>
+</table>
+<table x="202" y="188" name="tariff">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="name" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Наименование</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Тариф для торговой площадки</comment>
+</table>
+<table x="422" y="166" name="tarList">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="date" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Начало действия</comment>
+</row>
+<row name="tariffId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="tariff" row="id" />
+<comment>Ссылка на тарифный план</comment>
+</row>
+<row name="marketId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="market" row="id" />
+<comment>Ссылка на торговую площадку</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Тарифный план</comment>
+</table>
+<table x="666" y="18" name="floor">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="name" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Наименование</comment>
+</row>
+<row name="order" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Ключ сортировки</comment>
+</row>
+<row name="marketId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="market" row="id" />
+<comment>Ссылка на торговую площадку</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Этаж</comment>
+</table>
+<table x="914" y="473" name="category">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="name" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Наименование</comment>
+</row>
+<row name="off" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Выключить (Да/Нет)</comment>
+</row>
+<row name="parent" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="category" row="id" />
+<comment>Ссылка на родителя</comment>
+</row>
+<row name="marketId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="market" row="id" />
+<comment>Ссылка на торговую площадку</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Категория товаров</comment>
+</table>
+<table x="1167" y="17" name="product">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="name" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Наименование</comment>
+</row>
+<row name="off" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Выключить показ товара</comment>
+</row>
+<row name="description.extra" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Информация о товаре</comment>
+</row>
+<row name="description.feature" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Характеристики товара</comment>
+</row>
+<row name="description.short" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Краткое описание</comment>
+</row>
+<row name="categoryId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="category" row="id" />
+<comment>Ссылка на категорию</comment>
+</row>
+<row name="companyId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="company" row="id" />
+<comment>Ссылка на организацию</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Товар</comment>
+</table>
+<table x="1444" y="323" name="property">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="name" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Наименование</comment>
+</row>
+<row name="productId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="product" row="id" />
+<comment>Ссылка на товар</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Свойство товара</comment>
+</table>
+<table x="1443" y="440" name="item">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="name" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Наименование</comment>
+</row>
+<row name="propertyId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="property" row="id" />
+<comment>Ссылка на свойство продукта</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Элемент свойств товара</comment>
+</table>
+<table x="422" y="331" name="employee">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="login" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Имя пользователя</comment>
+</row>
+<row name="password" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Пароль</comment>
+</row>
+<row name="owner.type" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Тип владельца</comment>
+</row>
+<row name="owner.id" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="market" row="id" />
+<relation table="company" row="id" />
+<relation table="point" row="id" />
+<comment>Ссылка на владельца</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Сотрудник</comment>
+</table>
+<table x="675" y="450" name="order">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="date" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Дата создания</comment>
+</row>
+<row name="num" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Номер заказа</comment>
+</row>
+<row name="comment" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Коментарий</comment>
+</row>
+<row name="delivery.date" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Когда доставить</comment>
+</row>
+<row name="delivery.arrived" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Прибыл на место выдачи</comment>
+</row>
+<row name="delivery.end" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Получен</comment>
+</row>
+<row name="owner.type" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Тип владельца</comment>
+</row>
+<row name="owner.id" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="point" row="id" />
+<relation table="address" row="id" />
+<comment>Ссылка на владельца</comment>
+</row>
+<row name="clientId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="client" row="id" />
+<comment>Ссылка на клиента</comment>
+</row>
+<row name="marketId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="market" row="id" />
+<comment>Ссылка на торговую площадку</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Заказ</comment>
+</table>
+<table x="1172" y="257" name="traffic">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="date" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Дата создания</comment>
+</row>
+<row name="value" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Количество товара</comment>
+</row>
+<row name="productId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="product" row="id" />
+<comment>Ссылка на товар</comment>
+</row>
+<row name="orderId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="order" row="id" />
+<comment>Ссылка на заказ</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Движение товара</comment>
+</table>
+<table x="1686" y="301" name="detail">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="itemId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="item" row="id" />
+<comment>Ссылка на свойство товара</comment>
+</row>
+<row name="owner.type" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Тип владельца</comment>
+</row>
+<row name="owner.id" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="traffic" row="id" />
+<relation table="remainder" row="id" />
+<comment>Ссылка на владельца</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Описание продукта</comment>
+</table>
+<table x="204" y="320" name="client">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="date" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Зарегистрирован</comment>
+</row>
+<row name="phone" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Номер телефона</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Клиент</comment>
+</table>
+<table x="16" y="288" name="cliInfo">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="date" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Зарегистрирован</comment>
+</row>
+<row name="name" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Имя</comment>
+</row>
+<row name="clientId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="client" row="id" />
+<comment>Ссылка на клиента</comment>
+</row>
+<row name="marketId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="market" row="id" />
+<comment>Ссылка на торговую площадку</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Информация о клиенте</comment>
+</table>
+<table x="16" y="21" name="rack">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="num" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Маркировка</comment>
+</row>
+<row name="pointId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="point" row="id" />
+<comment>Ссылка на пункт выдачи</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Стелаж</comment>
+</table>
+<table x="18" y="164" name="cell">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="num" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Маркировка</comment>
+</row>
+<row name="rackId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="rack" row="id" />
+<comment>Ссылка на стелаж</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Ячейка</comment>
+</table>
+<table x="1902" y="305" name="img">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="name" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Имя файла</comment>
+</row>
+<row name="fld.name" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Идентификатор поля</comment>
+</row>
+<row name="fld.type" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Тип картинки</comment>
+</row>
+<row name="owner.type" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Тип владельца</comment>
+</row>
+<row name="owner.id" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="category" row="id" />
+<relation table="product" row="id" />
+<relation table="item" row="id" />
+<relation table="company" row="id" />
+<relation table="promotion" row="id" />
+<relation table="proList" row="id" />
+<relation table="news" row="id" />
+<relation table="stories" row="id" />
+<relation table="combination" row="id" />
+<comment>Ссылка на владельца</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Картинка</comment>
+</table>
+<table x="918" y="792" name="status">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="date" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Создан</comment>
+</row>
+<row name="code" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Код</comment>
+</row>
+<row name="employeeId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="employee" row="id" />
+<comment>Ссылка на сотрудника</comment>
+</row>
+<row name="orderId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="order" row="id" />
+<comment>Ссылка на заказ</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Статус заказа</comment>
+</table>
+<table x="205" y="463" name="role">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="code" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Код</comment>
+</row>
+<row name="employeeId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="employee" row="id" />
+<comment>Ссылка на сотрудника</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Роль работника</comment>
+</table>
+<table x="1903" y="193" name="googlePlay">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="marketId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="market" row="id" />
+<comment>Ссылка на торговую площадку</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Данные для загрузки приложения</comment>
+</table>
+<table x="1904" y="19" name="num">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="value" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Последний номер</comment>
+</row>
+<row name="year" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Год</comment>
+</row>
+<row name="type" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Тип документа</comment>
+</row>
+<row name="marketId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="market" row="id" />
+<comment>Ссылка на торговую площадку</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Номер документа</comment>
+</table>
+<table x="14" y="471" name="address">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="value" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Текстовое представление адреса</comment>
+</row>
+<row name="postal_code" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Почтовый индекс</comment>
+</row>
+<row name="house" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Номер дома</comment>
+</row>
+<row name="flat" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Квартира</comment>
+</row>
+<row name="floor" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Этаж</comment>
+</row>
+<row name="entrance" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Подъезд</comment>
+</row>
+<row name="comment" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Коментарий</comment>
+</row>
+<row name="geo.type" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Тип геолокации (всегда Point)</comment>
+</row>
+<row name="geo.coordinates" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Собственно координаты точки [longitude, latitude]</comment>
+</row>
+<row name="owner.type" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Тип владельца</comment>
+</row>
+<row name="owner.id" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="market" row="id" />
+<relation table="point" row="id" />
+<relation table="client" row="id" />
+<comment>Ссылка на владельца</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Адрес</comment>
+</table>
+<table x="1173" y="415" name="consumption">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="date" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Создан</comment>
+</row>
+<row name="value" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Количество</comment>
+</row>
+<row name="weight" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Фактический вес</comment>
+</row>
+<row name="mark.code" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Отсканированный код маркировки</comment>
+</row>
+<row name="mark.check" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Проверен (Да/Нет)</comment>
+</row>
+<row name="trafficId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="traffic" row="id" />
+<comment>Ссылка на трафик</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Расход</comment>
+</table>
+<table x="1679" y="158" name="remainder">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="date" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Создан</comment>
+</row>
+<row name="value" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Количество</comment>
+</row>
+<row name="productId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="product" row="id" />
+<comment>Ссылка на товар</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Предположительные остатки</comment>
+</table>
+<table x="1443" y="692" name="promotion">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="name" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Наименование</comment>
+</row>
+<row name="description" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Описание</comment>
+</row>
+<row name="order" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Ключ сортировки</comment>
+</row>
+<row name="type" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Тип рекламы</comment>
+</row>
+<row name="label" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Рекламная метка (label.code)</comment>
+</row>
+<row name="owner.type" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Тип владельца</comment>
+</row>
+<row name="owner.id" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="market" row="id" />
+<relation table="company" row="id" />
+<comment>Ссылка на владельца</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Рекламная линия</comment>
+</table>
+<table x="421" y="512" name="message">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="date" null="1" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>NULL</default><comment>Дата</comment>
+</row>
+<row name="value" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Текст</comment>
+</row>
+<row name="type" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Тип сообщения</comment>
+</row>
+<row name="push" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Делать push уведомление (Да/Нет)</comment>
+</row>
+<row name="clientId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="client" row="id" />
+<comment>Ссылка на клиента</comment>
+</row>
+<row name="marketId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="market" row="id" />
+<comment>Ссылка на торговую площадку</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Сообщение клиенту</comment>
+</table>
+<table x="916" y="634" name="label">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="code" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Имя рекламной метки</comment>
+</row>
+<row name="name" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>описание метки</comment>
+</row>
+<row name="order" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Ключ сортировки</comment>
+</row>
+<row name="marketId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="market" row="id" />
+<comment>Ссылка на торговую площадку</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Метка для товара (словарь меток)</comment>
+</table>
+<table x="1679" y="460" name="proList">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="order" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Ключ сортировки</comment>
+</row>
+<row name="promotionId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="promotion" row="id" />
+<comment>Ссылка на рекламную линию</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Рекламный блок</comment>
+</table>
+<table x="1172" y="633" name="prodLabel">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="order" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Ключ сортировки</comment>
+</row>
+<row name="labelId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="label" row="id" />
+<comment>Ссылка на метку</comment>
+</row>
+<row name="productId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="product" row="id" />
+<comment>Ссылка на товар</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Метка продукта</comment>
+</table>
+<table x="1679" y="591" name="proProduct">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="order" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Ключ сортировки</comment>
+</row>
+<row name="productId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="product" row="id" />
+<comment>Ссылка на товар</comment>
+</row>
+<row name="promotionId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="promotion" row="id" />
+<comment>Ссылка на рекламную линию</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Реклама продукта</comment>
+</table>
+<table x="1446" y="22" name="price">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="date" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Дата</comment>
+</row>
+<row name="value" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Цена</comment>
+</row>
+<row name="productId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="product" row="id" />
+<comment>Ссылка на товар</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Прайс</comment>
+</table>
+<table x="1908" y="523" name="calendar">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="date" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Дата</comment>
+</row>
+<row name="type" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Тип дня</comment>
+</row>
+<row name="owner.type" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Тип владельца</comment>
+</row>
+<row name="owner.id" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="market" row="id" />
+<relation table="company" row="id" />
+<comment>Ссылка на владельца</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Календарь нестандартных дней</comment>
+</table>
+<table x="209" y="597" name="favorite">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="date" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Дата</comment>
+</row>
+<row name="productId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="product" row="id" />
+<comment>Ссылка на товар</comment>
+</row>
+<row name="clientId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="client" row="id" />
+<comment>Ссылка на клиента</comment>
+</row>
+<row name="marketId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="market" row="id" />
+<comment>Ссылка на торговую площадку</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Любимый продукт</comment>
+</table>
+<table x="1445" y="160" name="discount">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="value" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Процент скидки</comment>
+</row>
+<row name="date1" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Начало</comment>
+</row>
+<row name="date2" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Окончание</comment>
+</row>
+<row name="productId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="product" row="id" />
+<comment>Ссылка на товар</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Скидка</comment>
+</table>
+<table x="1685" y="737" name="proCompany">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="order" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Ключ сортировки</comment>
+</row>
+<row name="companyId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="company" row="id" />
+<comment>Ссылка на организацию</comment>
+</row>
+<row name="promotionId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="promotion" row="id" />
+<comment>Ссылка на рекламную линию</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Популярные компании</comment>
+</table>
+<table x="18" y="801" name="balance">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="date" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>дата</comment>
+</row>
+<row name="value" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Сумма</comment>
+</row>
+<row name="type" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Тип изменения баланса</comment>
+</row>
+<row name="owner.type" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Тип владельца</comment>
+</row>
+<row name="owner.id" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="client" row="id" />
+<comment>ссылка на владельца</comment>
+</row>
+<row name="marketId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="market" row="id" />
+<comment>ссылка на маркет</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Денежный баланс арендатора</comment>
+</table>
+<table x="215" y="775" name="promo">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="date1" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Начало действия</comment>
+</row>
+<row name="date2" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Окончание действия</comment>
+</row>
+<row name="value" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Собственно код</comment>
+</row>
+<row name="price" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Стоимость</comment>
+</row>
+<row name="priceIn" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Стоимость для пригласившего</comment>
+</row>
+<row name="one" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Одноразовый (Да/Нет)</comment>
+</row>
+<row name="new" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Для новых пользователей (Да/Нет)</comment>
+</row>
+<row name="min" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Минимальная сумма покупки</comment>
+</row>
+<row name="comment" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default><comment>Коментарий</comment>
+</row>
+<row name="closed" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Закрыт</comment>
+</row>
+<row name="owner.type" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Тип владельца</comment>
+</row>
+<row name="owner.id" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="client" row="id" />
+<comment>Ссылка на владельца</comment>
+</row>
+<row name="companyId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="company" row="id" />
+<comment>Ссылка на магазин</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Промокод для клиента</comment>
+</table>
+<table x="677" y="750" name="review">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="date" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default><comment>Дата</comment>
+</row>
+<row name="comment" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default><comment>Текст отзыва</comment>
+</row>
+<row name="rating" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Рейтинг</comment>
+</row>
+<row name="productId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="product" row="id" />
+<comment>Ссылка на товар</comment>
+</row>
+<row name="clientId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="client" row="id" />
+<comment>Ссылка на клиента</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Отзыв о купленном продукте</comment>
+</table>
+<table x="24" y="1010" name="card">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="value" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Маскированный номер карты </comment>
+</row>
+<row name="operation" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Номер операции</comment>
+</row>
+<row name="owner.type" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Тип владельца</comment>
+</row>
+<row name="owner.id" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="employee" row="id" />
+<relation table="client" row="id" />
+<comment>Ссылка на владельца</comment>
+</row>
+<row name="marketId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="market" row="id" />
+<comment>Ссылка на компанию</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Пластиковая карта клиента или работника</comment>
+</table>
+<table x="422" y="734" name="news">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="type" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>тип новости (системные, информационные, сообщение от ТК / магазина, реклама)</comment>
+</row>
+<row name="title" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Заголовок</comment>
+</row>
+<row name="text" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Текст новости</comment>
+</row>
+<row name="date" null="1" autoincrement="0">
+<datatype>TIME</datatype>
+<default>NULL</default><comment>Дата публикации новости</comment>
+</row>
+<row name="author" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Автор новости</comment>
+</row>
+<row name="marketId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="market" row="id" />
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Новости маркета</comment>
+</table>
+<table x="424" y="954" name="stories">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="order" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Ключ сортировки</comment>
+</row>
+<row name="date" null="1" autoincrement="0">
+<datatype>TIME</datatype>
+<default>NULL</default><comment>Дата публикации</comment>
+</row>
+<row name="data.name" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Имя кнопки</comment>
+</row>
+<row name="data.type" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>тип ссылки (true - url, false/null - экран моб. прилож.)</comment>
+</row>
+<row name="data.to" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>ссылка на экран/ресурс</comment>
+</row>
+<row name="data.id" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><comment>ссылка на контент (продукт, категория, магазин)</comment>
+</row>
+<row name="owner.type" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Тип владельца</comment>
+</row>
+<row name="owner.id" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="market" row="id" />
+<relation table="company" row="id" />
+<comment>Ссылка на владельца</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Сторис маркета</comment>
+</table>
+<table x="1908" y="693" name="comInvoice">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="on" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Работа с юр. лицами (Да/Нет)</comment>
+</row>
+<row name="vat" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>НДС (по умолчанию "Без НДС")</comment>
+</row>
+<row name="address" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Адресс компании с индексом</comment>
+</row>
+<row name="phone" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Номер телефона</comment>
+</row>
+<row name="bank.name" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Полное наименование банка для рассчетов</comment>
+</row>
+<row name="bank.bik" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>БИК</comment>
+</row>
+<row name="bank.kpp" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>КПП </comment>
+</row>
+<row name="bank.account" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Номер счета банка</comment>
+</row>
+<row name="head.fio" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>ФИО Руководителя</comment>
+</row>
+<row name="head.value" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Должность руководителя (по умолчанию "Руководитель")</comment>
+</row>
+<row name="booker.fio" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>ФИО бухгалтера (по умолчанию "Бухгалтер")</comment>
+</row>
+<row name="booker.value" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default><comment>Должность Бухгалтера</comment>
+</row>
+<row name="marketId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="market" row="id" />
+<comment>ссылка на компанию</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Данные для выставления счета Юр. лицам</comment>
+</table>
+<table x="1441" y="557" name="combination">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="exclude.on" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Исключить комбинацию (Да/Нет)</comment>
+</row>
+<row name="exclude.full" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Исключить все комбинации "ниже"</comment>
+</row>
+<row name="productId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="product" row="id" />
+<comment>Ссылка на товар</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Комбинация свойств</comment>
+</table>
+<table x="1677" y="19" name="comList">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="itemId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="item" row="id" />
+<comment>Ссылка на элемент свойства</comment>
+</row>
+<row name="combinationId" null="1" autoincrement="0">
+<datatype>ENUM</datatype>
+<default>NULL</default><relation table="combination" row="id" />
+<comment>Ссылка на комбинацию</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Свойство модификатора</comment>
+</table>
+</sql>
