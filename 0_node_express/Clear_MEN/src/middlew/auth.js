@@ -1,5 +1,5 @@
 const ApiError = require('@exceptions/api-error')
-// const { validateAccess } = require('@service/token-service')
+const { validateAccess } = require('@service/token-service')
 const { ObjectId } = require('mongojs')
 
 module.exports = function (req, res, next) {
@@ -30,8 +30,8 @@ module.exports = function (req, res, next) {
 		const access = auth.split(' ')[1]
 		if (!access) return next()
 
-		// const user = validateAccess(access)
-		// if (!user) return next()
+		const user = validateAccess(access)
+		if (!user) return next()
 
 		// Если мы из WEB, то пишем информацию о площадке и компании
 		if (!market && user.market?.id)
