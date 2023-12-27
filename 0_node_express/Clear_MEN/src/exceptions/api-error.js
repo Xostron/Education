@@ -1,4 +1,4 @@
-const tPush = require('@service/t-bot');
+// const tPush = require('@service/t-bot');
 
 // Обработка ошибок связанных с работой нашего API
 module.exports = class ApiError extends Error {
@@ -26,7 +26,7 @@ module.exports = class ApiError extends Error {
 	// Не поддерживается версия приложения
 	static Unsupported(st) {
 		console.log('\n<ApiError-420-Unsupported>', st);
-		tPush('<ApiError-420-Unsupported> ' + st);
+		// tPush('<ApiError-420-Unsupported> ' + st);
 		return new ApiError(
 			420,
 			'Версия приложения устарела. Обновите приложение!'

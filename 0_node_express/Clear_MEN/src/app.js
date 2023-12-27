@@ -1,18 +1,18 @@
-var path = require('path')
+const path = require('path')
 const cors = require('cors')
-var logger = require('morgan')
-var express = require('express')
-var createError = require('http-errors')
-var cookieParser = require('cookie-parser')
+const logger = require('morgan')
+const express = require('express')
+const createError = require('http-errors')
+const cookieParser = require('cookie-parser')
 const fileUpload = require('express-fileupload')
 
-var indexRouter = require('@root/routes/index')
+const indexRouter = require('@root/routes/index')
 const api = require('@api/index')
-const pay = require('@pay/index')
-const other = require('@other/index')
+// const pay = require('@pay/index')
+// const other = require('@other/index')
 const errorMiddleW = require('@middlew/error')
-const authMiddleW = require('@middlew/auth')
-const infoMiddleW = require('@middlew/info')
+// const authMiddleW = require('@middlew/auth')
+// const infoMiddleW = require('@middlew/info')
 const clearTemp = require('../util/clear_tmp')
 
 // Индентификатор текущего процесса иногда NODE_APP_INSTANCE
@@ -23,7 +23,7 @@ const limit = process.env?.REQ_LIMIT ?? '50mb'
 const cookie_secret = process.env?.COOKIE_SECRET ?? '*65nwyTuLuIY'
 
 function App(db) {
-	var app = express()
+	const app = express()
 	app.use(
 		express.json({
 			limit,
@@ -35,13 +35,13 @@ function App(db) {
 	// Очистка временной папки на главном инстансе при перезапуске процесса
 	if (!id) clearTemp(tempFileDir)
 
-	// Настрока загрузки файлов
+	// Настройка загрузки файлов
 	app.use(
 		fileUpload({
 			createParentPath: true,
-			// safeFileNames: true,
 			useTempFiles: true,
 			tempFileDir,
+			// safeFileNames: true,
 			// debug: true,
 		})
 	)
@@ -56,7 +56,7 @@ function App(db) {
 		})
 	)
 
-	// view engine setup
+	// Подключение pug
 	app.set('views', path.join(__dirname, 'views'))
 	app.set('view engine', 'pug')
 
@@ -64,20 +64,20 @@ function App(db) {
 	app.use(express.json())
 	app.use(express.urlencoded({ extended: false }))
 	app.use(cookieParser(cookie_secret))
+	// папка для статических файлов
 	app.use(express.static(path.join(__dirname, 'public')))
 
 	app.use('/', indexRouter)
 	// Проверка Авторизации пользователя
-	app.use(authMiddleW)
+	// app.use(authMiddleW)
 
 	if (db) {
 		// Дополнение данными из БД
-		app.use(infoMiddleW(db))
-
+		// app.use(infoMiddleW(db))
 		// Наше API
 		app.use('/api', api(db))
-		app.use('/pay', pay(db))
-		app.use('/other', other(db))
+		// app.use('/pay', pay(db))
+		// app.use('/other', other(db))
 	}
 	app.use(errorMiddleW)
 	// catch 404 and forward to error handler
