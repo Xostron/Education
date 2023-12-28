@@ -5,20 +5,9 @@ const { ObjectId } = require('mongojs')
 module.exports = function (req, res, next) {
 	// Проверка авторизации пользователя
 	try {
-		const company = req.headers.company ?? null
-		const market = req.headers.market ?? null
-
 		req.info = {
 			user: {
 				auth: false,
-			},
-			market: {
-				id: null,
-				code: market,
-			},
-			company: {
-				id: null,
-				code: company,
 			},
 		}
 
@@ -34,10 +23,8 @@ module.exports = function (req, res, next) {
 		if (!user) return next()
 
 		// Если мы из WEB, то пишем информацию о площадке и компании
-		if (!market && user.market?.id)
-			req.info.market.id = ObjectId(user.market.id)
-		if (!company && user.company?.id)
-			req.info.company.id = ObjectId(user.company.id)
+		if (!market && user.market?.id) req.info.market.id = ObjectId(user.market.id)
+		if (!company && user.company?.id) req.info.company.id = ObjectId(user.company.id)
 
 		// Дополняем информацию о пользователе
 		user.auth = true

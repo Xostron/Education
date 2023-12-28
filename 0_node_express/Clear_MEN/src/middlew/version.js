@@ -12,7 +12,6 @@ function version() {
 		const name = req.headers.name ?? ''
 		// поддерживаемые версии сервером
 		const data = getV()
-		console.log(version, name)
 
 		// !!! Доступ для всех (для тестов)
 		// if (!version || !name) {

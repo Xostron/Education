@@ -9,7 +9,7 @@ const App = require('../app');
 const store = require('@store');
 
 const port = normalizePort(process.env.PORT || '3042');
-
+// console.log('@@@@@@@@@@@',port, process.env.PORT)
 const db = mongojs('127.0.0.1:27017/' + process.env.BD);
 db.on('error', (err) => console.log('Отсутствует связь с MongoDB'));
 db.on('connect', () => console.log('Связь с MongoDB установлена'));
