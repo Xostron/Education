@@ -1,13 +1,13 @@
 [
 	{
 		"_comment": "Android",
-		"id": ["com.flet.ustore"],
+		"id": ["com.xostron.android"],
 		"ok": ["0.0.0 (1)"],
 		"part": ["0.0.0 (1)"]
 	},
 	{
 		"_comment": "iOS",
-		"id": ["com.flet.ustoreios"],
+		"id": ["com.xostron.ios"],
 		"ok": ["0.0.0 (1)"],
 		"part": ["0.0.0 (1)"]
 	}
