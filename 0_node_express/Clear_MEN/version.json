@@ -1,0 +1,14 @@
+[
+	{
+		"_comment": "Android",
+		"id": ["com.xostron.android"],
+		"ok": ["0.0.0 (1)"],
+		"part": ["0.0.0 (1)"]
+	},
+	{
+		"_comment": "iOS",
+		"id": ["com.xostron.ios"],
+		"ok": ["0.0.0 (1)"],
+		"part": ["0.0.0 (1)"]
+	}
+]

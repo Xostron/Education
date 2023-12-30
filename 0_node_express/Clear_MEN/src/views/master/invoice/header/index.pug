@@ -1,0 +1,18 @@
+//- Include vars
+include ./var.pug
+
+//- Include mixin
+include ./mixin.pug
+
+div.logo
+	img(src=logo height="75px" width='100%' )
+hr
+
+table.info
+	tbody 
+		tr
+			+t(f)
+			+t(c)
+
+
+
