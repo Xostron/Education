@@ -2,7 +2,7 @@
 require('module-alias/register');
 const debug = require('debug')('control:server');
 const http = require('http');
-const mongojs = require('mongojs');
+// const mongojs = require('mongojs');
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 const App = require('../app');
@@ -10,9 +10,11 @@ const store = require('@store');
 
 const port = normalizePort(process.env.PORT || '3042');
 // console.log('@@@@@@@@@@@',port, process.env.PORT)
-const db = mongojs('127.0.0.1:27017/' + process.env.BD);
-db.on('error', (err) => console.log('Отсутствует связь с MongoDB'));
-db.on('connect', () => console.log('Связь с MongoDB установлена'));
+
+// const db = mongojs('127.0.0.1:27017/' + process.env.BD);
+// db.on('error', (err) => console.log('Отсутствует связь с MongoDB'));
+// db.on('connect', () => console.log('Связь с MongoDB установлена'));
+const db = {}
 
 const app = App(db);
 app.set('port', port);
