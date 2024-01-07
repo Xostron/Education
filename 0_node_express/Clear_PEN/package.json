@@ -1,0 +1,64 @@
+{
+	"name": "xostron-api",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"start": "node ./src/bin/www",
+		"dev": "nodemon ./src/bin/www"
+	},
+	"nodemonConfig": {
+		"ignore": [
+			"public/*",
+			"dump/*"
+		]
+	},
+	"_moduleAliases": {
+		"@root": "src/",
+		"@tool": "src/tool",
+		"@pay": "src/routes/pay",
+		"@api": "src/routes/api",
+		"@other": "src/routes/other",
+		"@dict": "src/dict",
+		"@exceptions": "src/exceptions",
+		"@service": "src/service",
+		"@middlew": "src/middlew",
+		"@store": "src/store",
+		"@util": "util/"
+	},
+	"dependencies": {
+		"adm-zip": "^0.5.10",
+		"axios": "^1.6.3",
+		"basic-auth-token": "^0.4.2",
+		"bcrypt": "^5.1.1",
+		"cookie-parser": "~1.4.6",
+		"cors": "^2.8.5",
+		"crypto-js": "^4.2.0",
+		"dbfstream": "^1.0.26",
+		"debug": "~4.3.4",
+		"dotenv": "^16.3.1",
+		"express": "^4.18.2",
+		"express-fileupload": "^1.4.3",
+		"form-data": "^4.0.0",
+		"html-pdf-node": "^1.0.8",
+		"http-errors": "~2.0.0",
+		"jsonwebtoken": "^9.0.2",
+		"md5": "^2.3.0",
+		"module-alias": "^2.2.3",
+		"mongojs": "^3.1.0",
+		"morgan": "~1.10.0",
+		"node-cp866buffer": "^0.0.6",
+		"node-fetch": "^3.3.2",
+		"nodemailer": "^6.9.7",
+		"npm-check-updates": "^16.14.12",
+		"pug": "^3.0.2",
+		"uuid": "^9.0.1",
+		"uuid4": "^2.0.3",
+		"webp-converter": "^2.3.3",
+		"xlsx-js-style": "^1.2.0",
+		"xlsx-template": "^1.4.3",
+		"xml": "^1.0.1"
+	},
+	"devDependencies": {
+		"nodemon": "^3.0.2"
+	}
+}

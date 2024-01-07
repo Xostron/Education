@@ -1,0 +1,79 @@
+#!/usr/bin/env node
+require('module-alias/register');
+const debug = require('debug')('control:server');
+const http = require('http');
+const mongojs = require('mongojs');
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../../.env') });
+const App = require('../app');
+const store = require('@store');
+
+const port = normalizePort(process.env.PORT || '3042');
+// console.log('@@@@@@@@@@@',port, process.env.PORT)
+const db = mongojs('127.0.0.1:27017/' + process.env.BD);
+db.on('error', (err) => console.log('Отсутствует связь с MongoDB'));
+db.on('connect', () => console.log('Связь с MongoDB установлена'));
+
+const app = App(db);
+app.set('port', port);
+const server = http.createServer(app);
+server.listen(port);
+server.on('error', onError);
+server.on('listening', () => onListening(server));
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+function normalizePort(val) {
+	const port = parseInt(val, 10);
+	if (isNaN(port)) {
+		// named pipe
+		return val;
+	}
+	if (port >= 0) {
+		// port number
+		return port;
+	}
+	return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+function onError(error) {
+	if (error.syscall !== 'listen') {
+		throw error;
+	}
+	const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+	// handle specific listen errors with friendly messages
+	switch (error.code) {
+		case 'EACCES':
+			console.error(bind + ' requires elevated privileges');
+			process.exit(1);
+			break;
+		case 'EADDRINUSE':
+			console.error(bind + ' is already in use');
+			process.exit(1);
+			break;
+		default:
+			throw error;
+	}
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+function onListening(server) {
+	const addr = server.address();
+	const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+	debug('Listening on ' + bind);
+}
+
+/**
+ * Graceful Shutdown
+ */
+process.on('SIGINT', function () {
+	db.close();
+	//exit with a 'success' code 0
+	process.exit(0);
+});

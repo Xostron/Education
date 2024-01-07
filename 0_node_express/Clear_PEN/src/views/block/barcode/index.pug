@@ -1,0 +1,10 @@
+extends ../index.pug
+
+block append style
+	style
+		include ./style.css
+
+block append script
+	script(src='https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/barcodes/JsBarcode.code128.min.js')
+
+//- https://cdnout.com/jsbarcode/barcodes/JsBarcode.code128.min.js - не работает

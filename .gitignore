@@ -133,6 +133,9 @@ dist
 download/
 .vscode
 .idea
+file/
+image/
+# stylesheets/
 # build/
 /*/*/*/build/
 .gitignore
