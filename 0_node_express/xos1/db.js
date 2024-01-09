@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-const User = require("./models/users")
-const connectionString = "mongodb://127.0.0.1:27017"
+const connectionString = "mongodb://127.0.0.1:27017/fox"
+
 
 // подключение к БД
 mongoose.connect(connectionString)
