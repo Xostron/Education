@@ -15,10 +15,7 @@ function login(db) {
 		findOne(db, 'client', { login })
 			.then((r) => {
 				console.log(r)
-				if (!r) {
-                    return next(ApiError.BadRequest('Пользователь не найден'))
-					throw new Error('err-10')
-				}
+				if (!r) throw new Error('err-10')
 				const data = { r }
 				res.json({ result: data })
 			})

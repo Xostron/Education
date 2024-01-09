@@ -14,6 +14,7 @@ function signup(db) {
 		console.log('1 web signup = ', login, password1, password2)
 		// Пароли не совпадают
 		if (password1 !== password2) {
+            // throw new Error('err-10')
 			return next(ApiError.BadRequest('Пароли должны совпадать'))
 		}
 
