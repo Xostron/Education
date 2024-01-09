@@ -35,7 +35,11 @@ function signup(db) {
 				return insert(db, 'client', data)
 			})
 			.then((_) => res.send({ result: 'web signup ' + login }))
-			.catch((error) => res.status(400).send(error))
+			.catch((err) => {
+				console.log('err', err)
+				if (err.message) return res.status(400).send(err.toString())
+				return next(ApiError.BadRequest(err))
+			})
 	}
 }
 module.exports = signup
