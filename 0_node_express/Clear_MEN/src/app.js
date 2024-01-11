@@ -8,11 +8,9 @@ const fileUpload = require('express-fileupload')
 
 const indexRouter = require('@root/routes/index')
 const api = require('@api/index')
-// const pay = require('@pay/index')
-// const other = require('@other/index')
 const errorMiddleW = require('@middlew/error')
-// const authMiddleW = require('@middlew/auth')
-// const infoMiddleW = require('@middlew/info')
+const authMiddleW = require('@middlew/auth')
+const infoMiddleW = require('@middlew/info')
 const clearTemp = require('../util/clear_tmp')
 
 // Индентификатор текущего процесса иногда NODE_APP_INSTANCE
@@ -70,17 +68,14 @@ function App(db) {
 	// HTML - приветсвие
 	app.use('/', indexRouter)
 
-	
 	// Проверка Авторизации пользователя
-	// app.use(authMiddleW)
+	app.use(authMiddleW)
 
 	if (db) {
 		// Дополнение данными из БД
-		// app.use(infoMiddleW(db))
+		app.use(infoMiddleW(db))
 		// Наше API
 		app.use('/api', api(db))
-		// app.use('/pay', pay(db))
-		// app.use('/other', other(db))
 	}
 
 	// Обработка ошибок

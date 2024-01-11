@@ -14,24 +14,23 @@ module.exports = function (req, res, next) {
 		// Получаем акцесс токен из хедера
 		const auth = req.headers.authorization
 		if (!auth) return next()
-
+		
 		// Валидируем токен
 		const access = auth.split(' ')[1]
 		if (!access) return next()
-
+		
 		const user = validateAccess(access)
+		
 		if (!user) return next()
-
-		// Если мы из WEB, то пишем информацию о площадке и компании
-		if (!market && user.market?.id) req.info.market.id = ObjectId(user.market.id)
-		if (!company && user.company?.id) req.info.company.id = ObjectId(user.company.id)
-
+		
 		// Дополняем информацию о пользователе
+		user.type = 'web'
 		user.auth = true
 		user.id = ObjectId(user.id)
-
+		
 		// Записываем все о пользователе
 		req.info.user = user
+		console.log('@@@ AUTH = ', user)
 		next()
 	} catch (e) {
 		console.log(e)

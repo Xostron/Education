@@ -1,7 +1,9 @@
 const bcrypt = require('bcrypt')
 const ApiError = require('@exceptions/api-error')
+const EmployeeDTO = require('../employee-dto')
 const { pwd, user } = require('@tool/auth')
 const { findOne } = require('@tool/db')
+const { generate, save } = require('@service/token-service')
 /**
  * Авторизация пользователя по логину и паролю
  * @param {*} db БД
@@ -10,14 +12,38 @@ const { findOne } = require('@tool/db')
 function login(db) {
 	return function (req, res, next) {
 		const { login, password, token } = req.body
-		console.log(login)
-		// проверка пользователя
+		let doc
+		let tokens
+		// поиск пользователя
 		findOne(db, 'client', { login })
 			.then((r) => {
-				console.log(r)
+				// Пользователь не найден
 				if (!r) throw new Error('err-10')
-				const data = { r }
-				res.json({ result: data })
+				// проверка пароля
+				doc = r
+				return bcrypt.compare(password, doc.password)
+			})
+			.then((ok) => {
+				// пароли не совпадают
+				if (!ok) throw new Error('err-12')
+
+				// пароли совпадают - формирование нового токена
+				empDTO = new EmployeeDTO(doc)
+				tokens = generate({ ...empDTO })
+
+				// Создание/обновление refresh токена в ДБ
+				save(db, doc._id, tokens.refreshToken)
+
+				// Добавляем рефреш токен в куки
+				res.cookie('refreshToken', tokens.refreshToken, {
+					maxAge: 30 * 24 * 60 * 60 * 1000, //30 дней
+					httpOnly: true,
+				})
+				return Promise.resolve(true)
+			})
+			.then((r) => {
+				// console.log('@@@ Login = ', tokens, empDTO)
+				res.json({ ...tokens, user: empDTO })
 			})
 			.catch((err) => {
 				console.log('err', err)

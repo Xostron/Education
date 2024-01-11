@@ -9,33 +9,33 @@ const path = require('path');
  * @param {Object} user Данные пользователя/сотрудника из токена
  * @returns 
  */
-// function infU(db, user) {
-// 	return new Promise((resolve, reject) => {
-// 		if (!user.auth && !user.id) return resolve(null);
-// 		// Информация о клиентах
-// 		if (user.type == 'client') {
-// 			dict(db, 'cliInfo', user.id, 'clientId')
-// 				.then((r) => resolve({ cliInfo: r, cliInfoId: r?._id }))
-// 				.catch(reject);
-// 			return;
-// 		}
+function infU(db, user) {
+	return new Promise((resolve, reject) => {
+		if (!user.auth && !user.id) return resolve(null);
+		// Информация о клиентах
+		if (user.type == 'client') {
+			dict(db, 'cliInfo', user.id, 'clientId')
+				.then((r) => resolve({ cliInfo: r, cliInfoId: r?._id }))
+				.catch(reject);
+			return;
+		}
 
-// 		// Информация о сотрудниках
-// 		dict(db, 'employee', user.id, '_id')
-// 			.then((r) => {
-// 				if (!r) return resolve(null);
-// 				const o = {
-// 					line: r.line ?? {
-// 						form: +process.env.L_FORM,
-// 						table: +process.env.L_TABLE,
-// 					},
-// 					short: r.short ?? false,
-// 				};
-// 				resolve({ cliInfo: r, cliInfoId: r?._id });
-// 			})
-// 			.catch(reject);
-// 	});
-// }
+		// Информация о сотрудниках
+		dict(db, 'employee', user.id, '_id')
+			.then((r) => {
+				if (!r) return resolve(null);
+				const o = {
+					line: r.line ?? {
+						form: +process.env.L_FORM,
+						table: +process.env.L_TABLE,
+					},
+					short: r.short ?? false,
+				};
+				resolve({ cliInfo: r, cliInfoId: r?._id });
+			})
+			.catch(reject);
+	});
+}
 
 //
 // function emp(db, user) {
@@ -142,4 +142,4 @@ const getV = ((_) => {
 })();
 
 // module.exports = { infU, infM, infC, getV };
-module.exports = { getV };
+module.exports = { getV, infU };

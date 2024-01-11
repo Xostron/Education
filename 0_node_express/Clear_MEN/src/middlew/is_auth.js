@@ -1,21 +1,16 @@
-const ApiError = require('@exceptions/api-error');
+const ApiError = require('@exceptions/api-error')
 
-function auth(t, role = []) {
+function auth(type = 'web') {
 	return function (req, res, next) {
 		// Проверка авторизации пользователя
 		try {
-			t = t ? t : 'employee';
-			type = req?.info?.user?.type === t;
-			if (req?.info?.user?.auth && type) {
-				const r = req?.info?.user?.role ?? [];
-				if (role.length && !r.some((el) => role.includes(el)))
-					return next(ApiError.Unauthorized(3));
-				return next();
-			}
-			return next(ApiError.Unauthorized(3.2));
+			const auth = req?.info?.user?.auth
+			const t = req?.info?.user?.type
+			if (auth && t === type) return next()
+			return next(ApiError.Unauthorized(3))
 		} catch (e) {
-			return next(ApiError.Unauthorized(4));
+			return next(ApiError.Unauthorized(4))
 		}
-	};
+	}
 }
-module.exports = auth;
+module.exports = auth

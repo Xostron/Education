@@ -1,30 +1,31 @@
 const toolbar = [
-	{ name: "clipboard", groups: ["undo", "clipboard"] },
+	{ name: 'clipboard', groups: ['undo', 'clipboard'] },
+	{ name: 'editing', groups: ['spellchecker'] },
+	{ name: 'links', groups: ['links'] },
+	{ name: 'insert', groups: ['insert'] },
+
+	{ name: 'tools', groups: ['tools'] },
+	{ name: 'colors' },
 	{
-		name: "editing",
-		groups: ["find", "selection", "spellchecker", "editing"],
+		name: 'paragraph',
+		groups: ['list', 'indent','blocks'],
 	},
-	{ name: "links", groups: ["links"] },
-	{ name: "insert", groups: ["insert"] },
-	{ name: "forms", groups: ["forms"] },
-	{ name: "tools", groups: ["tools"] },
-	{ name: "styles", groups: ["styles"] },
-	{ name: "document", groups: ["mode", "document", "doctools"] },
-	"/",
-	{ name: "basicstyles", groups: ["basicstyles", "cleanup"] },
-	{ name: "colors" },
+	{ name: 'document', groups: ['mode'] },
+	'/',
+	{ name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
 	{
-		name: "paragraph",
-		groups: ["list", "indent", "blocks", "align"],
+		name: 'paragraph',
+		groups: ['align'],
 	},
-];
+	{ name: 'styles', groups: ['styles'] },
+]
 
 const config = {
-	uiColor: "#FFFFFF",
+	uiColor: '#FFFFFF',
 	toolbarGroups: toolbar,
-	extraPlugins: "editorplaceholder,colorbutton, justify,font",
-	editorplaceholder: "Ответ...",
-	removeButtons: "About,Scayt",
-};
+	extraPlugins: 'editorplaceholder,colorbutton, justify,font',
+	editorplaceholder: '...',
+	removeButtons: 'About,Subscript,Superscript,Anchor',
+}
 
-export { config };
+export { config }
