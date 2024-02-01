@@ -21,9 +21,8 @@ function save(db, userId, refresh, oldrefresh) {
 		refresh,
 		update: new Date(),
 	}
-	let q
+	let q = { userId }
 	if (oldrefresh) q = { userId, refresh: oldrefresh }
-	q = { userId }
 	db.token.update(q, { $set: o }, { upsert: true }, (err) => {
 		if (err) console.error(err)
 	})
