@@ -66,16 +66,16 @@ function Float32ToArrInt(float) {
 
 // Преобразование hex -> binary
 function HexTobin(hex) {
-	return ('00000000' + parseInt(hex, 16).toString(2))
+	return '00000000' + parseInt(hex, 16).toString(2)
 }
 // Преобразование arr[int] -> binary
-function ArrintToBin(arr){
+function ArrintToBin(arr) {
 	const a = arr[0].toString(16)
 	const b = arr[1].toString(16)
-	return HexTobin(b+a)
+	return HexTobin(b + a)
 }
 // Преобразование float -> binary
-function FloatToBin(float){
+function FloatToBin(float) {
 	const arr = Float32ToArrInt(float)
 	return ArrintToBin(arr)
 }
@@ -84,7 +84,9 @@ function FloatToBin(float){
 // function floatTobin
 // Пример, исходные данные
 // float = 71.9
-const n = [55656, 17039]
+// const n = [55656, 17039]
+// const n = [16406, 24127]
+const n = [24127, 16406]
 
 const float1 = ArrIntToFloat32(n)
 const hex2 = Float32ToArrInt(float1)
@@ -94,5 +96,5 @@ const bin2 = FloatToBin(float1)
 console.log('== Исходные данные массив[int]==', n)
 console.log('== Преобразуем массив[int] во Float==', float1)
 console.log('== Преобразуем Float в массив[int]==', hex2)
-console.log('== Преобразуем массив[int] в bin ==',bin)
-console.log('== Преобразуем float в bin ==',bin)
+console.log('== Преобразуем массив[int] в bin ==', bin)
+console.log('== Преобразуем float в bin ==', bin)
