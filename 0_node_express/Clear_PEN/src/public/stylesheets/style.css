@@ -1,9 +1,0 @@
-body,
-html {
-	margin: 0;
-	box-sizing: border-box;
-	font-family: sans-serif;
-	font-size: min(calc(100vw * 16 / 1920), 16px);
-    background-color: rgb(39, 39, 39);
-    color: white;
-}
