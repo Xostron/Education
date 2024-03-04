@@ -99,31 +99,30 @@
 // console.log('== Преобразуем массив[int] в bin ==', bin)
 // console.log('== Преобразуем float в bin ==', bin)
 
-const arr = [
-	[1, 2],
-	[10, 2],
-	[5, 1],
-	[6, 1], [7,3],[7,8]
-]
-const flt = []
+// const arr = [
+// 	[1, 2],
+// 	[10, 2],
+// 	[5, 1],
+// 	[6, 1], [7,3],[7,8]
+// ]
+// const flt = []
 
-for (let i = 0; i < arr.length; i++) {
-	row = arr[i]
-	const n = arr.slice(i + 1)
-	if (!n.length) break
-	let flag = false
-	n.forEach((el) => {
-		if (row[1] === el[1]) {
-			flt.push(el)
-			flag = true
-		}
-	})
-	if (flag) flt.push(row)
-}
-console.log('@', flt)
+// for (let i = 0; i < arr.length; i++) {
+// 	row = arr[i]
+// 	const n = arr.slice(i + 1)
+// 	if (!n.length) break
+// 	let flag = false
+// 	n.forEach((el) => {
+// 		if (row[1] === el[1]) {
+// 			flt.push(el)
+// 			flag = true
+// 		}
+// 	})
+// 	if (flag) flt.push(row)
+// }
+// console.log('@', flt)
 
-
-console.log('Является ли массивом = ',Array.isArray(arr))
+// console.log('Является ли массивом = ',Array.isArray(arr))
 // function hasDuplicates(array) {
 //     var valuesSoFar = Object.create(null);
 //     for (var i = 0; i < array.length; ++i) {
@@ -139,3 +138,46 @@ console.log('Является ли массивом = ',Array.isArray(arr))
 
 // const array = [1,2,3,4,1,2]
 // console.log(hasDuplicates(array))
+
+
+
+class DummyClient {
+	async connect() {
+		return new Promise((resolve) => {
+			setTimeout(
+				() => {
+					console.log('connect')
+
+					resolve()
+				},
+
+				2000
+			)
+		})
+	}
+	async doSomething() {
+		console.log('done something')
+	}
+}
+
+class ApiWrapper {
+	#client
+	#connect
+	constructor() {
+		this.#client = new DummyClient()
+		this.#connect = this.#client.connect()
+	}
+
+	async doSomething() {
+		await this.#connect
+		this.#client.doSomething()
+	}
+}
+
+const run = async () => {
+	const api = new ApiWrapper()
+
+	await Promise.all([api.doSomething(), api.doSomething(), api.doSomething(), api.doSomething()])
+}
+
+run()
