@@ -1,0 +1,4 @@
+.leftSide {
+	grid-area: left;
+	background-color: blue;
+}
