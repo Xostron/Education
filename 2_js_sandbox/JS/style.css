@@ -44,17 +44,30 @@ article {
 	width: calc(100% - 160px);
 	height: 100%;
 	background-color: antiquewhite;
-	
 }
 .section {
 	background-color: aqua;
 	flex-grow: 1;
 	flex-basis: 300px;
-	
 }
 
 img {
 	width: 30px;
 	height: 30px;
 	background-color: rgb(11, 11, 11);
+}
+
+.test1 {
+	display: inline-flex;
+	background-color: antiquewhite;
+	width: 150px;
+	height: 100px;
+	border: 1px solid black;
+	margin: auto;
+	justify-content: end;
+	align-items: flex-end;
+}
+.test2 {
+	width: 100px;
+	height: 110px;
 }

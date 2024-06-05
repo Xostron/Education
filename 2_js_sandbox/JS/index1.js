@@ -212,53 +212,53 @@ open - модификатор - окно открыто
 // b1=null
 // console.log(a1===b1)
 // *****************************************************
-const data = [1, 2, 3, 4, 5]
-const obj = {}
+// const data = [1, 2, 3, 4, 5]
+// const obj = {}
 
-function a(el) {
-	return new Promise((resolve, reject) => {
-		const p = []
-		for (let index = 0; index < 10000000; index++) {
-			p.push(index)
-		}
-		resolve(el)
-	})
-}
+// function a(el) {
+// 	return new Promise((resolve, reject) => {
+// 		const p = []
+// 		for (let index = 0; index < 10000000; index++) {
+// 			p.push(index)
+// 		}
+// 		resolve(el)
+// 	})
+// }
 
-async function b() {
-	try {
-		const result = []
-		for (const el of data) {
-			const q = await a(el)
-			result.push(el + q)
-			console.log(111)
-		}
-		throw Error('@@@ error')
-	} catch (error) {
-		throw error
-	}
-}
+// async function b() {
+// 	try {
+// 		const result = []
+// 		for (const el of data) {
+// 			const q = await a(el)
+// 			result.push(el + q)
+// 			console.log(111)
+// 		}
+// 		throw Error('@@@ error')
+// 	} catch (error) {
+// 		throw error
+// 	}
+// }
 
-async function c1() {
-	try {
-		obj['b'] = await b()
-		console.log(333, obj)
-	} catch (error) {
-		console.log(error)
-	}
-}
+// async function c1() {
+// 	try {
+// 		obj['b'] = await b()
+// 		console.log(333, obj)
+// 	} catch (error) {
+// 		console.log(error)
+// 	}
+// }
 
-c1().finally((_) => {
-	console.log('repeat')
-	c1()
-})
+// c1().finally((_) => {
+// 	console.log('repeat')
+// 	c1()
+// })
 
-// *****************************************************
-const r1 = { start: false }
-const r2 = { start: true }
-const r3 = { start: null }
-const r4 = {}
-console.log(typeof r1.start, typeof r2.start, typeof r3.start, typeof r4.start)
+// // *****************************************************
+// const r1 = { start: false }
+// const r2 = { start: true }
+// const r3 = { start: null }
+// const r4 = {}
+// console.log(typeof r1.start, typeof r2.start, typeof r3.start, typeof r4.start)
 // цепочки обработки *****************************************************
 // function a() {
 // 	return new Promise()
@@ -290,3 +290,236 @@ console.log(typeof r1.start, typeof r2.start, typeof r3.start, typeof r4.start)
 // 	console.log('@@',sig)
 
 // 	console.log(Number(false))
+// Клонирование объекта
+// const o = {
+// 	id: 1,
+// 	coef: 100,
+// 	foo: function () {
+// 		console.log('foo', this.id)
+// 	},
+// }
+
+// const arr = []
+// for (let i = 0; i < 3; i++) {
+// 	const r = {}
+// 	Object.assign(r, o)
+// 	console.log(r)
+// 	r.id = i
+// 	arr.push(r)
+// }
+// o.id = 5
+// console.log('arr', arr)
+
+// ********************** ООП **********************
+// class Client {
+// 	name = ''
+// 	surname = ''
+// 	lastname = ''
+// 	addressId = ''
+// 	contactId = ''
+// 	_id = ''
+// 	constructor(obj) {
+// 		const { name, surname, lastname, addressId, contactId, _id } = obj
+// 		this.name = name
+// 		this.surname = surname
+// 		this.lastname = lastname
+// 		this._id = _id
+// 		this.addressId = addressId
+// 		this.contactId = contactId
+// 	}
+// 	fullName() {
+// 		return this.name + ' ' + this.surname + ' ' + this.lastname
+// 	}
+// 	foo(a) {
+// 		console.log('aaa')
+// 		return a + a
+// 	}
+// 	// Перегрузка выполняется последний
+// 	foo(a) {
+// 		console.log('aaa1')
+// 		return a + a
+// 	}
+// }
+// class Employee extends Client {
+// 	constructor(obj) {
+// 		const { companyId, date1, date2, name } = obj
+// 		super(obj)
+// 		this.companyId = companyId
+// 		this.date1 = date1 ?? null
+// 		this.date2 = date2 ?? null
+// 	}
+// 	fullName() {
+// 		const a = super.fullName()
+// 		return this.companyId + ' ' + a
+// 	}
+// }
+// const c1 = { name: 'xos', surname: 'x2', lastname: 'x3', _id: '1', contactId: '2', addressId: '3' }
+// const client1 = new Client(c1)
+// console.log(client1.fullName())
+// console.log(client1.foo(1))
+// console.log(client1.foo('as'))
+// const emp1 = new Employee({ companyId: 'asdfg123asfd88kjkk7', date1: new Date(), name: 'xostron' })
+// console.log(emp1.fullName())
+// // Полиморфизм: 1. Параметрический (истинный) - переопределение методов у наследуемых классах
+// // 2. ad-hoc (мнимый) - 2 одинаково названные функции внутри класса, которые делают разные вещи в зависимости от типа входных параметров - перегрузка
+
+// // Композиция классов - Класс Car состоит из дочерних классов Engine, Wheel, у Car есть метод drive, который вызывает методы drive дочерних классов (этот прием называется делегирование)
+// // Агрегация классов - Класс Car и класс AI, отличие от композиции в том что Engine и Wheel классы создаются при создании класса Car, при удалении класса Car
+// // при удалении класса Car они также удалятся, класс AI создается отдельно и передается в Car параметром в конструкторе
+// class Engine {
+// 	drive() {
+// 		console.log('engine go')
+// 	}
+// }
+// class Wheel {
+// 	drive(i) {
+// 		console.log('wheel rotate', i)
+// 	}
+// }
+// class AI {
+// 	code = 'Автопилот'
+// 	version = 0
+// 	update() {
+// 		++this.version
+// 	}
+// }
+// class Car {
+// 	wheels = []
+// 	constructor(ai) {
+// 		// Агрегация
+// 		this.ai = ai
+// 		// Композиция
+// 		this.engine = new Engine()
+// 		this.wheels.push(new Wheel())
+// 		this.wheels.push(new Wheel())
+// 		this.wheels.push(new Wheel())
+// 		this.wheels.push(new Wheel())
+// 	}
+// 	drive() {
+// 		this.engine.drive()
+// 		for (let i = 0; i < this.wheels.length; i++) {
+// 			this.wheels[i].drive(i)
+// 		}
+// 	}
+// }
+
+// const ai = new AI()
+// const car = new Car(ai)
+// console.log(ai)
+// console.log(car)
+// ai.update()
+// console.log(ai)
+// ai.update()
+// console.log(ai)
+// console.log(car)
+
+// Интерфейсы и Абстрактные классы
+// Интерфейс описывает содержание объекта
+// interface IAI {
+// 	code: String;
+// 	update(): void;
+// }
+// Абстрактный класс - интерфейс + в нем можно определять методы с логикой
+
+//Внедрение зависимостей Dependency Injection
+
+// const a = {
+// 	name: 'xos',
+// 	surname: 'Tron',
+// 	foo() {
+// 		console.log(222, this.name)
+// 	},
+// 	func() {
+// 		console.log(333)
+// 		this.foo()
+// 	},
+// }
+// console.log(111, a)
+// a.func()
+
+// const r = {
+// 	1:{val:true},
+// 	2:{val:false},
+// 	3:{val:false},
+// 	get total(){
+// 		return this[1]
+// 	}
+// }
+
+// console.log(r)
+
+// const a = [1,2,3]
+// for (const v of a) {
+// 	if (v===1) break
+// 	console.log(v)
+// }
+
+// a.forEach(el=>{
+// 	if (el===1) return
+// 	console.log('A',el)
+// })
+
+// reduce
+// const t = '00:01'
+// const t1 = '01:01'
+
+// const r = t.split(':').reduce((acc, val, i) => {
+// 	if (i === 0) {
+// 		acc = +val * 60 * 60 * 1000
+// 	}
+// 	if (i === 1) {
+// 		acc += +val * 60 * 1000
+// 	}
+// 	return acc
+// }, 0)
+
+// const r1 = t1.split(':').reduce((acc, val, i) => {
+// 	if (i === 0) {
+// 		acc = +val * 60 * 60 * 1000
+// 	}
+// 	if (i === 1) {
+// 		acc += +val * 60 * 1000
+// 	}
+// 	return acc
+// }, 0)
+
+// console.log(r, r1)
+
+const data = {
+	100: { 1: null },
+	write(buildingId, sectionId, type, obj) {
+		this[buildingId] = {
+			...this?.[buildingId],
+			[sectionId]: {
+				...this?.[buildingId]?.[sectionId],
+				[type]: { ...this?.[buildingId]?.[sectionId]?.[type], ...obj },
+			},
+		}
+	},
+	read(buildingId, sectionId, type) {
+		return { ...this?.[buildingId]?.[sectionId]?.[type] }
+	},
+	clear(buildingId, sectionId, type) {
+		if (this?.[buildingId]?.[sectionId]?.[type] != null) this[buildingId][sectionId][type] = null
+	},
+}
+console.log(111, data)
+let a = data.read(100, 1, 'antibliz')
+data.clear(100, 1, 'antibliz')
+console.log(222, a)
+
+data.write(100, 1, 'antibliz', { a: 1, b: 2, c: 3 })
+data.write(100, 1, 'over_vlv', { a: 100 })
+console.log(333, data)
+
+a = data.read(100, 1, 'antibliz')
+console.log(444, a)
+
+a.b = 1000
+data.write(100, 1, 'antibliz', a)
+// data.clear(100, 1, 'antibliz')
+console.log(555, a)
+console.log(666, data)
+
+
+console.log(777, 1 < a.z && 1> a.y)
