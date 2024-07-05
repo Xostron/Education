@@ -648,3 +648,19 @@ const time1 = new Date().toLocaleTimeString('ru', {
 })
 console.log(111, o.drying.begin, o.drying.end)
 console.log(222, time1)
+
+function timeVal(str) {
+	const a = str.split(':')
+	const val = +a[0] * 100 + +a[1]
+	return val
+}
+
+o2 = {
+	d1: { begin: timeVal('21:00'), end: timeVal('23:59') },
+	d2: { begin: timeVal('21:00'), end: timeVal('00:00') },
+	d3: { begin: timeVal('21:00'), end: timeVal('00:05') },
+	d4: { begin: timeVal('21:00'), end: timeVal('01:00') },
+	d5: { begin: timeVal('17:00'), end: timeVal('19:00') },
+}
+
+console.log(333, o2)
