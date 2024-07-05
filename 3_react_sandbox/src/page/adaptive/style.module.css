@@ -1,0 +1,42 @@
+:root {
+	--fsz10: 10px;
+	--fsz12: 12px;
+	--fsz14: 14px;
+	--fsz16: 16px;
+	--fsz18: 18px;
+	--fsz20: 20px;
+	--fsz22: 22px;
+	--fsz24: 24px;
+	--fsz26: 26px;
+	--fsz28: 28px;
+	--fsz30: 30px;
+	--fsz35: 35px;
+	--fsz40: 40px;
+	--fsz45: 45px;
+	--fsz50: 50px;
+	--fsz60: 60px;
+	--fsz70: 70px;
+	--fsz80: 80px;
+	--fsz100: 100px;
+	--secondary: rgb(28, 23, 48);
+	--title: rgb(229, 229, 113);
+}
+.container {
+	display: grid;
+	grid-template-columns: auto 65% auto;
+	grid-template-rows: 70px auto;
+	grid-template-areas: "head head head" "left content right";
+	gap: 0 var(--fsz10);
+
+	width: 100%;
+	height: calc(100vh - 47px - 10px - 15px);
+	background-color: rgb(237, 237, 237);
+	overflow: hidden;
+}
+
+.list {
+	grid-area: content;
+}
+.rightSide {
+	grid-area: right;
+}

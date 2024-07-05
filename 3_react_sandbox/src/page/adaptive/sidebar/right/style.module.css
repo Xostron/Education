@@ -1,0 +1,4 @@
+.rightSide {
+	grid-area: right;
+	background-color: rgb(102, 102, 228);
+}

@@ -1,7 +1,8 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Navbar } from "./component";
-import { CKE, Main, About } from "./page";
-import { Suspense } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import { Suspense } from "react"
+import { Navbar } from "./component"
+import { CKE, Main, About } from "./page"
+import Adaptive from "./page/adaptive"
 
 function App() {
 	return (
@@ -10,7 +11,8 @@ function App() {
 			<main>
 				<Suspense fallback={<div>...loading</div>}>
 					<Routes>
-						<Route path='/' element={<Main />} />
+						<Route path='/' element={<Adaptive />} />
+						<Route path='/main' element={<Main />} />
 						<Route path='/about' element={<About />} />
 						<Route path='/cke' element={<CKE />} />
 						<Route
@@ -21,7 +23,7 @@ function App() {
 				</Suspense>
 			</main>
 		</BrowserRouter>
-	);
+	)
 }
 
-export default App;
+export default App

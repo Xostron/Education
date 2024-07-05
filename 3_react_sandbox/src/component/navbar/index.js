@@ -5,7 +5,8 @@ import Moment from "react-moment";
 import {Mbtn} from '../../component'
 
 const links = [
-    { name: "Главная", to: "/" },
+    { name: "Адаптив", to: "/" },
+    { name: "Главная", to: "/main" },
     { name: "О нас", to: "/about" },
     { name: "CKEditor", to: "/cke" },
 ];
