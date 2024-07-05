@@ -440,3 +440,80 @@ console.log(y)
 let q = '@I!# l$ove y@ou@'
 const w = q.replace(/@|!|#|\$/g, '')
 console.log(w)
+
+
+// Главный цикл
+// function control() {
+// 	return new Promise((resolve, reject) => {
+// 		const obj = JSON.parse(data)
+// 		// Прочитать оборудование (файлы json)
+// 		readAll(obj)
+// 			// Опрос модулей по сети
+// 			.then((_) => read(obj))
+// 			// Подготовка данных для клиента
+// 			.then((v) => value(v, obj))
+// 			// Отправка на клиент
+// 			.then(cValue)
+// 			// Подготовка: Переключение режимов и Пуск склада
+// 			.then((_) => {
+// 				// Стоп склада
+// 				toOffBuild(obj)
+// 				// Подготовка к авто
+// 				toAuto(obj)
+// 				// Переход в ручной режим
+// 				toMan(obj)
+// 				// Выкл секций
+// 				toOff(obj)
+// 			})
+// 			// Анализ входов
+// 			.then((_) => {})
+// 			// Автоматический режим
+// 			.then((_) => {
+// 				auto(obj)
+// 			})
+// 			// Ручной режим
+// 			.then((_) => {
+// 				// Калибровка клапанов
+// 				tuneup(obj)
+// 			})
+// 			// Выхода: Команды управления
+// 			.then((_) => convCmd(obj))
+// 			// Выхода: Блокировки
+// 			.then((_) => writeLock(obj))
+// 			// Выхода: Запись в модули
+// 			.then((_) => writeVal(obj.output))
+// 			// Запись в retain файл json
+// 			.then((_) => save(obj))
+// 			// Отправка на клиент: аварийные сообщения
+// 			.then(() => {
+// 				const alarmS = dataAlarmS.state
+// 				// console.log(111, 'EXTRA', dataExtra?.['65d4aed4b47bb93c40100fd5']?.['65d4aee3b47bb93c40100fd6'])
+// 				// console.log(111, JSON.stringify(alarmS, null, ' '))
+// 				cAlarm(alarmS)
+// 			})
+// 			.then(() => resolve(true))
+// 			// Обработка ошибок
+// 			.catch(exception)
+// 			// Цикл
+// 			.finally((_) => {
+// 				console.log('Cycle time', +new Date().getTime() - store.tick, 'ms')
+// 				setTick()
+// 				setTimeout(control, 1000)
+// 			})
+// 	})
+// }
+
+
+1717159363397 1717159347681 15716 50 7858 7858 1717159371255
+333 {
+  begin: 1717159347681,
+  vlvIn: true,
+  overtime: 7858,
+  end: 1717159371255
+}
+111 ventByDura {
+  begin: 1717159347681,
+  vlvIn: true,
+  overtime: 7858,
+  end: 1717159371255
+} ventByTime null

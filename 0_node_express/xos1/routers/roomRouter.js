@@ -1,8 +1,9 @@
 const Router = require("express")
 const router = new Router()
 
-let rooms = [{game:"test-game",user:"test-user"}]
+let rooms = [{game:"111111test-game",user:"test-user"}]
 
+// 1
 router.post("/create", (req, res) => {
   const { game, user } = req.body
   console.log("/create = ", game, user)
@@ -22,6 +23,7 @@ router.post("/create", (req, res) => {
   res.status(200).send({ rooms })
 })
 
+// 2
 router.get("/",(req,res)=>{
   res.status(200).send({rooms})
 })

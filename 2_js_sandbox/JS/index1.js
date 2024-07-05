@@ -485,41 +485,166 @@ open - модификатор - окно открыто
 
 // console.log(r, r1)
 
-const data = {
-	100: { 1: null },
-	write(buildingId, sectionId, type, obj) {
-		this[buildingId] = {
-			...this?.[buildingId],
-			[sectionId]: {
-				...this?.[buildingId]?.[sectionId],
-				[type]: { ...this?.[buildingId]?.[sectionId]?.[type], ...obj },
-			},
-		}
-	},
-	read(buildingId, sectionId, type) {
-		return { ...this?.[buildingId]?.[sectionId]?.[type] }
-	},
-	clear(buildingId, sectionId, type) {
-		if (this?.[buildingId]?.[sectionId]?.[type] != null) this[buildingId][sectionId][type] = null
-	},
-}
-console.log(111, data)
-let a = data.read(100, 1, 'antibliz')
-data.clear(100, 1, 'antibliz')
-console.log(222, a)
-
-data.write(100, 1, 'antibliz', { a: 1, b: 2, c: 3 })
-data.write(100, 1, 'over_vlv', { a: 100 })
-console.log(333, data)
-
-a = data.read(100, 1, 'antibliz')
-console.log(444, a)
-
-a.b = 1000
-data.write(100, 1, 'antibliz', a)
+// const data = {
+// 	100: { 1: null },
+// 	write(buildingId, sectionId, type, obj) {
+// 		this[buildingId] = {
+// 			...this?.[buildingId],
+// 			[sectionId]: {
+// 				...this?.[buildingId]?.[sectionId],
+// 				[type]: { ...this?.[buildingId]?.[sectionId]?.[type], ...obj },
+// 			},
+// 		}
+// 	},
+// 	read(buildingId, sectionId, type) {
+// 		return { ...this?.[buildingId]?.[sectionId]?.[type] }
+// 	},
+// 	clear(buildingId, sectionId, type) {
+// 		if (this?.[buildingId]?.[sectionId]?.[type] != null) this[buildingId][sectionId][type] = null
+// 	},
+// }
+// console.log(111, data)
+// let a = data.read(100, 1, 'antibliz')
 // data.clear(100, 1, 'antibliz')
-console.log(555, a)
-console.log(666, data)
+// console.log(222, a)
 
+// data.write(100, 1, 'antibliz', { a: 1, b: 2, c: 3 })
+// data.write(100, 1, 'over_vlv', { a: 100 })
+// console.log(333, data)
 
-console.log(777, 1 < a.z && 1> a.y)
+// a = data.read(100, 1, 'antibliz')
+// console.log(444, a)
+
+// a.b = 1000
+// data.write(100, 1, 'antibliz', a)
+// // data.clear(100, 1, 'antibliz')
+// console.log(555, a)
+// console.log(666, data)
+
+// console.log(777, 1 < a.z && 1> a.y)
+
+// let a = data.read(1, 1, 'vent')
+// console.log(333, 0, data)
+// console.log(111, a)
+// if (!a?.byTime?.endWait) {
+// 	a = { ...a, byTime: { ...a?.byTime, endWait: 42 } }
+// 	a.byTime.sum = a.byTime.endWait + 8
+// }
+// a.byTime.endWork = 12
+// console.log(222, a)
+
+// data.write(1, 1, 'vent', a)
+
+// console.log(333, data)
+
+// const r = [1]
+// const r1 = [r[0], r[0]]
+// console.log(444, r, r1)
+
+// const a = {
+// 	a: 1,
+// 	b: 2,
+// 	c: 3,
+// 	a1: 1,
+// 	b1: 2,
+// 	c1: 3,
+// 	a2: 1,
+// 	b2: 2,
+// 	c2: 3,
+// 	a3: 1,
+// 	b3: 2,
+// 	c3: 3,
+// }
+// let a2 = {
+// 	a: 1,
+// 	b: 2,
+// 	c: 3,
+// 	a1: 1,
+// 	b1: 2,
+// 	c1: 3,
+// 	a2: 1,
+// 	b2: 2,
+// 	c2: 3,
+// 	a3: 1,
+// 	b3: 2,
+// 	c3: 3,
+// }
+// const o = { test: 12, test2: 42, r: 'qwe', r1: 'qwe1', r2: 'qwe2', r3: 'qwe3', r4: 'qwe4', r5: 'qwe5', r6: 'qwe6' }
+// const o2 = { test: 12, test2: 42, r: 'qwe', r1: 'qwe1', r2: 'qwe2', r3: 'qwe3', r4: 'qwe4', r5: 'qwe5', r6: 'qwe6' }
+
+// const t1 = +new Date().getTime()
+// Object.assign(a, o)
+// const t2 = +new Date().getTime()
+// const t3 = t2 - t1
+// console.log(111, a, t3)
+
+// const q1 = +new Date().getTime()
+// a2 = { ...a2, ...o2 }
+// const q2 = +new Date().getTime()
+// const q3 = q2 - q1
+// console.log(111, a2, q3)
+
+// console.log(1, 0 || null)
+// console.log(2, 1 || null)
+// console.log(3, undefined || null)
+
+// console.log(4, 0 ?? null)
+// console.log(5, 1 ?? null)
+// console.log(6, undefined ?? null)
+
+// let value
+// let v
+// if (value > 1000000 || value < -1000000 || isNaN(value)) v = 1
+// console.log(777, isNaN(undefined))
+
+// console.log(888, +false, +true)
+
+// const a = [false, false, false, true]
+// const b = [true, true, true, true]
+// const r = a.some((el) => el === true)
+// const u = b.every(el=>el===true)
+
+// console.log(111, r, u)
+
+// const t1 = new Date() - 150060000
+// const t2 = new Date()
+// console.log(222, t2 - t1)
+// function getElapsed(ms) {
+// 	const _sec = 1000
+// 	const _min = 60 * 1000
+// 	const _hour = 3600 * 1000
+// 	const _day = 24 * 3600 * 1000
+
+// 	const day = Math.trunc(ms / _day)
+// 	const hour = Math.trunc((ms - day * _day) / _hour)
+// 	const min = Math.trunc((ms - day * _day - hour * _hour) / _min)
+// 	const sec = Math.trunc((ms - day * _day - hour * _hour - min * _min) / _sec)
+
+// 	return [day, hour, min, sec]
+// }
+
+// const q = getElapsed(t2 - t1)
+// console.log(q)
+
+// const w = 1
+// console.log(333, typeof w != 'object')
+
+// const v = [{id:1, type:'out'},{id:2, type:'in'},{id:3, type:'out'}]
+
+// const vIn = v.find(el=>el.type==='in')
+// const vOut = v.filter(el=>el.type==='out')
+// console.log(vIn, vOut)
+
+const o = {
+	d1: { begin: '21:00', end: '23:59' },
+	d2: { begin: '21:00', end: '00:00' },
+	d3: { begin: '21:00', end: '00:05' },
+	d4: { begin: '21:00', end: '01:00' },
+	d5: { begin: '17:00', end: '19:00' },
+}
+const time1 = new Date().toLocaleTimeString('ru', {
+	hour: 'numeric',
+	minute: 'numeric',
+})
+console.log(111, o.drying.begin, o.drying.end)
+console.log(222, time1)
