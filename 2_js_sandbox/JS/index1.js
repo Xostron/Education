@@ -635,32 +635,73 @@ open - модификатор - окно открыто
 // const vOut = v.filter(el=>el.type==='out')
 // console.log(vIn, vOut)
 
-const o = {
-	d1: { begin: '21:00', end: '23:59' },
-	d2: { begin: '21:00', end: '00:00' },
-	d3: { begin: '21:00', end: '00:05' },
-	d4: { begin: '21:00', end: '01:00' },
-	d5: { begin: '17:00', end: '19:00' },
-}
-const time1 = new Date().toLocaleTimeString('ru', {
-	hour: 'numeric',
-	minute: 'numeric',
+// const o = {
+// 	d1: { begin: '21:00', end: '23:59' },
+// 	d2: { begin: '21:00', end: '00:00' },
+// 	d3: { begin: '21:00', end: '00:05' },
+// 	d4: { begin: '21:00', end: '01:00' },
+// 	d5: { begin: '17:00', end: '19:00' },
+// }
+// const time1 = new Date().toLocaleTimeString('ru', {
+// 	hour: 'numeric',
+// 	minute: 'numeric',
+// })
+// console.log(111, o.drying.begin, o.drying.end)
+// console.log(222, time1)
+
+// function timeVal(str) {
+// 	const a = str.split(':')
+// 	const val = +a[0] * 100 + +a[1]
+// 	return val
+// }
+
+// o2 = {
+// 	d1: { begin: timeVal('21:00'), end: timeVal('23:59') },
+// 	d2: { begin: timeVal('21:00'), end: timeVal('00:00') },
+// 	d3: { begin: timeVal('21:00'), end: timeVal('00:05') },
+// 	d4: { begin: timeVal('21:00'), end: timeVal('01:00') },
+// 	d5: { begin: timeVal('17:00'), end: timeVal('19:00') },
+// }
+
+// console.log(333, o2)
+// Напишите, пожалуйста, программу (функцию или метод),
+// которая будет печатать числа от 0 до 1000,
+// кратные трём и не кратные пяти, сумма цифр в которых меньше десяти.
+// function fn() {
+// 	const r = []
+// 	for (let i = 0; i < 1000; i++) {
+// 		if (i % 3 === 0 && i % 5 !== 0) {
+// 			const sum = i
+// 				.toString()
+// 				.split("")
+// 				.reduce((acc, c) => (acc += +c), 0)
+// 			if (sum > 10) continue
+// 			console.log(i, sum)
+// 			r.push(i)
+// 		}
+// 	}
+// 	return r
+// }
+// const data = fn()
+// console.log(data)
+
+// import fs from 'fs'
+// import path from 'path'
+const path = require('path')
+const fs = require('fs')
+
+const file = path.resolve('public/file.txt')
+const out = path.resolve('public/out.txt')
+
+
+const read = fs.createReadStream(file, "utf-8")
+read.on("data", (chunk) => {
+	const r = chunk.split('\r\n')
+	console.log(111, r)
 })
-console.log(111, o.drying.begin, o.drying.end)
-console.log(222, time1)
+read.on('end',(d)=>{
+	read.close()
+})
+const write = fs.createWriteStream(out, 'utf-8')
 
-function timeVal(str) {
-	const a = str.split(':')
-	const val = +a[0] * 100 + +a[1]
-	return val
-}
-
-o2 = {
-	d1: { begin: timeVal('21:00'), end: timeVal('23:59') },
-	d2: { begin: timeVal('21:00'), end: timeVal('00:00') },
-	d3: { begin: timeVal('21:00'), end: timeVal('00:05') },
-	d4: { begin: timeVal('21:00'), end: timeVal('01:00') },
-	d5: { begin: timeVal('17:00'), end: timeVal('19:00') },
-}
-
-console.log(333, o2)
+write.on('')
