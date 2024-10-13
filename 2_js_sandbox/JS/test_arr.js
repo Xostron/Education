@@ -369,7 +369,7 @@ const key = ['description', 'feature']
 // 		if (key === 'value') {
 // 			if (!obj[key] || !(+obj[key] === +obj[key])) return null
 // 		}
-// 		if (['date', 'date1', 'date2'].includes(key)) {
+// 		if (['', 'date1', 'date2'].includes(key)) {
 // 			if (new Date(obj[key]) == 'Invalid Date') return null
 // 			obj[key] = new Date(obj[key])
 // 		}
