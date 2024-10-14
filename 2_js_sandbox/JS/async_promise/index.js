@@ -70,19 +70,18 @@ const b = Promise.resolve(3)
 // 	})
 // 	.catch((err) => console.log("error settled", err))
 
+// Прерывание цепочки then
 function fn() {
 	return new Promise((resolve, reject) => {
 		a.then((r) => {
 			console.log(1, r)
-			if (r === 1) {
-				resolve(10)
-				// return Promise.reject({ r })
-				throw new Error()
-			}
-			console.log("after")
 			return b
 		})
 			.then((r) => {
+				if (r === 3) {
+					return Promise.reject({ r })
+				}
+				console.log("after")
 				console.log(2, r)
 				return c
 			})
@@ -92,6 +91,7 @@ function fn() {
 			})
 			.catch((err) => {
 				console.log(55, err)
+				if (err.r) resolve(err.r)
 				reject(err)
 			})
 	})
