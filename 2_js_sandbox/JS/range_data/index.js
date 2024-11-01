@@ -27,7 +27,6 @@ function checkRange(begin, end) {
 	return false
 }
 
-const begin = "23:59"
-const end = "00:01"
+const a = { begin: "23:59", end: "00:01" }
 
-console.log("Запрет ", checkRange(begin, end))
+console.log("Запрет ", checkRange(a.begin, a.end), a)
