@@ -5,8 +5,6 @@ function checkRange(begin, end) {
 		.join("")
 	begin = begin ? +begin.split(":").join("") : 0
 	end = end ? +end.split(":").join("") : 0
-	console.log(cur, begin, end)
-
 	// Запрет выключить
 	if (begin === end && end === 0) return false
 	// Запрет включить
