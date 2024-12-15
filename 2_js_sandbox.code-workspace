@@ -4,9 +4,6 @@
 			"path": "2_js_sandbox"
 		},
 		{
-			"path": "../v2 29-10-2024/v2"
-		},
-		{
 			"path": "../tenta 29-10-2024/tenta"
 		},
 		{
@@ -14,6 +11,15 @@
 		},
 		{
 			"path": "../tenta 29-10-2024/tenta_native"
+		},
+		{
+			"path": "../v2 02-11-2024/v2"
+		},
+		{
+			"path": "3_react_sandbox"
+		},
+		{
+			"path": "../This_is_the_way"
 		}
 	]
 }

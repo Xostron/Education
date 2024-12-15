@@ -3,12 +3,16 @@ import Header from "./header"
 import List from "./list"
 import LeftSide from "./sidebar/left"
 import RightSide from "./sidebar/right"
+import Input from "../../cmp/fields/input"
 
 export default function Adaptive() {
 	return (
 		<section className={style.container}>
 			<Header />
-			<List data={def} />
+			<>
+				<List data={def} />
+				<Input value={10} setValue={()=>{}}/>
+			</>
 			<LeftSide />
 			<RightSide />
 		</section>
